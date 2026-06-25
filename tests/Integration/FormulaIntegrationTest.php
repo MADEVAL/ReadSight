@@ -20,7 +20,7 @@ final class FormulaIntegrationTest extends TestCase
         $this->assertSame('flesch_reading_ease', $result->formulaName);
         $this->assertGreaterThan(0, $result->score);
         $this->assertLessThanOrEqual(120, $result->score);
-        $this->assertNotEmpty($result->gradeLabel);
+        $this->assertNotEmpty($result->interpretation);
     }
 
     public function test_english_flesch_kincaid_grade_level(): void

@@ -47,18 +47,7 @@ final readonly class DaleChall implements Formula
 
     private function estimateDifficultPercentage(TextStatistics $stats): float
     {
-        if ($stats->wordCount === 0) {
-            return 0.0;
-        }
-
-        $easyWordCount = $stats->syllableHistogram[1] ?? 0;
-        $difficultCount = $stats->wordCount - $easyWordCount;
-
-        if ($difficultCount < 0) {
-            $difficultCount = 0;
-        }
-
-        return ($difficultCount / $stats->wordCount) * 100.0;
+        return TextStatisticsHelper::estimateDifficultPercentage($stats);
     }
 
     private function interpret(float $score): string

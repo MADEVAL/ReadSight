@@ -40,12 +40,23 @@ final readonly class Crawford implements Formula
             languageCode: $language->code,
             score: \round($score, 1),
             gradeLevel: null,
-            interpretation: '',
+            interpretation: $this->interpret($score),
             gradeLabel: null,
             inputs: [
                 'avgLettersPerWord' => \round($averageLetters, 2),
                 'sentencesPer100Words' => \round($sentencesPer100, 2),
             ],
         );
+    }
+
+    private function interpret(float $score): string
+    {
+        return match (true) {
+            $score >= 9.0 => 'Very Easy',
+            $score >= 7.0 => 'Easy',
+            $score >= 5.0 => 'Standard',
+            $score >= 3.0 => 'Difficult',
+            default => 'Very Difficult',
+        };
     }
 }

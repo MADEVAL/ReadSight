@@ -65,7 +65,12 @@ final readonly class TextAnalyzer
             return 0.0;
         }
 
-        return $this->totalSyllables($text) / $wordCount;
+        $total = 0;
+        foreach ($words as $word) {
+            $total += $this->hyphenator->countSyllables($word);
+        }
+
+        return $total / $wordCount;
     }
 
     public function averageWordsPerSentence(string $text): float

@@ -150,7 +150,7 @@ final class LanguageSpecificFormulaTest extends TestCase
         $asl = 12.0 / 3.0;
         $avgLetters = 60.0 / 12.0;
         $hardPct = (3.0 / 12.0) * 100.0;
-        $expected = 200.0 - 2.0 * $asl - 1.5 * $avgLetters * 100.0 - 0.4 * $hardPct;
+        $expected = 200.0 - 2.0 * $asl - 1.5 * $avgLetters - 0.4 * $hardPct;
         $this->assertEqualsWithDelta($expected, $result->score, 0.1);
     }
 

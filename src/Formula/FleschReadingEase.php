@@ -50,8 +50,8 @@ final readonly class FleschReadingEase implements Formula
             languageCode: $language->code,
             score: \round($score, 1),
             gradeLevel: null,
-            interpretation: '',
-            gradeLabel: $this->interpret($score),
+            interpretation: $this->interpret($score),
+            gradeLabel: null,
             inputs: [
                 'asl' => $stats->averageWordsPerSentence,
                 'asw' => $stats->averageSyllablesPerWord,

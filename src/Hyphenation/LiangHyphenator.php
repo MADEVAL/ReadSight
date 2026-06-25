@@ -107,10 +107,7 @@ final class LiangHyphenator implements Hyphenator
 
         $end = $textLength - $this->minHyphenRight;
         for ($start = 0; $start < $end; $start++) {
-            $maxLength = $start + $patternLength;
-            if ($textLength - $start < $maxLength) {
-                $maxLength = $textLength - $start;
-            }
+            $maxLength = \min($patternLength, $textLength - $start);
 
             for ($len = 1; $len <= $maxLength; $len++) {
                 $subword = \mb_substr($text, $start, $len);

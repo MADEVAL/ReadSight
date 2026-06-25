@@ -34,7 +34,7 @@ final readonly class Osman implements Formula
         $avgLetters = $stats->letterCount / $wordCount;
         $hardWordsPct = ($stats->polysyllableCount / $wordCount) * 100.0;
 
-        $score = 200.0 - 2.0 * $asl - 1.5 * $avgLetters * 100.0 - 0.4 * $hardWordsPct;
+        $score = 200.0 - 2.0 * $asl - 1.5 * $avgLetters - 0.4 * $hardWordsPct;
 
         return new FormulaResult(
             formulaName: $this->name(),

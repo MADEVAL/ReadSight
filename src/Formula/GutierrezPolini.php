@@ -36,12 +36,23 @@ final readonly class GutierrezPolini implements Formula
             languageCode: $language->code,
             score: \round($score, 1),
             gradeLevel: null,
-            interpretation: '',
+            interpretation: $this->interpret($score),
             gradeLabel: null,
             inputs: [
                 'lettersPerWord' => \round($stats->letterCount / $wordCount, 2),
                 'wordsPerSentence' => \round($stats->averageWordsPerSentence, 2),
             ],
         );
+    }
+
+    private function interpret(float $score): string
+    {
+        return match (true) {
+            $score >= 80.0 => 'Very Easy',
+            $score >= 70.0 => 'Easy',
+            $score >= 50.0 => 'Standard',
+            $score >= 30.0 => 'Difficult',
+            default => 'Very Difficult',
+        };
     }
 }
