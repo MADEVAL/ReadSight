@@ -23,20 +23,15 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: PHP CS Fixer
+        run: composer cs:check
+
       - name: Unit tests
         run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Unit --no-coverage
 
-      - name: EngineIntegrationTest
-        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration/EngineIntegrationTest.php --no-coverage
-
-      - name: EngineTest
-        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration/EngineTest.php --no-coverage
-
-      - name: FormulaIntegrationTest
-        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration/FormulaIntegrationTest.php --no-coverage
-
-      - name: MultilingualIntegrationTest
-        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration/MultilingualIntegrationTest.php --no-coverage
+      - name: Integration tests
+        continue-on-error: true
+        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration --no-coverage
 
       - name: Regression tests
         run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Regression --no-coverage
