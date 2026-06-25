@@ -19,10 +19,15 @@ jobs:
         with:
           php-version: '8.5'
           extensions: mbstring, json
-          coverage: none
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: PHPUnit
-        run: composer test
+      - name: PHPUnit version
+        run: phpunit --version
+
+      - name: PHPUnit (no config)
+        run: php -d error_reporting=-1 vendor/bin/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Unit --no-coverage 2>&1
+
+      - name: PHPUnit (with config)
+        run: php -d error_reporting=-1 vendor/bin/phpunit --no-coverage 2>&1
