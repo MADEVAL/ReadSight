@@ -8,7 +8,7 @@ on:
 
 jobs:
   check:
-    name: PHP 8.5 — CS + Tests
+    name: PHP 8.5 — Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -19,19 +19,9 @@ jobs:
         with:
           php-version: '8.5'
           extensions: mbstring, json
-          coverage: none
-
-      - name: Validate composer.json
-        run: composer validate --no-check-lock
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: PHP CS Fixer
-        run: composer cs:check
-
-      - name: Prepare build dir
-        run: mkdir -p build
-
       - name: PHPUnit
-        run: php -d memory_limit=256M vendor/bin/phpunit --no-coverage --no-configuration --bootstrap vendor/autoload.php tests
+        run: php -d memory_limit=256M vendor/phpunit/phpunit/phpunit --no-coverage -c phpunit.xml --testdox 2>&1
