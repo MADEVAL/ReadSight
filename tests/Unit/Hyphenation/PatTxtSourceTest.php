@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GlobusStudio\ReadSight\Tests\Unit\Hyphenation;
 
 use GlobusStudio\ReadSight\Exception\PatternFileNotFoundException;
+use GlobusStudio\ReadSight\Exception\PatternParseException;
 use GlobusStudio\ReadSight\Hyphenation\Source\PatTxtSource;
 use PHPUnit\Framework\TestCase;
 
@@ -102,7 +103,7 @@ final class PatTxtSourceTest extends TestCase
         $this->assertTrue($result['exceptions']->isEmpty());
     }
 
-    public function test_ignores_non_digit_patterns(): void
+    public function test_skips_non_digit_patterns(): void
     {
         \file_put_contents($this->fixturesDir . '/test.pat.txt', "abc\n"); // no digits
 
@@ -110,5 +111,14 @@ final class PatTxtSourceTest extends TestCase
         $result = $source->load();
 
         $this->assertSame(0, $result['patterns']->count());
+    }
+
+    public function test_throws_on_malformed_utf8(): void
+    {
+        \file_put_contents($this->fixturesDir . '/test.pat.txt', "\x80\x81\x82\n");
+
+        $source = new PatTxtSource($this->fixturesDir . '/test.pat.txt');
+        $this->expectException(PatternParseException::class);
+        $source->load();
     }
 }

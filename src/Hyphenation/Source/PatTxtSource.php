@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GlobusStudio\ReadSight\Hyphenation\Source;
 
 use GlobusStudio\ReadSight\Exception\PatternFileNotFoundException;
+use GlobusStudio\ReadSight\Exception\PatternParseException;
 use GlobusStudio\ReadSight\Hyphenation\HyphenationException;
 use GlobusStudio\ReadSight\Hyphenation\HyphenationExceptionsCollection;
 use GlobusStudio\ReadSight\Hyphenation\Pattern;
@@ -51,7 +52,7 @@ final readonly class PatTxtSource implements PatternSource
                 continue;
             }
 
-            $pattern = $this->parsePatLine($line);
+            $pattern = $this->parsePatLine($line, $lineNumber, $filePath);
             if ($pattern !== null) {
                 $collection->add($pattern);
             }
@@ -60,7 +61,7 @@ final readonly class PatTxtSource implements PatternSource
         return $collection;
     }
 
-    private function parsePatLine(string $line): ?Pattern
+    private function parsePatLine(string $line, int $lineNumber, string $filePath): ?Pattern
     {
         $chars = [];
         $numbers = '';
@@ -69,7 +70,7 @@ final readonly class PatTxtSource implements PatternSource
 
         $segments = \preg_split('/(?<!^)(?!$)/u', $line);
         if ($segments === false) {
-            return null;
+            throw PatternParseException::withLine($line, $lineNumber, $filePath);
         }
 
         foreach ($segments as $char) {

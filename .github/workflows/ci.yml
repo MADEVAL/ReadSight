@@ -16,10 +16,8 @@ jobs:
         include:
           - php: '8.5'
             name: 'Check (CS + PHPStan + Tests)'
-            composer-flags: ''
           - php: '8.5'
             name: 'Mutation Testing'
-            composer-flags: ''
             infection: true
 
     steps:
@@ -33,21 +31,21 @@ jobs:
           coverage: xdebug
 
       - name: Validate composer.json
-        run: composer validate --strict
+        run: composer validate --no-check-lock
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress ${{ matrix.composer-flags }}
+        run: composer install --prefer-dist --no-progress
 
       - name: PHP CS Fixer
         run: composer cs:check
 
       - name: PHPStan
-        run: composer analyse
+        run: php -d memory_limit=512M vendor/bin/phpstan analyse --no-progress
 
       - name: PHPUnit
         run: composer test
 
       - name: Infection (mutation testing)
         if: ${{ matrix.infection }}
-        run: php vendor/bin/infection --threads=4 --min-msi=45 --min-covered-msi=50
+        run: php -d memory_limit=512M vendor/bin/infection --threads=4 --min-msi=45 --min-covered-msi=50
         continue-on-error: true

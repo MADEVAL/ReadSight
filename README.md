@@ -3,18 +3,19 @@
 [![CI](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml/badge.svg)](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml)
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.5-777bb3?logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-167%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
+[![Tests](https://img.shields.io/badge/tests-176%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
-[![Languages](https://img.shields.io/badge/languages-78-9cf)](https://github.com/MADEVAL/ReadSight)
+[![Languages](https://img.shields.io/badge/languages-79-9cf)](https://github.com/MADEVAL/ReadSight)
 [![Formulas](https://img.shields.io/badge/formulas-17-orange)](https://github.com/MADEVAL/ReadSight)
 
-PHP library for measuring text readability across **78 languages** using the Frank M. Liang (TeX) hyphenation algorithm
+PHP library for measuring text readability across **79 languages** using the Frank M. Liang (TeX) hyphenation algorithm
 and **17 readability formulas** with language-specific coefficients.
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Demo](#demo)
 - [Supported Languages](#supported-languages)
 - [Readability Formulas](#readability-formulas)
 - [FormulaResult](#formularesult)
@@ -64,9 +65,35 @@ $lix = $engine->lix($text);
 echo "LIX: {$lix->score} — {$lix->interpretation}\n";
 ```
 
+## Demo
+
+Run the interactive demo to see ReadSight in action:
+
+```bash
+php examples/demo.php
+```
+
+This analyzes built-in sample text and outputs:
+- **Syllable breakdown** with hyphenation points for common words
+- **Text statistics** — letters, words, sentences, syllables, histogram
+- **All applicable readability formulas** with scores and interpretations
+
+Compare the same text across 8 languages:
+
+```bash
+php examples/demo.php --compare
+```
+
+Analyze your own text file:
+
+```bash
+php examples/demo.php --file=essay.txt
+php examples/demo.php --file=essay.txt --lang=de-1996
+```
+
 ## Supported Languages
 
-78 languages across **16 writing systems**: Latin, Cyrillic, Arabic, Devanagari, Bengali, Tamil, Thai, Greek, Armenian, Georgian, Gujarati, Gurmukhi, Kannada, Malayalam, Odia, Telugu, Ethiopic, Coptic, and more.
+79 languages across **16 writing systems**: Latin, Cyrillic, Arabic, Devanagari, Bengali, Tamil, Thai, Greek, Armenian, Georgian, Gujarati, Gurmukhi, Kannada, Malayalam, Odia, Telugu, Ethiopic, Coptic, and more.
 
 ```php
 $engine = new Engine('ru');       // Russian
@@ -81,7 +108,7 @@ $langs = Engine::getSupportedLanguages();
 
 ## Readability Formulas
 
-### Universal (all 78 languages)
+### Universal (all 79 languages)
 
 | Formula | Method | Type | Score Range |
 |---|---|---|---|
@@ -226,7 +253,7 @@ Engine (facade)
 
 - **TeX hyphenation patterns**: [hyph-utf8](https://ctan.org/pkg/hyph-utf8) version 2026-02-21 —
   the canonical TeX hyphenation repository maintained by the TeX Users Group (TUG).
-  98 files: 78 `.pat.txt` + 20 `.hyp.txt` covering 78 languages.
+  99 files: 79 `.pat.txt` + 20 `.hyp.txt` covering 79 languages.
   Packaged under each pattern file's original license.
 - **FRE coefficients**: Amstad (DE), Oborneva (RU), Fernandez-Huerta (ES),
   Vacca-Franchina (IT), Kandel-Moles (FR), Douma (NL), Martins (PT), Ateşman (TR)
@@ -256,7 +283,7 @@ composer check            # All checks: CS + PHPStan + Tests
 | PHP | 8.5.4 |
 | Source classes | 40 |
 | Test classes | 16 |
-| Supported languages | 78 |
+| Supported languages | 79 |
 | Writing systems | 16 |
 | Readability formulas | 17 |
 | Runtime dependencies | **0** |
