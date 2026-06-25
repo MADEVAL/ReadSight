@@ -19,12 +19,10 @@ jobs:
         with:
           php-version: '8.5'
           extensions: mbstring, json
-
-      - name: PHP info
-        run: php -v && php -m
+          coverage: none
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
       - name: PHPUnit
-        run: php -d memory_limit=256M vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests --no-coverage
+        run: composer test
