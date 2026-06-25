@@ -1,0 +1,73 @@
+{
+    "name": "globus-studio/readsight",
+    "description": "Multilingual readability scoring engine with TeX-based syllable counting for 83+ languages.",
+    "type": "library",
+    "keywords": [
+        "readability",
+        "syllable",
+        "hyphenation",
+        "flesch-kincaid",
+        "gunning-fog",
+        "smog",
+        "coleman-liau",
+        "ari",
+        "lix",
+        "gulpease",
+        "wiener-sachtextformel",
+        "multilingual",
+        "tex",
+        "liang"
+    ],
+    "homepage": "https://github.com/MADEVAL/ReadabiltyEngine",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yevhen Leonidov",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/MADEVAL/ReadabiltyEngine/issues",
+        "source": "https://github.com/MADEVAL/ReadabiltyEngine"
+    },
+    "require": {
+        "php": ">=8.5.0",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "infection/infection": "*",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GlobusStudio\\ReadSight\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GlobusStudio\\ReadSight\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html=build/coverage",
+        "analyse": "phpstan analyse",
+        "cs:check": "php-cs-fixer check",
+        "cs:fix": "php-cs-fixer fix",
+        "check": [
+            "@cs:check",
+            "@analyse",
+            "@test"
+        ]
+    }
+}

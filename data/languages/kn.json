@@ -1,0 +1,31 @@
+{
+    "code": "kn",
+    "name": "Kannada",
+    "nativeName": "ಕನ್ನಡ",
+    "script": "Kannada",
+    "hyphenMins": {
+        "left": 1,
+        "right": 1
+    },
+    "letterPattern": "[ಀ-೿]",
+    "wordSplitPattern": "[^\\p{L}]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

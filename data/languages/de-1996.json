@@ -1,0 +1,43 @@
+{
+    "code": "de-1996",
+    "name": "German (reformed)",
+    "nativeName": "Deutsch (reformiert)",
+    "script": "Latin",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[A-Za-zÀ-ÖØ-öø-ÿĀ-žƀ-ɏḀ-ỿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        },
+        "flesch_reading_ease": {
+            "enabled": true,
+            "base": 180,
+            "aslMult": 1,
+            "aswMult": 58.5
+        },
+        "flesch_kincaid_grade_level": {
+            "enabled": true
+        },
+        "wiener_sachtextformel": {
+            "enabled": true
+        }
+    }
+}

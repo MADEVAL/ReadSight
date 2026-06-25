@@ -1,0 +1,31 @@
+{
+    "code": "fi",
+    "name": "Finnish",
+    "nativeName": "Suomi",
+    "script": "Latin",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[A-Za-zÀ-ÖØ-öø-ÿĀ-žƀ-ɏḀ-ỿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

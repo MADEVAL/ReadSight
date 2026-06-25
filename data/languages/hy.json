@@ -1,0 +1,31 @@
+{
+    "code": "hy",
+    "name": "Armenian",
+    "nativeName": "Հայերեն",
+    "script": "Armenian",
+    "hyphenMins": {
+        "left": 1,
+        "right": 2
+    },
+    "letterPattern": "[Ա-Ֆա-և]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 7
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "code": "es",
+    "name": "Spanish",
+    "nativeName": "Español",
+    "script": "Latin",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[A-Za-zÀ-ÖØ-öø-ÿĀ-žƀ-ɏḀ-ỿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        },
+        "flesch_reading_ease": {
+            "enabled": true,
+            "base": 206.84,
+            "aslMult": 1.02,
+            "aswMult": 60
+        },
+        "flesch_kincaid_grade_level": {
+            "enabled": true
+        },
+        "fernandez_huerta": {
+            "enabled": true
+        },
+        "szigriszt_pazos": {
+            "enabled": true
+        },
+        "gutierrez_polini": {
+            "enabled": true
+        },
+        "crawford": {
+            "enabled": true
+        }
+    }
+}

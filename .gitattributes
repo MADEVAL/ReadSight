@@ -1,0 +1,20 @@
+# Patterns and language data
+data/patterns/*.txt linguist-generated=true
+data/languages/*.json linguist-generated=true
+
+# Build artifacts
+/build/ export-ignore
+/cache/ export-ignore
+
+# Tools
+/tools/ export-ignore
+
+# Tests
+/tests/ export-ignore
+/phpunit.xml export-ignore
+/phpstan.neon export-ignore
+/.php-cs-fixer.php export-ignore
+/infection.json5 export-ignore
+
+# Dev
+/.gitignore export-ignore

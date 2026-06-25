@@ -1,0 +1,31 @@
+{
+    "code": "cu",
+    "name": "Church Slavonic",
+    "nativeName": "ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ",
+    "script": "Cyrillic",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[А-Яа-яЁёҐ-ӿЀ-ӿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?…]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

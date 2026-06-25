@@ -1,0 +1,17 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": ["src"],
+        "excludes": ["tests"]
+    },
+    "mutators": {
+        "@default": true
+    },
+    "logs": {
+        "text": "build/infection.log",
+        "summary": "build/infection-summary.log"
+    },
+    "minMsi": 45,
+    "minCoveredMsi": 50,
+    "timeout": 300
+}

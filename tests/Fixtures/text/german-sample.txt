@@ -1,0 +1,1 @@
+Dies ist ein deutscher Text zur Lesbarkeitsprüfung. Er enthält mehrere Sätze mit unterschiedlicher Länge. Die Formeln sollen die Verständlichkeit messen. Kurze Sätze sind einfacher. Lange und verschachtelte Satzkonstruktionen erschweren das Leseverständnis erheblich.

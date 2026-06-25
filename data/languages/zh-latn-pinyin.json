@@ -1,0 +1,31 @@
+{
+    "code": "zh-latn-pinyin",
+    "name": "Chinese (Pinyin)",
+    "nativeName": "中文 (拼音)",
+    "script": "Latin",
+    "hyphenMins": {
+        "left": 1,
+        "right": 1
+    },
+    "letterPattern": "[A-Za-zÀ-ÖØ-öø-ÿĀ-žƀ-ɏḀ-ỿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

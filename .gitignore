@@ -1,0 +1,8 @@
+/vendor/
+/build/
+/cache/*
+/cache/.*
+!/cache/.gitkeep
+/composer.lock
+.phpunit.result.cache
+.php-cs-fixer.cache

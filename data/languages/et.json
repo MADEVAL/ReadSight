@@ -1,0 +1,31 @@
+{
+    "code": "et",
+    "name": "Estonian",
+    "nativeName": "Eesti",
+    "script": "Latin",
+    "hyphenMins": {
+        "left": 2,
+        "right": 3
+    },
+    "letterPattern": "[A-Za-zÀ-ÖØ-öø-ÿĀ-žƀ-ɏḀ-ỿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

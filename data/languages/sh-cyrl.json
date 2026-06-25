@@ -1,0 +1,31 @@
+{
+    "code": "sh-cyrl",
+    "name": "Serbo-Croatian (Cyrillic)",
+    "nativeName": "Српскохрватски (Ћирилица)",
+    "script": "Cyrillic",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[А-Яа-яЁёҐ-ӿЀ-ӿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?…]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

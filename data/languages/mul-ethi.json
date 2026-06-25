@@ -1,0 +1,31 @@
+{
+    "code": "mul-ethi",
+    "name": "Ethiopic (multi)",
+    "nativeName": "የኢትዮጵያ",
+    "script": "Ethiopic",
+    "hyphenMins": {
+        "left": 1,
+        "right": 1
+    },
+    "letterPattern": "[ሀ-፼]",
+    "wordSplitPattern": "[^\\p{L}]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 4
+        }
+    }
+}

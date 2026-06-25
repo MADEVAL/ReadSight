@@ -1,0 +1,31 @@
+{
+    "code": "el-monoton",
+    "name": "Modern Greek (monotonic)",
+    "nativeName": "Νέα Ελληνικά (μονοτονικό)",
+    "script": "Greek",
+    "hyphenMins": {
+        "left": 1,
+        "right": 1
+    },
+    "letterPattern": "[Α-Ωα-ωἀ-῾]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?;]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        }
+    }
+}

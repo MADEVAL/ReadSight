@@ -1,0 +1,40 @@
+{
+    "code": "ru",
+    "name": "Russian",
+    "nativeName": "Русский",
+    "script": "Cyrillic",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[А-Яа-яЁёҐ-ӿЀ-ӿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?…]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        },
+        "flesch_reading_ease": {
+            "enabled": true,
+            "base": 206.835,
+            "aslMult": 1.52,
+            "aswMult": 65.14
+        },
+        "flesch_kincaid_grade_level": {
+            "enabled": true
+        }
+    }
+}

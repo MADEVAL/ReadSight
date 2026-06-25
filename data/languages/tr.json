@@ -1,0 +1,40 @@
+{
+    "code": "tr",
+    "name": "Turkish",
+    "nativeName": "Türkçe",
+    "script": "Latin",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[A-Za-zÀ-ÖØ-öø-ÿĀ-žƀ-ɏḀ-ỿ]",
+    "wordSplitPattern": "[^\\p{L}'’-]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 6
+        },
+        "flesch_reading_ease": {
+            "enabled": true,
+            "base": 198.825,
+            "aslMult": 40.175,
+            "aswMult": 2.61
+        },
+        "flesch_kincaid_grade_level": {
+            "enabled": true
+        }
+    }
+}
