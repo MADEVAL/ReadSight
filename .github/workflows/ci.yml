@@ -19,7 +19,6 @@ jobs:
         with:
           php-version: '8.5'
           extensions: mbstring, json
-          coverage: none
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
@@ -27,5 +26,11 @@ jobs:
       - name: PHP CS Fixer
         run: composer cs:check
 
-      - name: PHPUnit
-        run: php -d memory_limit=256M vendor/phpunit/phpunit/phpunit --no-coverage
+      - name: PHPUnit (Unit only)
+        run: php -d memory_limit=256M vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Unit --no-coverage
+
+      - name: PHPUnit (Integration only)
+        run: php -d memory_limit=256M vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration --no-coverage
+
+      - name: PHPUnit (Regression only)
+        run: php -d memory_limit=256M vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Regression --no-coverage
