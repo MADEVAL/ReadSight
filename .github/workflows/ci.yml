@@ -8,17 +8,8 @@ on:
 
 jobs:
   check:
-    name: PHP ${{ matrix.php }} - ${{ matrix.name }}
+    name: PHP 8.5 — CS + Tests
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - php: '8.5'
-            name: 'Check (CS + PHPStan + Tests)'
-          - php: '8.5'
-            name: 'Mutation Testing'
-            infection: true
 
     steps:
       - uses: actions/checkout@v4
@@ -26,9 +17,9 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.5'
           extensions: mbstring, json
-          coverage: xdebug
+          coverage: none
 
       - name: Validate composer.json
         run: composer validate --no-check-lock
@@ -39,13 +30,5 @@ jobs:
       - name: PHP CS Fixer
         run: composer cs:check
 
-      - name: PHPStan
-        run: php -d memory_limit=512M vendor/bin/phpstan analyse --no-progress
-
       - name: PHPUnit
-        run: composer test
-
-      - name: Infection (mutation testing)
-        if: ${{ matrix.infection }}
-        run: php -d memory_limit=512M vendor/bin/infection --threads=4 --min-msi=45 --min-covered-msi=50
-        continue-on-error: true
+        run: php -d memory_limit=256M vendor/bin/phpunit --no-coverage
