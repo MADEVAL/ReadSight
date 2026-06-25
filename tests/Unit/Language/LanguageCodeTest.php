@@ -47,4 +47,3 @@ final class LanguageCodeTest extends TestCase
         $this->assertSame('de-1996', $code->value);
     }
 }
-

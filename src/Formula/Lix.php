@@ -67,4 +67,3 @@ final readonly class Lix implements Formula
         };
     }
 }
-

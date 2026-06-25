@@ -1,8 +1,25 @@
+# Dependencies
 /vendor/
+
+# Build artifacts
 /build/
+
+# Cache (keep .gitkeep)
 /cache/*
-/cache/.*
 !/cache/.gitkeep
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Composer
 /composer.lock
+
+# PHPUnit & QA cache
 .phpunit.result.cache
 .php-cs-fixer.cache
+.phpunit.cache

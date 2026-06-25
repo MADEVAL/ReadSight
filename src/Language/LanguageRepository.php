@@ -14,4 +14,3 @@ interface LanguageRepository
 
     public function exists(string $languageCode): bool;
 }
-

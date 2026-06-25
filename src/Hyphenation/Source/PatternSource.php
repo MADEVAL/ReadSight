@@ -12,4 +12,3 @@ interface PatternSource
     /** @return array{patterns: PatternsCollection, exceptions: HyphenationExceptionsCollection, maxPatternLength: int} */
     public function load(): array;
 }
-

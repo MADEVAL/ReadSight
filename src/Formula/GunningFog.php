@@ -61,4 +61,3 @@ final readonly class GunningFog implements Formula
         };
     }
 }
-

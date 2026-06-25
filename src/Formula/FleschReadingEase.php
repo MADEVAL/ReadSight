@@ -72,4 +72,3 @@ final readonly class FleschReadingEase implements Formula
         };
     }
 }
-

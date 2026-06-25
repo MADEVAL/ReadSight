@@ -11,4 +11,3 @@ final class EmptyTextException extends ReadabilityEngineException
         return new self('Text must contain at least one letter.');
     }
 }
-

@@ -18,4 +18,3 @@ interface Formula
 
     public function calculate(TextStatistics $stats, Language $language): FormulaResult;
 }
-

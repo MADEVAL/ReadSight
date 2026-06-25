@@ -156,4 +156,3 @@ final class LiangHyphenator implements Hyphenator
         return $parts;
     }
 }
-

@@ -15,7 +15,8 @@ final readonly class JsonPatternCache implements PatternCache
 
     public function __construct(
         private string $cacheDir,
-    ) {}
+    ) {
+    }
 
     public function has(string $languageCode): bool
     {
@@ -125,4 +126,3 @@ final readonly class JsonPatternCache implements PatternCache
     }
 
 }
-

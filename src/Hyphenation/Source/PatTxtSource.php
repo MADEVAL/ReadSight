@@ -15,7 +15,8 @@ final readonly class PatTxtSource implements PatternSource
     public function __construct(
         private string $patFilePath,
         private ?string $hypFilePath = null,
-    ) {}
+    ) {
+    }
 
     /** @return array{patterns: PatternsCollection, exceptions: HyphenationExceptionsCollection, maxPatternLength: int} */
     public function load(): array
@@ -129,4 +130,3 @@ final readonly class PatTxtSource implements PatternSource
         return $collection;
     }
 }
-

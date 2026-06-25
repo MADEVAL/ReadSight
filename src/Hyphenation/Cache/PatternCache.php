@@ -21,4 +21,3 @@ interface PatternCache
 
     public function clearAll(): void;
 }
-

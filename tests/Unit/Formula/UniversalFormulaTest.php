@@ -202,4 +202,3 @@ final class UniversalFormulaTest extends TestCase
         $this->assertSame('Easy', $result->interpretation);
     }
 }
-

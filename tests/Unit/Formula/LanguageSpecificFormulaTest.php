@@ -182,4 +182,3 @@ final class LanguageSpecificFormulaTest extends TestCase
         }
     }
 }
-

@@ -166,4 +166,3 @@ final class FormulaIntegrationTest extends TestCase
         }
     }
 }
-

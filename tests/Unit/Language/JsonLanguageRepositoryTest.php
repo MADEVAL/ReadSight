@@ -115,4 +115,3 @@ final class JsonLanguageRepositoryTest extends TestCase
         $this->assertSame('Русский', $language->nativeName);
     }
 }
-

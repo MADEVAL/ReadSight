@@ -143,4 +143,3 @@ final class SyllableConsistencyTest extends TestCase
         $this->assertGreaterThan(0, $stats->sentenceCount);
     }
 }
-

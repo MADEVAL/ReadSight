@@ -27,4 +27,3 @@ enum Script: string
     case CJK = 'CJK';
     case Other = 'Other';
 }
-

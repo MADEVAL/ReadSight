@@ -1,4 +1,7 @@
-# Patterns and language data
+# Force LF line endings for all text files
+* text=auto eol=lf
+
+# Patterns and language data (auto-generated)
 data/patterns/*.txt linguist-generated=true
 data/languages/*.json linguist-generated=true
 
@@ -18,3 +21,5 @@ data/languages/*.json linguist-generated=true
 
 # Dev
 /.gitignore export-ignore
+/.gitattributes export-ignore
+/.editorconfig export-ignore

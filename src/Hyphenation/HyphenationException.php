@@ -9,6 +9,6 @@ final class HyphenationException
     public function __construct(
         public readonly string $word,
         public readonly string $hyphenated,
-    ) {}
+    ) {
+    }
 }
-

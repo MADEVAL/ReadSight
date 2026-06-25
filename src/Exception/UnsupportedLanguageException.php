@@ -11,4 +11,3 @@ final class UnsupportedLanguageException extends ReadabilityEngineException
         return new self(\sprintf('Language "%s" is not supported.', $languageCode));
     }
 }
-

@@ -40,4 +40,3 @@ final class HyphenationExceptionsCollection
         return $this->exceptions;
     }
 }
-

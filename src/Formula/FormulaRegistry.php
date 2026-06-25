@@ -71,4 +71,3 @@ final class FormulaRegistry
         return \in_array($language->code, $langs, true);
     }
 }
-

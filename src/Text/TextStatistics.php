@@ -17,6 +17,6 @@ final readonly class TextStatistics
         public int $longWordCount,
         /** @var array<int, int> syllable count => number of words */
         public array $syllableHistogram,
-    ) {}
+    ) {
+    }
 }
-

@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  check:
+    name: PHP ${{ matrix.php }} — ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.5'
+            name: 'Check (CS + PHPStan + Tests)'
+            composer-flags: ''
+          - php: '8.5'
+            name: 'Mutation Testing'
+            composer-flags: ''
+            infection: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, json
+          coverage: xdebug
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress ${{ matrix.composer-flags }}
+
+      - name: PHP CS Fixer
+        run: composer cs:check
+
+      - name: PHPStan
+        run: composer analyse
+
+      - name: PHPUnit
+        run: composer test
+
+      - name: Infection (mutation testing)
+        if: ${{ matrix.infection }}
+        run: php vendor/bin/infection --threads=4 --min-msi=45 --min-covered-msi=50
+        continue-on-error: true

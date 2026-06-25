@@ -15,6 +15,6 @@ final readonly class FormulaResult
         public string $interpretation,
         public ?string $gradeLabel,
         public array $inputs,
-    ) {}
+    ) {
+    }
 }
-

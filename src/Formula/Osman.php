@@ -62,4 +62,3 @@ final readonly class Osman implements Formula
         };
     }
 }
-

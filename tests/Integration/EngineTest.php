@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GlobusStudio\ReadSight\Tests\Unit;
+namespace GlobusStudio\ReadSight\Tests\Integration;
 
 use GlobusStudio\ReadSight\Engine;
 use GlobusStudio\ReadSight\Exception\EmptyTextException;
@@ -205,4 +205,3 @@ final class EngineTest extends TestCase
         $this->assertSame(4, $hyphenator->countSyllables('associate'));
     }
 }
-

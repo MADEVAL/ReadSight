@@ -56,4 +56,3 @@ final readonly class FernandezHuerta implements Formula
         };
     }
 }
-

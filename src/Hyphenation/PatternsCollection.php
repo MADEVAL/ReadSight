@@ -65,4 +65,3 @@ final class PatternsCollection
         return $this->patterns === [];
     }
 }
-

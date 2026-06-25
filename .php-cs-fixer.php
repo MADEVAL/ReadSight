@@ -13,7 +13,6 @@ return (new PhpCsFixer\Config())
         '@PER-CS2.0:risky' => true,
         'declare_strict_types' => true,
         'final_class' => true,
-        'readonly_public_property' => false,
         'single_line_empty_body' => false,
         'phpdoc_to_param_type' => true,
         'phpdoc_to_property_type' => true,

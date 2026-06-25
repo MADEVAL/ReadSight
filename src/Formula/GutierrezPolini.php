@@ -45,4 +45,3 @@ final readonly class GutierrezPolini implements Formula
         );
     }
 }
-

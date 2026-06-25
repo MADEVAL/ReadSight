@@ -49,4 +49,3 @@ final readonly class Crawford implements Formula
         );
     }
 }
-

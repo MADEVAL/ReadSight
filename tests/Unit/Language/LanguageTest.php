@@ -109,4 +109,3 @@ final class LanguageTest extends TestCase
         $this->assertSame(Script::Latin, $language->script);
     }
 }
-

@@ -4,5 +4,6 @@ declare(strict_types=1);
 
 namespace GlobusStudio\ReadSight\Exception;
 
-class ReadabilityEngineException extends \RuntimeException {}
-
+abstract class ReadabilityEngineException extends \RuntimeException
+{
+}

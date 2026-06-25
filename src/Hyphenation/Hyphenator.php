@@ -19,4 +19,3 @@ interface Hyphenator
      */
     public function countSyllables(string $word): int;
 }
-

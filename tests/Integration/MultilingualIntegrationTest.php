@@ -128,4 +128,3 @@ final class MultilingualIntegrationTest extends TestCase
         }
     }
 }
-

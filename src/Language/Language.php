@@ -63,4 +63,3 @@ final class Language
         return \array_keys($this->formulaConfigs);
     }
 }
-

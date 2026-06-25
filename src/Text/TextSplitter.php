@@ -10,7 +10,8 @@ final readonly class TextSplitter
 {
     public function __construct(
         private Language $language,
-    ) {}
+    ) {
+    }
 
     /** @return list<string> */
     public function splitWords(string $text): array
@@ -26,7 +27,7 @@ final readonly class TextSplitter
             return [];
         }
 
-        return \array_values(\array_filter($words, static fn (string $w): bool => $w !== ''));
+        return \array_values(\array_filter($words, static fn(string $w): bool => $w !== ''));
     }
 
     /** @return list<string> */
@@ -100,4 +101,3 @@ final readonly class TextSplitter
         return $count;
     }
 }
-

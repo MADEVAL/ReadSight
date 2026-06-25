@@ -16,7 +16,7 @@ final readonly class Spache implements Formula
 
     public function description(): string
     {
-        return 'Spache Readability Score — designed for primary-grade texts (K-4).';
+        return 'Spache Readability Score — for primary-grade texts (K-4). Estimates difficult words via syllable heuristic (1-syllable ≈ easy). NOTE: This is a simplified estimation, not the original Spache word list.';
     }
 
     public function supportedLanguages(): array
@@ -70,4 +70,3 @@ final readonly class Spache implements Formula
         };
     }
 }
-

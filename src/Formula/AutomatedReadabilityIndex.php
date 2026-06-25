@@ -67,4 +67,3 @@ final readonly class AutomatedReadabilityIndex implements Formula
         };
     }
 }
-

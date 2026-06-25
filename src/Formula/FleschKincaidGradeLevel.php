@@ -63,4 +63,3 @@ final readonly class FleschKincaidGradeLevel implements Formula
         };
     }
 }
-

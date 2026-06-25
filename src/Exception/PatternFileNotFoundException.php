@@ -11,4 +11,3 @@ final class PatternFileNotFoundException extends ReadabilityEngineException
         return new self(\sprintf('Pattern file not found: "%s".', $filePath));
     }
 }
-

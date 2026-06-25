@@ -113,5 +113,64 @@ final class TextSplitterTest extends TestCase
         $this->assertContains('Привет', $words);
         $this->assertContains('мир', $words);
     }
-}
 
+    // --- Boundary tests ---
+
+    public function test_words_with_hyphens(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $words = $splitter->splitWords('self-contained well-known re-evaluate');
+        $this->assertCount(3, $words);
+        $this->assertSame('self-contained', $words[0]);
+    }
+
+    public function test_words_with_numbers_are_split(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $words = $splitter->splitWords('Hello 123 world 456test');
+        $this->assertContains('Hello', $words);
+        $this->assertContains('world', $words);
+        $this->assertContains('test', $words);
+    }
+
+    public function test_multiple_spaces_collapsed(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $words = $splitter->splitWords('Hello    world');
+        $this->assertSame(['Hello', 'world'], $words);
+    }
+
+    public function test_words_with_apostrophes(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $words = $splitter->splitWords("don't can't it's");
+        $this->assertSame(["don't", "can't", "it's"], $words);
+    }
+
+    public function test_no_sentence_boundary_returns_one_sentence(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $this->assertSame(0, $splitter->countSentences('Hello world without punctuation'));
+    }
+
+    public function test_only_punctuation_returns_zero_words(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $words = $splitter->splitWords('!!! ??? ...');
+        $this->assertSame([], $words);
+    }
+
+    public function test_letters_with_special_chars(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $count = $splitter->countLetters('Hello @world #2024!');
+        $this->assertSame(10, $count);
+    }
+
+    public function test_words_with_newlines_and_tabs(): void
+    {
+        $splitter = new TextSplitter($this->createTestLanguage());
+        $words = $splitter->splitWords("Hello\tworld\nagain");
+        $this->assertSame(['Hello', 'world', 'again'], $words);
+    }
+}

@@ -113,4 +113,3 @@ final class JsonPatternCacheTest extends TestCase
         $this->assertFalse($cache->has('ru'));
     }
 }
-

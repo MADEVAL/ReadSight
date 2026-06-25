@@ -4,38 +4,19 @@ declare(strict_types=1);
 
 namespace GlobusStudio\ReadSight;
 
-use GlobusStudio\ReadSight\Exception\EmptyTextException;
 use GlobusStudio\ReadSight\Exception\UnsupportedFormulaException;
-use GlobusStudio\ReadSight\Exception\UnsupportedLanguageException;
-use GlobusStudio\ReadSight\Formula\AutomatedReadabilityIndex;
-use GlobusStudio\ReadSight\Formula\ColemanLiau;
-use GlobusStudio\ReadSight\Formula\Crawford;
-use GlobusStudio\ReadSight\Formula\DaleChall;
-use GlobusStudio\ReadSight\Formula\FernandezHuerta;
-use GlobusStudio\ReadSight\Formula\FleschKincaidGradeLevel;
-use GlobusStudio\ReadSight\Formula\FleschReadingEase;
-use GlobusStudio\ReadSight\Formula\FogPL;
 use GlobusStudio\ReadSight\Formula\FormulaRegistry;
+use GlobusStudio\ReadSight\Formula\FormulaRegistryFactory;
 use GlobusStudio\ReadSight\Formula\FormulaResult;
-use GlobusStudio\ReadSight\Formula\Gulpease;
-use GlobusStudio\ReadSight\Formula\GunningFog;
-use GlobusStudio\ReadSight\Formula\GutierrezPolini;
-use GlobusStudio\ReadSight\Formula\Lix;
-use GlobusStudio\ReadSight\Formula\Osman;
-use GlobusStudio\ReadSight\Formula\SmogIndex;
-use GlobusStudio\ReadSight\Formula\Spache;
-use GlobusStudio\ReadSight\Formula\SzigrisztPazos;
 use GlobusStudio\ReadSight\Formula\WienerSachtextformel;
 use GlobusStudio\ReadSight\Hyphenation\Cache\JsonPatternCache;
-use GlobusStudio\ReadSight\Hyphenation\Cache\PatternCache;
-use GlobusStudio\ReadSight\Hyphenation\HyphenationExceptionsCollection;
 use GlobusStudio\ReadSight\Hyphenation\Hyphenator;
 use GlobusStudio\ReadSight\Hyphenation\LiangHyphenator;
-use GlobusStudio\ReadSight\Hyphenation\PatternsCollection;
 use GlobusStudio\ReadSight\Hyphenation\Source\PatTxtSource;
 use GlobusStudio\ReadSight\Language\JsonLanguageRepository;
 use GlobusStudio\ReadSight\Language\Language;
 use GlobusStudio\ReadSight\Language\LanguageRepository;
+use GlobusStudio\ReadSight\Text\TextAnalyzer;
 use GlobusStudio\ReadSight\Text\TextSplitter;
 use GlobusStudio\ReadSight\Text\TextStatistics;
 
@@ -47,7 +28,7 @@ final class Engine
 
     private readonly Language $language;
     private readonly Hyphenator $hyphenator;
-    private readonly TextSplitter $textSplitter;
+    private readonly TextAnalyzer $text;
     private readonly LanguageRepository $languageRepository;
     private readonly FormulaRegistry $formulaRegistry;
 
@@ -65,9 +46,13 @@ final class Engine
         $this->language = $this->languageRepository->find($language);
 
         $this->hyphenator = $this->loadHyphenator($this->language, $patternsDir, $cacheDir);
-        $this->textSplitter = new TextSplitter($this->language);
-        $this->formulaRegistry = $this->initializeFormulas();
+        $textSplitter = new TextSplitter($this->language);
+
+        $this->text = new TextAnalyzer($this->hyphenator, $textSplitter, $this->language);
+        $this->formulaRegistry = FormulaRegistryFactory::create();
     }
+
+    // --- Static defaults ---
 
     public static function setDefaultCacheDir(string $dir): void
     {
@@ -88,10 +73,11 @@ final class Engine
     public static function getSupportedLanguages(): array
     {
         $languagesDir = self::$defaultLanguagesDir ?? __DIR__ . '/../data/languages';
-        $repository = new JsonLanguageRepository($languagesDir);
 
-        return $repository->listCodes();
+        return (new JsonLanguageRepository($languagesDir))->listCodes();
     }
+
+    // --- Accessors ---
 
     public function getLanguage(): Language
     {
@@ -114,176 +100,74 @@ final class Engine
         return $this->formulaRegistry->listForLanguage($this->language);
     }
 
-    // --- Text / Syllable API (Stage 1) ---
+    // --- Text / Syllable API → TextAnalyzer ---
 
     /** @return list<string> */
     public function splitWord(string $word): array
     {
-        return $this->hyphenator->hyphenate($word);
+        return $this->text->splitWord($word);
     }
 
     public function syllableCount(string $word): int
     {
-        return $this->hyphenator->countSyllables($word);
+        return $this->text->syllableCount($word);
     }
 
     public function wordCount(string $text): int
     {
-        return $this->textSplitter->countWords($text);
+        return $this->text->wordCount($text);
     }
 
     public function sentenceCount(string $text): int
     {
-        return $this->textSplitter->countSentences($text);
+        return $this->text->sentenceCount($text);
     }
 
     public function letterCount(string $text): int
     {
-        return $this->textSplitter->countLetters($text);
+        return $this->text->letterCount($text);
     }
 
     public function totalSyllables(string $text): int
     {
-        $words = $this->textSplitter->splitWords($text);
-        $total = 0;
-
-        foreach ($words as $word) {
-            $total += $this->hyphenator->countSyllables($word);
-        }
-
-        return $total;
+        return $this->text->totalSyllables($text);
     }
 
     public function averageSyllablesPerWord(string $text): float
     {
-        $words = $this->textSplitter->splitWords($text);
-        $wordCount = \count($words);
-
-        if ($wordCount === 0) {
-            return 0.0;
-        }
-
-        return $this->totalSyllables($text) / $wordCount;
+        return $this->text->averageSyllablesPerWord($text);
     }
 
     public function averageWordsPerSentence(string $text): float
     {
-        $wordCount = $this->textSplitter->countWords($text);
-        $sentenceCount = $this->textSplitter->countSentences($text);
-
-        if ($sentenceCount === 0) {
-            return (float) $wordCount;
-        }
-
-        return $wordCount / $sentenceCount;
-    }
-
-    public function wordsWithNSyllables(string $text, int $n, bool $countProperNouns = true): int
-    {
-        $words = $this->textSplitter->splitWords($text);
-        $count = 0;
-
-        foreach ($words as $word) {
-            if ($this->hyphenator->countSyllables($word) > $n) {
-                if ($countProperNouns) {
-                    $count++;
-                } else {
-                    $firstLetter = \mb_substr($word, 0, 1);
-                    if ($firstLetter !== \mb_strtoupper($firstLetter)) {
-                        $count++;
-                    }
-                }
-            }
-        }
-
-        return $count;
+        return $this->text->averageWordsPerSentence($text);
     }
 
     public function polysyllableCount(string $text, bool $countProperNouns = true): int
     {
-        return $this->wordsWithNSyllables($text, 2, $countProperNouns);
+        return $this->text->polysyllableCount($text, $countProperNouns);
+    }
+
+    public function wordsWithNSyllables(string $text, int $n, bool $countProperNouns = true): int
+    {
+        return $this->text->wordsWithNSyllables($text, $n, $countProperNouns);
     }
 
     /** @return array<int, int> */
     public function histogramSyllables(string $text): array
     {
-        $words = $this->textSplitter->splitWords($text);
-        $histogram = [];
-
-        foreach ($words as $word) {
-            $syllables = $this->hyphenator->countSyllables($word);
-            if ($syllables === 0) {
-                continue;
-            }
-            $histogram[$syllables] = ($histogram[$syllables] ?? 0) + 1;
-        }
-
-        \ksort($histogram);
-
-        return $histogram;
+        return $this->text->histogramSyllables($text);
     }
 
     public function analyze(string $text): TextStatistics
     {
-        $text = \trim($text);
-
-        $words = $this->textSplitter->splitWords($text);
-        $wordCount = \count($words);
-
-        if ($wordCount === 0) {
-            throw EmptyTextException::create();
-        }
-
-        $letterCount = $this->textSplitter->countLetters($text);
-        $sentenceCount = $this->textSplitter->countSentences($text);
-
-        $totalSyllables = 0;
-        $polysyllableCount = 0;
-        $histogram = [];
-
-        foreach ($words as $word) {
-            $syllables = $this->hyphenator->countSyllables($word);
-            $totalSyllables += $syllables;
-
-            if ($syllables > 2) {
-                $polysyllableCount++;
-            }
-
-            if ($syllables > 0) {
-                $histogram[$syllables] = ($histogram[$syllables] ?? 0) + 1;
-            }
-        }
-
-        $sentenceCountForAverage = $sentenceCount === 0 ? 1 : $sentenceCount;
-
-        \ksort($histogram);
-
-        $lixConfig = $this->language->getFormulaConfig('lix');
-        $longWordThreshold = 6;
-        if (is_array($lixConfig) && isset($lixConfig['longWordThreshold']) && is_numeric($lixConfig['longWordThreshold'])) {
-            $longWordThreshold = (int) $lixConfig['longWordThreshold'];
-        }
-        $longWordCount = $this->textSplitter->countLongWords($text, $longWordThreshold);
-
-        return new TextStatistics(
-            letterCount: $letterCount,
-            wordCount: $wordCount,
-            sentenceCount: $sentenceCount,
-            syllableCount: $totalSyllables,
-            polysyllableCount: $polysyllableCount,
-            averageSyllablesPerWord: $totalSyllables / $wordCount,
-            averageWordsPerSentence: $wordCount / $sentenceCountForAverage,
-            longWordCount: $longWordCount,
-            syllableHistogram: $histogram,
-        );
+        return $this->text->analyze($text);
     }
 
     /** @param array<string, string> $hyphenations */
     public function addHyphenations(array $hyphenations): void
     {
-        if ($this->hyphenator instanceof LiangHyphenator) {
-            $this->hyphenator->addHyphenations($hyphenations);
-        }
+        $this->text->addHyphenations($hyphenations);
     }
 
     // --- Formula API ---
@@ -291,9 +175,7 @@ final class Engine
     /** @throws UnsupportedFormulaException */
     public function score(string $formulaName, string $text): FormulaResult
     {
-        $stats = $this->analyze($text);
-
-        return $this->formulaRegistry->calculate($formulaName, $this->language, $stats);
+        return $this->formulaRegistry->calculate($formulaName, $this->language, $this->analyze($text));
     }
 
     /** @throws UnsupportedFormulaException */
@@ -406,31 +288,6 @@ final class Engine
     }
 
     // --- Private helpers ---
-
-    private function initializeFormulas(): FormulaRegistry
-    {
-        $registry = new FormulaRegistry();
-
-        $registry->register(new FleschReadingEase());
-        $registry->register(new FleschKincaidGradeLevel());
-        $registry->register(new GunningFog());
-        $registry->register(new SmogIndex());
-        $registry->register(new ColemanLiau());
-        $registry->register(new AutomatedReadabilityIndex());
-        $registry->register(new Lix());
-        $registry->register(new WienerSachtextformel());
-        $registry->register(new Gulpease());
-        $registry->register(new FernandezHuerta());
-        $registry->register(new SzigrisztPazos());
-        $registry->register(new GutierrezPolini());
-        $registry->register(new Crawford());
-        $registry->register(new FogPL());
-        $registry->register(new Osman());
-        $registry->register(new DaleChall());
-        $registry->register(new Spache());
-
-        return $registry;
-    }
 
     private function loadHyphenator(Language $language, string $patternsDir, string $cacheDir): Hyphenator
     {

@@ -61,4 +61,3 @@ final readonly class FogPL implements Formula
         };
     }
 }
-

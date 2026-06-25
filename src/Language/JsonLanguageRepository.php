@@ -13,7 +13,8 @@ final class JsonLanguageRepository implements LanguageRepository
 
     public function __construct(
         private readonly string $languagesDir,
-    ) {}
+    ) {
+    }
 
     public function find(string $languageCode): Language
     {
@@ -85,4 +86,3 @@ final class JsonLanguageRepository implements LanguageRepository
         return \file_exists($this->languagesDir . '/' . $normalized . '.json');
     }
 }
-

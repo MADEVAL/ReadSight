@@ -104,4 +104,3 @@ final readonly class WienerSachtextformel implements Formula
         };
     }
 }
-
