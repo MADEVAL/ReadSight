@@ -16,7 +16,7 @@ final readonly class AutomatedReadabilityIndex implements Formula
 
     public function description(): string
     {
-        return 'Automated Readability Index — character-based formula. Works for all alphabetic languages.';
+        return 'Automated Readability Index - character-based formula. Works for all alphabetic languages.';
     }
 
     /** @return list<string> */

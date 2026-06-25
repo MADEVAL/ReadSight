@@ -16,7 +16,7 @@ final readonly class SzigrisztPazos implements Formula
 
     public function description(): string
     {
-        return 'Szigriszt-Pazos Perspicuity Index — Spanish readability formula.';
+        return 'Szigriszt-Pazos Perspicuity Index - Spanish readability formula.';
     }
 
     /** @return list<string> */

@@ -16,7 +16,7 @@ final readonly class FogPL implements Formula
 
     public function description(): string
     {
-        return 'FOG-PL — Polish adaptation of Gunning Fog Index.';
+        return 'FOG-PL - Polish adaptation of Gunning Fog Index.';
     }
 
     /** @return list<string> */

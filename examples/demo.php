@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * ReadSight Demo — Multilingual Readability Analyzer
+ * ReadSight Demo - Multilingual Readability Analyzer
  *
  * Usage:
  *   php examples/demo.php                                              # analyze built-in sample texts
@@ -20,7 +20,7 @@ use GlobusStudio\ReadSight\Engine;
 $options = getopt('', ['file:', 'lang:', 'compare', 'help']);
 if (isset($options['help'])) {
     echo <<<HELP
-ReadSight Demo — Multilingual Readability Analyzer
+ReadSight Demo - Multilingual Readability Analyzer
 
 USAGE:
   php examples/demo.php [options]
@@ -216,7 +216,7 @@ function compareLanguages(string $text): void
                 $fre = $engine->fleschReadingEase($text);
                 printf("  %10.1f", $fre->score);
             } catch (\Throwable) {
-                printf("  %10s", '—');
+                printf("  %10s", '-');
             }
 
             // Gunning Fog
@@ -224,7 +224,7 @@ function compareLanguages(string $text): void
                 $fog = $engine->gunningFog($text);
                 printf("  %10.1f", $fog->score);
             } catch (\Throwable) {
-                printf("  %10s", '—');
+                printf("  %10s", '-');
             }
 
             // LIX
@@ -232,7 +232,7 @@ function compareLanguages(string $text): void
                 $lix = $engine->lix($text);
                 printf("  %8.1f", $lix->score);
             } catch (\Throwable) {
-                printf("  %8s", '—');
+                printf("  %8s", '-');
             }
 
             echo "\n";
@@ -251,14 +251,14 @@ function compareLanguages(string $text): void
 // --- Main ---
 echo "\n";
 echo "  ╔" . str_repeat('═', 56) . "╗\n";
-echo "  ║  ReadSight — Multilingual Readability Engine Demo        ║\n";
+echo "  ║  ReadSight - Multilingual Readability Engine Demo        ║\n";
 echo "  ╚" . str_repeat('═', 56) . "╝\n";
 
 // Select text
 if (isset($options['file'])) {
     $filePath = $options['file'];
     if (!file_exists($filePath)) {
-        echo "\n  Error: File not found — {$filePath}\n";
+        echo "\n  Error: File not found - {$filePath}\n";
         exit(1);
     }
     $text = file_get_contents($filePath);

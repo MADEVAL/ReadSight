@@ -1,4 +1,4 @@
-# ReadSight — Multilingual Readability Engine
+# ReadSight - Multilingual Readability Engine
 
 [![CI](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml/badge.svg)](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml)
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.5-777bb3?logo=php)](https://www.php.net/)
@@ -56,13 +56,13 @@ echo "Words: {$stats->wordCount}, Syllables: {$stats->syllableCount}\n";
 
 // Readability formulas
 $fre = $engine->fleschReadingEase($text);
-echo "Flesch Reading Ease: {$fre->score} — {$fre->gradeLabel}\n";
+echo "Flesch Reading Ease: {$fre->score} - {$fre->gradeLabel}\n";
 
 $fog = $engine->gunningFog($text);
 echo "Gunning Fog: {$fog->score} (grade {$fog->gradeLevel})\n";
 
 $lix = $engine->lix($text);
-echo "LIX: {$lix->score} — {$lix->interpretation}\n";
+echo "LIX: {$lix->score} - {$lix->interpretation}\n";
 ```
 
 ## Demo
@@ -75,7 +75,7 @@ php examples/demo.php
 
 This analyzes built-in sample text and outputs:
 - **Syllable breakdown** with hyphenation points for common words
-- **Text statistics** — letters, words, sentences, syllables, histogram
+- **Text statistics** - letters, words, sentences, syllables, histogram
 - **All applicable readability formulas** with scores and interpretations
 
 Compare the same text across 8 languages:
@@ -146,13 +146,13 @@ $result = $engine->score('wiener_sachtextformel', $text);
 ## FormulaResult
 
 ```php
-$result->score;           // float — raw formula score
-$result->gradeLevel;      // ?float — normalized grade level (FKGL, GF, SMOG, CL, ARI)
-$result->gradeLabel;      // ?string — human-readable label ("6th Grade")
-$result->interpretation;  // string — qualitative interpretation ("Easy", "Hard")
-$result->formulaName;     // string — formula key
-$result->languageCode;    // string — language code used
-$result->inputs;          // array — intermediate values for debugging
+$result->score;           // float - raw formula score
+$result->gradeLevel;      // ?float - normalized grade level (FKGL, GF, SMOG, CL, ARI)
+$result->gradeLabel;      // ?string - human-readable label ("6th Grade")
+$result->interpretation;  // string - qualitative interpretation ("Easy", "Hard")
+$result->formulaName;     // string - formula key
+$result->languageCode;    // string - language code used
+$result->inputs;          // array - intermediate values for debugging
 ```
 
 ### API Reference
@@ -251,7 +251,7 @@ Engine (facade)
 
 ## Data Sources
 
-- **TeX hyphenation patterns**: [hyph-utf8](https://ctan.org/pkg/hyph-utf8) version 2026-02-21 —
+- **TeX hyphenation patterns**: [hyph-utf8](https://ctan.org/pkg/hyph-utf8) version 2026-02-21 -
   the canonical TeX hyphenation repository maintained by the TeX Users Group (TUG).
   99 files: 79 `.pat.txt` + 20 `.hyp.txt` covering 79 languages.
   Packaged under each pattern file's original license.

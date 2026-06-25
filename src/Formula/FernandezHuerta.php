@@ -16,7 +16,7 @@ final readonly class FernandezHuerta implements Formula
 
     public function description(): string
     {
-        return 'Fernandez-Huerta — Spanish adaptation of Flesch Reading Ease.';
+        return 'Fernandez-Huerta - Spanish adaptation of Flesch Reading Ease.';
     }
 
     /** @return list<string> */

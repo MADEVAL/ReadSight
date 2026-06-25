@@ -16,7 +16,7 @@ final readonly class Gulpease implements Formula
 
     public function description(): string
     {
-        return 'Gulpease Index — Italian readability formula. Uses letter count instead of syllables.';
+        return 'Gulpease Index - Italian readability formula. Uses letter count instead of syllables.';
     }
 
     /** @return list<string> */

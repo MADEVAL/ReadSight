@@ -16,7 +16,7 @@ final readonly class FleschReadingEase implements Formula
 
     public function description(): string
     {
-        return 'Flesch Reading Ease — measures text readability on a 0–100 scale (higher = easier). Coefficients vary by language.';
+        return 'Flesch Reading Ease - measures text readability on a 0–100 scale (higher = easier). Coefficients vary by language.';
     }
 
     /** @return list<string> */

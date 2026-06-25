@@ -16,7 +16,7 @@ final readonly class FleschKincaidGradeLevel implements Formula
 
     public function description(): string
     {
-        return 'Flesch-Kincaid Grade Level — converts Reading Ease into a U.S. school grade level.';
+        return 'Flesch-Kincaid Grade Level - converts Reading Ease into a U.S. school grade level.';
     }
 
     /** @return list<string> */

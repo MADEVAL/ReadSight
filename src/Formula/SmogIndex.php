@@ -16,7 +16,7 @@ final readonly class SmogIndex implements Formula
 
     public function description(): string
     {
-        return 'SMOG Index — Simple Measure of Gobbledygook. Estimates years of education needed.';
+        return 'SMOG Index - Simple Measure of Gobbledygook. Estimates years of education needed.';
     }
 
     /** @return list<string> */

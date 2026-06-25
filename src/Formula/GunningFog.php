@@ -16,7 +16,7 @@ final readonly class GunningFog implements Formula
 
     public function description(): string
     {
-        return 'Gunning Fog Index — estimates years of education needed to understand text.';
+        return 'Gunning Fog Index - estimates years of education needed to understand text.';
     }
 
     /** @return list<string> */

@@ -16,7 +16,7 @@ final readonly class DaleChall implements Formula
 
     public function description(): string
     {
-        return 'Dale-Chall Readability Score — estimates difficult words via syllable heuristic (1-syllable ≈ easy). NOTE: This is a simplified estimation, not the original 3000-word Dale list.';
+        return 'Dale-Chall Readability Score - estimates difficult words via syllable heuristic (1-syllable ≈ easy). NOTE: This is a simplified estimation, not the original 3000-word Dale list.';
     }
 
     public function supportedLanguages(): array

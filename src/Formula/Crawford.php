@@ -16,7 +16,7 @@ final readonly class Crawford implements Formula
 
     public function description(): string
     {
-        return 'Crawford Formula — Spanish readability for elementary school texts. Returns years of schooling.';
+        return 'Crawford Formula - Spanish readability for elementary school texts. Returns years of schooling.';
     }
 
     /** @return list<string> */

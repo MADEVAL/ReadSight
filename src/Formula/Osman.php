@@ -16,7 +16,7 @@ final readonly class Osman implements Formula
 
     public function description(): string
     {
-        return 'OSMAN — Arabic readability formula combining Flesch and Fog adaptations.';
+        return 'OSMAN - Arabic readability formula combining Flesch and Fog adaptations.';
     }
 
     /** @return list<string> */

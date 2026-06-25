@@ -16,7 +16,7 @@ final readonly class GutierrezPolini implements Formula
 
     public function description(): string
     {
-        return 'Gutierrez de Polini Understandability Index — Spanish readability for elementary education.';
+        return 'Gutierrez de Polini Understandability Index - Spanish readability for elementary education.';
     }
 
     /** @return list<string> */

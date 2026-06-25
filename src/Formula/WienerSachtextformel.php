@@ -16,7 +16,7 @@ final readonly class WienerSachtextformel implements Formula
 
     public function description(): string
     {
-        return 'Wiener Sachtextformel — German readability formula with 4 variants. Returns school grade level.';
+        return 'Wiener Sachtextformel - German readability formula with 4 variants. Returns school grade level.';
     }
 
     /** @return list<string> */

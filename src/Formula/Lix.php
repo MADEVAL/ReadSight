@@ -16,7 +16,7 @@ final readonly class Lix implements Formula
 
     public function description(): string
     {
-        return 'LIX (Läsbarhetsindex) — Scandinavian readability formula. Language-independent, uses letter count.';
+        return 'LIX (Läsbarhetsindex) - Scandinavian readability formula. Language-independent, uses letter count.';
     }
 
     /** @return list<string> */

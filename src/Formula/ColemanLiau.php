@@ -16,7 +16,7 @@ final readonly class ColemanLiau implements Formula
 
     public function description(): string
     {
-        return 'Coleman-Liau Index — character-based readability formula (no syllable counting needed).';
+        return 'Coleman-Liau Index - character-based readability formula (no syllable counting needed).';
     }
 
     /** @return list<string> */
