@@ -18,7 +18,7 @@
         "tex",
         "liang"
     ],
-    "homepage": "https://github.com/MADEVAL/ReadabiltyEngine",
+    "homepage": "https://github.com/MADEVAL/ReadSight",
     "license": "MIT",
     "authors": [
         {
@@ -27,8 +27,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/MADEVAL/ReadabiltyEngine/issues",
-        "source": "https://github.com/MADEVAL/ReadabiltyEngine"
+        "issues": "https://github.com/MADEVAL/ReadSight/issues",
+        "source": "https://github.com/MADEVAL/ReadSight"
     },
     "require": {
         "php": ">=8.5.0",
