@@ -8,7 +8,7 @@ on:
 
 jobs:
   check:
-    name: PHP ${{ matrix.php }} — Tests
+    name: PHP ${{ matrix.php }} - Tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

@@ -5,34 +5,34 @@ All notable changes to ReadSight will be documented in this file.
 ## [1.0.5] - 2026-06-26
 
 ### Added
-- `Language::syllableMode` — per-language syllable counting strategy (`tex`|`heuristic`|`composite`), default `tex`
-- `HeuristicSyllableCounter::hasWord()` — per-word lookup in problemWords
+- `Language::syllableMode` - per-language syllable counting strategy (`tex`|`heuristic`|`composite`), default `tex`
+- `HeuristicSyllableCounter::hasWord()` - per-word lookup in problemWords
 - 39 new tests: `HeuristicSyllableCounterTest` (25), `CompositeSyllableCounterTest` (9), `LanguageTest` (+5)
 
 ### Changed
 - **Heuristic now complements TeX, not replaces it**: `composite` mode uses heuristic only for explicit problemWords, falling through to TeX for everything else
-- `hasRules()` now checks only `problemWords` (not subtract/addPatterns) — allows TeX fallthrough for non-problem words
+- `hasRules()` now checks only `problemWords` (not subtract/addPatterns) - allows TeX fallthrough for non-problem words
 - `CompositeSyllableCounter` fallback: `return 1` → delegates to last counter in chain
 
 ### Fixed
-- **Non-ASCII support**: `[^a-z]` → `[^\p{L}]/u`, all `preg_*` calls now use `/u` flag — Cyrillic, German umlauts, accented characters correctly preserved
+- **Non-ASCII support**: `[^a-z]` → `[^\p{L}]/u`, all `preg_*` calls now use `/u` flag - Cyrillic, German umlauts, accented characters correctly preserved
 - `WienerSachtextformel`: invalid variant numbers (0, 5+) now throw `\InvalidArgumentException` instead of silently computing variant 4
 - `SzigrisztPazos`: redundant `*100/100` eliminated, display value preserved in inputs
 
 ### Removed
-- `FormulaResult::gradeLabel` — dead field, always `null` across 16 of 17 formulas (Lix duplicated `interpretation`)
-- `Engine::$languageRepository` — unused property (kept as local variable in constructor)
-- `Pattern::toString()` — dead production code
+- `FormulaResult::gradeLabel` - dead field, always `null` across 16 of 17 formulas (Lix duplicated `interpretation`)
+- `Engine::$languageRepository` - unused property (kept as local variable in constructor)
+- `Pattern::toString()` - dead production code
 - `wordsWithNSyllables()` → renamed to `wordsWithMoreThanNSyllables()` (name now matches behaviour: `> N`)
 
 ### Data
-- `en-us.json`, `en-gb.json` — added `"syllableMode": "composite"`
+- `en-us.json`, `en-gb.json` - added `"syllableMode": "composite"`
 
 ## [1.0.4] - 2026-06-26
 
 ### Added
-- **7 new languages**: Arabic (ar), Bengali (bn), Farsi (fa), Hebrew (he), Hindi (hi), Mongolian LMC (mn-cyrl-x-lmc), Vietnamese (vi) — 79 → **86 languages**
-- **2 new writing systems**: Arabic, Hebrew — 16 → **19**
+- **7 new languages**: Arabic (ar), Bengali (bn), Farsi (fa), Hebrew (he), Hindi (hi), Mongolian LMC (mn-cyrl-x-lmc), Vietnamese (vi) - 79 → **86 languages**
+- **2 new writing systems**: Arabic, Hebrew - 16 → **19**
 - `Script` enum: added `Hebrew` case
 
 ### Fixed
@@ -47,24 +47,24 @@ All notable changes to ReadSight will be documented in this file.
 ## [1.0.3] - 2026-06-26
 
 ### Added
-- **Native `.tex` pattern support** via `TexSource` — parses hyph-utf8 `.tex` files directly, preserving word-boundary markers (dots) for superior accuracy
-- `PatternsCollection::getByFirstChar()` — public API for index-based pattern lookup
-- `LanguageCode::normalize()` — static factory, now used in `JsonLanguageRepository` to eliminate duplicated normalization
+- **Native `.tex` pattern support** via `TexSource` - parses hyph-utf8 `.tex` files directly, preserving word-boundary markers (dots) for superior accuracy
+- `PatternsCollection::getByFirstChar()` - public API for index-based pattern lookup
+- `LanguageCode::normalize()` - static factory, now used in `JsonLanguageRepository` to eliminate duplicated normalization
 - 28 new tests: `TextStatisticsHelper` (5), `PatternsCollection` (3), `LanguageCode` (1), formula metadata (17), Engine edge cases (+2)
 
 ### Changed
 - **Pattern source**: `Engine` now uses `.tex` files by default (from hyph-utf8), with no fallback to less accurate `.pat.txt`
-- `HyphenationException` renamed to `HyphenationOverride` — clearer semantics (DTO, not PHP exception)
+- `HyphenationException` renamed to `HyphenationOverride` - clearer semantics (DTO, not PHP exception)
 - `PatternsCollectionTest` extracted to its own file (was invisible to PHPUnit)
 - `LanguageCode` integrated into production code (was dead code)
 
 ### Removed
-- `PatTxtSource` and `PatTxtSourceTest` — replaced by `TexSource`
-- All `.pat.txt` and `.hyp.txt` files — replaced by `.tex` originals
+- `PatTxtSource` and `PatTxtSourceTest` - replaced by `TexSource`
+- All `.pat.txt` and `.hyp.txt` files - replaced by `.tex` originals
 - `generate-languages.php` now scans `.tex` instead of `.pat.txt`
 
 ### Fixed
-- **Syllable accuracy** — now **100% identical** to reference `vanderlee/phpSyllable` (10 key words fixed: `character`, `wonderful`, `communication`, `incredible`, etc.)
+- **Syllable accuracy** - now **100% identical** to reference `vanderlee/phpSyllable` (10 key words fixed: `character`, `wonderful`, `communication`, `incredible`, etc.)
 - `EngineTest` now creates `.tex` fixtures and properly resets static `Config` in `tearDown()`
 - Cache version bumped to `2.0` to force rebuild with new patterns
 - Demo words replaced with accurately-counted examples
