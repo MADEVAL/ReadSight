@@ -53,7 +53,7 @@ final class MultilingualIntegrationTest extends TestCase
     public function test_all_supported_languages_load(): void
     {
         $langs = Engine::getSupportedLanguages();
-        $this->assertGreaterThanOrEqual(75, \count($langs));
+        $this->assertGreaterThanOrEqual(86, \count($langs));
 
         $loaded = 0;
         foreach ($langs as $code) {

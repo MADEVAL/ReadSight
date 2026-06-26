@@ -1,0 +1,31 @@
+{
+    "code": "he",
+    "name": "Hebrew",
+    "nativeName": "עברית",
+    "script": "Hebrew",
+    "hyphenMins": {
+        "left": 2,
+        "right": 2
+    },
+    "letterPattern": "[א-ת]",
+    "wordSplitPattern": "[^\\p{L}]+",
+    "sentenceBoundaryPattern": "[.!?]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 5
+        }
+    }
+}

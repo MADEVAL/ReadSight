@@ -26,7 +26,7 @@ $minHyphens = [
     'eo' => [2, 2], 'es' => [2, 2], 'et' => [2, 3], 'eu' => [2, 2],
     'fa' => [0, 0], 'fi' => [2, 2], 'fr' => [2, 3], 'fur' => [2, 2],
     'ga' => [2, 3], 'gl' => [2, 2], 'grc' => [1, 1], 'gu' => [1, 1],
-    'hi' => [1, 1], 'hr' => [2, 2], 'hsb' => [2, 2], 'hu' => [2, 2],
+    'he' => [2, 2], 'hi' => [1, 1], 'hr' => [2, 2], 'hsb' => [2, 2], 'hu' => [2, 2],
     'hy' => [1, 2], 'ia' => [2, 2], 'id' => [2, 2], 'is' => [2, 2],
     'it' => [2, 2], 'ka' => [1, 2], 'kmr' => [2, 2], 'kn' => [1, 1],
     'la' => [2, 2], 'la-x-classic' => [2, 2], 'lt' => [2, 2],
@@ -38,7 +38,7 @@ $minHyphens = [
     'sa' => [1, 3], 'sh-cyrl' => [2, 2], 'sk' => [2, 3], 'sl' => [2, 2],
     'sr-latn' => [2, 2], 'sv' => [2, 2], 'ta' => [1, 1], 'te' => [1, 1],
     'th' => [2, 3], 'tk' => [2, 2], 'tr' => [2, 2], 'uk' => [2, 2],
-    'zh-latn-pinyin' => [1, 1],
+    'vi' => [1, 2], 'zh-latn-pinyin' => [1, 1],
 ];
 
 $scriptMap = [
@@ -48,7 +48,7 @@ $scriptMap = [
         'fr', 'fur', 'ga', 'gl', 'hr', 'hsb', 'hu', 'ia', 'id', 'is', 'it',
         'kmr', 'la', 'la-x-classic', 'la-x-liturgic', 'lt', 'lv',
         'nb', 'nl', 'nn', 'oc', 'pi', 'pl', 'pms', 'pt', 'rm', 'ro',
-        'sh-latn', 'sk', 'sl', 'sq', 'sr-latn', 'sv', 'tk', 'tr',
+        'sh-latn', 'sk', 'sl', 'sq', 'sr-latn', 'sv', 'tk', 'tr', 'vi',
         'zh-latn-pinyin',
     ],
     'Cyrillic' => [
@@ -70,10 +70,13 @@ $scriptMap = [
     'Odia' => ['or'],
     'Ethiopic' => ['mul-ethi'],
     'Coptic' => ['cop'],
+    'Arabic' => ['ar', 'fa'],
+    'Hebrew' => ['he'],
 ];
 
 $languageNames = [
     'af' => ['Afrikaans', 'Afrikaans'],
+    'ar' => ['Arabic', 'العربية'],
     'as' => ['Assamese', 'অসমীয়া'],
     'be' => ['Belarusian', 'Беларуская'],
     'bg' => ['Bulgarian', 'Български'],
@@ -94,6 +97,7 @@ $languageNames = [
     'es' => ['Spanish', 'Español'],
     'et' => ['Estonian', 'Eesti'],
     'eu' => ['Basque', 'Euskara'],
+    'fa' => ['Farsi (Persian)', 'فارسی'],
     'fi' => ['Finnish', 'Suomi'],
     'fi-x-school' => ['Finnish (school rules)', 'Suomi (koulusäännöt)'],
     'fr' => ['French', 'Français'],
@@ -102,6 +106,7 @@ $languageNames = [
     'gl' => ['Galician', 'Galego'],
     'grc' => ['Ancient Greek', 'Ἀρχαία Ἑλληνική'],
     'gu' => ['Gujarati', 'ગુજરાતી'],
+    'he' => ['Hebrew', 'עברית'],
     'hr' => ['Croatian', 'Hrvatski'],
     'hsb' => ['Upper Sorbian', 'Hornjoserbšćina'],
     'hu' => ['Hungarian', 'Magyar'],
@@ -122,6 +127,7 @@ $languageNames = [
     'mk' => ['Macedonian', 'Македонски'],
     'ml' => ['Malayalam', 'മലയാളം'],
     'mn-cyrl' => ['Mongolian (Cyrillic)', 'Монгол (Кирилл)'],
+    'mn-cyrl-x-lmc' => ['Mongolian (Cyrillic LMC)', 'Монгол (Кирилл LMC)'],
     'mr' => ['Marathi', 'मराठी'],
     'mul-ethi' => ['Ethiopic (multi)', 'የኢትዮጵያ'],
     'nl' => ['Dutch', 'Nederlands'],
@@ -150,6 +156,7 @@ $languageNames = [
     'tk' => ['Turkmen', 'Türkmençe'],
     'tr' => ['Turkish', 'Türkçe'],
     'uk' => ['Ukrainian', 'Українська'],
+    'vi' => ['Vietnamese', 'Tiếng Việt'],
     'zh-latn-pinyin' => ['Chinese (Pinyin)', '中文 (拼音)'],
     'bn' => ['Bengali', 'বাংলা'],
     'hi' => ['Hindi', 'हिन्दी'],
@@ -244,6 +251,16 @@ $patternByScript = [
         'wordSplitPattern' => "[^\\p{L}]+",
         'sentenceBoundaryPattern' => '[.!?]+',
     ],
+    'Arabic' => [
+        'letterPattern' => '[؀-ۿ]',
+        'wordSplitPattern' => "[^\\p{L}]+",
+        'sentenceBoundaryPattern' => '[.!?۔]+',
+    ],
+    'Hebrew' => [
+        'letterPattern' => '[א-ת]',
+        'wordSplitPattern' => "[^\\p{L}]+",
+        'sentenceBoundaryPattern' => '[.!?]+',
+    ],
 ];
 
 $defaultPattern = [
@@ -301,7 +318,8 @@ foreach ($patFiles as $patFile) {
     $lixThreshold = match ($script) {
         'Cyrillic' => 6, 'Greek' => 6, 'Armenian' => 7,
         'Georgian' => 6, 'Thai' => 8, 'Devanagari' => 5,
-        'Ethiopic' => 4, default => 6,
+        'Ethiopic' => 4, 'Arabic' => 5, 'Hebrew' => 5,
+        default => 6,
     };
     $formulas['lix'] = ['enabled' => true, 'longWordThreshold' => $lixThreshold];
 

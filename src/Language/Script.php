@@ -9,6 +9,7 @@ enum Script: string
     case Latin = 'Latin';
     case Cyrillic = 'Cyrillic';
     case Arabic = 'Arabic';
+    case Hebrew = 'Hebrew';
     case Devanagari = 'Devanagari';
     case Bengali = 'Bengali';
     case Greek = 'Greek';

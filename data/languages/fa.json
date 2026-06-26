@@ -1,0 +1,31 @@
+{
+    "code": "fa",
+    "name": "Farsi (Persian)",
+    "nativeName": "فارسی",
+    "script": "Arabic",
+    "hyphenMins": {
+        "left": 0,
+        "right": 0
+    },
+    "letterPattern": "[؀-ۿ]",
+    "wordSplitPattern": "[^\\p{L}]+",
+    "sentenceBoundaryPattern": "[.!?۔]+",
+    "formulas": {
+        "gunning_fog": {
+            "enabled": true
+        },
+        "smog": {
+            "enabled": true
+        },
+        "coleman_liau": {
+            "enabled": true
+        },
+        "ari": {
+            "enabled": true
+        },
+        "lix": {
+            "enabled": true,
+            "longWordThreshold": 5
+        }
+    }
+}

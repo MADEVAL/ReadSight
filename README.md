@@ -5,10 +5,10 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-232%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
-[![Languages](https://img.shields.io/badge/languages-79-9cf)](https://github.com/MADEVAL/ReadSight)
+[![Languages](https://img.shields.io/badge/languages-86-9cf)](https://github.com/MADEVAL/ReadSight)
 [![Formulas](https://img.shields.io/badge/formulas-17-orange)](https://github.com/MADEVAL/ReadSight)
 
-PHP library for measuring text readability across **79 languages** using the Frank M. Liang (TeX) hyphenation algorithm
+PHP library for measuring text readability across **86 languages** using the Frank M. Liang (TeX) hyphenation algorithm
 and **17 readability formulas** with language-specific coefficients.
 
 ## Table of Contents
@@ -93,7 +93,7 @@ php examples/demo.php --file=essay.txt --lang=de-1996
 
 ## Supported Languages
 
-79 languages across **16 writing systems**: Latin, Cyrillic, Arabic, Devanagari, Bengali, Tamil, Thai, Greek, Armenian, Georgian, Gujarati, Gurmukhi, Kannada, Malayalam, Odia, Telugu, Ethiopic, Coptic, and more.
+86 languages across **19 writing systems**: Latin, Cyrillic, Arabic, Hebrew, Devanagari, Bengali, Tamil, Thai, Greek, Armenian, Georgian, Gujarati, Gurmukhi, Kannada, Malayalam, Odia, Telugu, Ethiopic, Coptic.
 
 ```php
 $engine = new Engine('ru');       // Russian
@@ -108,7 +108,7 @@ $langs = Engine::getSupportedLanguages();
 
 ## Readability Formulas
 
-### Universal (all 79 languages)
+### Universal (all 86 languages)
 
 | Formula | Method | Type | Score Range |
 |---|---|---|---|
@@ -254,7 +254,7 @@ Engine (facade)
 
 - **TeX hyphenation patterns**: [hyph-utf8](https://ctan.org/pkg/hyph-utf8) version 2026-02-21 -
   the canonical TeX hyphenation repository maintained by the TeX Users Group (TUG).
-   87 `.tex` pattern files from hyph-utf8 covering 87 language variants.
+   86 `.tex` pattern files from hyph-utf8 covering 86 language variants.
   Packaged under each pattern file's original license.
 - **FRE coefficients**: Amstad (DE), Oborneva (RU), Fernandez-Huerta (ES),
   Vacca-Franchina (IT), Kandel-Moles (FR), Douma (NL), Martins (PT), Ateşman (TR)
@@ -284,8 +284,8 @@ composer check            # All checks: CS + PHPStan + Tests
 | PHP | 8.5.4 |
 | Source classes | 48 |
 | Test classes | 18 |
-| Supported languages | 79 |
-| Writing systems | 16 |
+| Supported languages | 86 |
+| Writing systems | 19 |
 | Readability formulas | 17 |
 | Runtime dependencies | **0** |
 
