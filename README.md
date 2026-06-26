@@ -102,7 +102,15 @@ $engine = new Engine('th');       // Thai
 
 // List all supported languages
 $langs = Engine::getSupportedLanguages();
-// ['af', 'ar', 'as', 'be', 'bg', 'bn', 'ca', 'cop', 'cs', 'cy', 'da', 'de-1901', 'de-1996', 'de-ch-1901', 'el-monoton', 'el-polyton', 'en-gb', 'en-us', 'eo', 'es', 'et', 'eu', 'fi', 'fr', 'ga', 'gl', 'gu', 'hi', 'hr', 'hsb', 'hu', 'hy', 'ia', 'id', 'is', 'it', 'ka', 'kmr', 'kn', 'la', 'lt', 'lv', 'ml', 'mn-cyrl', 'mr', 'mul-ethi', 'nb', 'nl', 'nn', 'or', 'pa', 'pl', 'pt', 'rm', 'ro', 'ru', 'sa', 'sh-cyrl', 'sk', 'sl', 'sr-cyrl', 'sv', 'ta', 'te', 'th', 'tk', 'tr', 'uk', 'zh-latn-pinyin']
+# ['af', 'ar', 'as', 'be', 'bg', 'bn', 'ca', 'cop', 'cs', 'cu', 'cy', 'da',
+#  'de-1901', 'de-1996', 'de-ch-1901', 'el-monoton', 'el-polyton', 'en-gb',
+#  'en-us', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fi-x-school', 'fr', 'fur',
+#  'ga', 'gl', 'grc', 'gu', 'he', 'hi', 'hr', 'hsb', 'hu', 'hy', 'ia', 'id',
+#  'is', 'it', 'ka', 'kk', 'kmr', 'kn', 'la', 'la-x-classic', 'la-x-liturgic',
+#  'lt', 'lv', 'mk', 'ml', 'mn-cyrl', 'mn-cyrl-x-lmc', 'mr', 'mul-ethi', 'nb',
+#  'nl', 'nn', 'oc', 'or', 'pa', 'pi', 'pl', 'pms', 'pt', 'rm', 'ro', 'ru',
+#  'sa', 'sh-cyrl', 'sh-latn', 'sk', 'sl', 'sq', 'sr-cyrl', 'sv', 'ta', 'te',
+#  'th', 'tk', 'tr', 'uk', 'vi', 'zh-latn-pinyin']
 ```
 
 ## Readability Formulas
