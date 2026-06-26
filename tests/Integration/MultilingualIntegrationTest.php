@@ -7,6 +7,7 @@ namespace GlobusStudio\ReadSight\Tests\Integration;
 use GlobusStudio\ReadSight\Engine;
 use GlobusStudio\ReadSight\Exception\UnsupportedLanguageException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 final class MultilingualIntegrationTest extends TestCase
@@ -48,6 +49,7 @@ final class MultilingualIntegrationTest extends TestCase
         }
     }
 
+    #[Group('slow')]
     public function test_all_supported_languages_load(): void
     {
         $langs = Engine::getSupportedLanguages();

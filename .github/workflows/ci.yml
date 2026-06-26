@@ -30,8 +30,11 @@ jobs:
         run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Unit --no-coverage
 
       - name: Integration tests
+        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration --no-coverage --exclude-group slow
+
+      - name: Slow integration tests
         continue-on-error: true
-        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration --no-coverage
+        run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Integration --no-coverage --group slow
 
       - name: Regression tests
         run: php vendor/phpunit/phpunit/phpunit --no-configuration --bootstrap vendor/autoload.php tests/Regression --no-coverage

@@ -61,7 +61,7 @@
     "scripts": {
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-html=build/coverage",
-        "analyse": "php -d memory_limit=512M phpstan analyse",
+        "analyse": "php -d memory_limit=512M vendor/bin/phpstan analyse",
         "cs:check": "php-cs-fixer check",
         "cs:fix": "php-cs-fixer fix",
         "check": [

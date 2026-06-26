@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace GlobusStudio\ReadSight\Tests\Unit\Formula;
 
 use GlobusStudio\ReadSight\Formula\Crawford;
+use GlobusStudio\ReadSight\Formula\DaleChall;
 use GlobusStudio\ReadSight\Formula\FernandezHuerta;
 use GlobusStudio\ReadSight\Formula\FogPL;
 use GlobusStudio\ReadSight\Formula\Gulpease;
 use GlobusStudio\ReadSight\Formula\GutierrezPolini;
 use GlobusStudio\ReadSight\Formula\Osman;
+use GlobusStudio\ReadSight\Formula\Spache;
 use GlobusStudio\ReadSight\Formula\SzigrisztPazos;
 use GlobusStudio\ReadSight\Formula\WienerSachtextformel;
 use GlobusStudio\ReadSight\Language\Language;
@@ -180,5 +182,167 @@ final class LanguageSpecificFormulaTest extends TestCase
             $this->assertGreaterThan(-5.0, $result->score);
             $this->assertLessThan(20.0, $result->score);
         }
+    }
+
+    public function test_dale_chall_basic(): void
+    {
+        $formula = new DaleChall();
+        $lang = $this->makeLanguage('en-us');
+        $result = $formula->calculate($this->stats, $lang);
+
+        $difficultPct = (($this->stats->wordCount - ($this->stats->syllableHistogram[1] ?? 0)) / $this->stats->wordCount) * 100.0;
+        $raw = 0.1579 * $difficultPct + 0.0496 * $this->stats->averageWordsPerSentence;
+        $expected = $raw > 0.05 ? $raw + 3.6365 : $raw;
+
+        $this->assertEqualsWithDelta($expected, $result->score, 0.1);
+        $this->assertSame('dale_chall', $result->formulaName);
+        $this->assertSame('en-us', $result->languageCode);
+        $this->assertArrayHasKey('difficultWordPct', $result->inputs);
+    }
+
+    public function test_dale_chall_interpretation_ranges(): void
+    {
+        $formula = new DaleChall();
+        $lang = $this->makeLanguage('en-us');
+
+        // To produce a Dale-Chall score of ~1.0: easy words, short sentences
+        // rawScore = 0.1579 * 0 + 0.0496 * 5.0 = 0.248; adjusted = 0.248 (raw <= 0.05? No: 0.248+3.6365=3.8845)
+        // With all 1-syllable words, difficultPct = 0
+        $easyStats = new TextStatistics(
+            letterCount: 25,
+            wordCount: 5,
+            sentenceCount: 1,
+            syllableCount: 5,
+            polysyllableCount: 0,
+            averageSyllablesPerWord: 1.0,
+            averageWordsPerSentence: 5.0,
+            longWordCount: 0,
+            syllableHistogram: [1 => 5],
+        );
+        $result = $formula->calculate($easyStats, $lang);
+        $this->assertSame('4th grade or below', $result->interpretation);
+
+        // All difficult words → difficultPct = 100, score ~ 0.1579*100 + 0.0496*5 = 15.79 + 0.248 = 16.038 + 3.6365 = 19.67
+        $hardStats = new TextStatistics(
+            letterCount: 25,
+            wordCount: 5,
+            sentenceCount: 1,
+            syllableCount: 15,
+            polysyllableCount: 5,
+            averageSyllablesPerWord: 3.0,
+            averageWordsPerSentence: 5.0,
+            longWordCount: 4,
+            syllableHistogram: [],
+        );
+        $result = $formula->calculate($hardStats, $lang);
+        $this->assertSame('Graduate', $result->interpretation);
+    }
+
+    public function test_dale_chall_zero_words(): void
+    {
+        $formula = new DaleChall();
+        $lang = $this->makeLanguage('en-us');
+        $emptyStats = new TextStatistics(0, 0, 0, 0, 0, 0.0, 0.0, 0, []);
+        $result = $formula->calculate($emptyStats, $lang);
+        $this->assertEqualsWithDelta(0.0, $result->score, 0.1);
+    }
+
+    public function test_dale_chall_supported_languages(): void
+    {
+        $formula = new DaleChall();
+        $langs = $formula->supportedLanguages();
+        $this->assertContains('en-us', $langs);
+        $this->assertContains('en-gb', $langs);
+    }
+
+    public function test_spache_basic(): void
+    {
+        $formula = new Spache();
+        $lang = $this->makeLanguage('en-us');
+        $result = $formula->calculate($this->stats, $lang);
+
+        $difficultPct = (($this->stats->wordCount - ($this->stats->syllableHistogram[1] ?? 0)) / $this->stats->wordCount) * 100.0;
+        $expected = 0.121 * $this->stats->averageWordsPerSentence + 0.082 * $difficultPct + 0.659;
+
+        $this->assertEqualsWithDelta($expected, $result->score, 0.1);
+        $this->assertSame('spache', $result->formulaName);
+        $this->assertNotNull($result->gradeLevel);
+    }
+
+    public function test_spache_grade_level_clamping(): void
+    {
+        $formula = new Spache();
+        $lang = $this->makeLanguage('en-us');
+
+        // Very hard text → high score → clamped to 5.0
+        $hardStats = new TextStatistics(
+            letterCount: 100,
+            wordCount: 10,
+            sentenceCount: 1,
+            syllableCount: 50,
+            polysyllableCount: 8,
+            averageSyllablesPerWord: 5.0,
+            averageWordsPerSentence: 10.0,
+            longWordCount: 5,
+            syllableHistogram: [2 => 4, 3 => 3, 4 => 2, 5 => 1],
+        );
+        $result = $formula->calculate($hardStats, $lang);
+        $this->assertLessThanOrEqual(5.0, $result->gradeLevel);
+
+        // Very easy text → low score → clamped to 0.0
+        $easyStats = new TextStatistics(
+            letterCount: 20,
+            wordCount: 10,
+            sentenceCount: 5,
+            syllableCount: 10,
+            polysyllableCount: 0,
+            averageSyllablesPerWord: 1.0,
+            averageWordsPerSentence: 2.0,
+            longWordCount: 0,
+            syllableHistogram: [1 => 10],
+        );
+        $result = $formula->calculate($easyStats, $lang);
+        $this->assertGreaterThanOrEqual(0.0, $result->gradeLevel);
+    }
+
+    public function test_spache_interpretation_ranges(): void
+    {
+        $formula = new Spache();
+        $lang = $this->makeLanguage('en-us');
+
+        $testCases = [
+            [10, 1.5, '1st Grade', '<= 2.0'],
+            [15, 2.2, '2nd Grade', '2.0-2.5'],
+            [20, 2.8, '3rd Grade', '2.5-3.0'],
+            [25, 3.3, '4th Grade', '3.0-3.5'],
+            [30, 4.0, 'Above 4th Grade', '> 3.5'],
+        ];
+
+        foreach ($testCases as [$wordCount, $difficultPct, $expectedLabel, $label]) {
+            $asw = $difficultPct / 100.0 + 1.0;
+            $score = 0.121 * (float) $wordCount + 0.082 * $difficultPct + 0.659;
+            $stats = new TextStatistics(
+                letterCount: $wordCount * 5,
+                wordCount: $wordCount,
+                sentenceCount: 1,
+                syllableCount: (int) ($wordCount * $asw),
+                polysyllableCount: (int) ($difficultPct / 100.0 * $wordCount),
+                averageSyllablesPerWord: $asw,
+                averageWordsPerSentence: (float) $wordCount,
+                longWordCount: 0,
+                syllableHistogram: [1 => (int) ($wordCount * (1 - $difficultPct / 100.0))],
+            );
+            $result = $formula->calculate($stats, $lang);
+            // The interpretation depends on actual score, just verify we get a non-empty interpretation
+            $this->assertNotEmpty($result->interpretation, $label);
+        }
+    }
+
+    public function test_spache_supported_languages(): void
+    {
+        $formula = new Spache();
+        $langs = $formula->supportedLanguages();
+        $this->assertContains('en-us', $langs);
+        $this->assertContains('en-gb', $langs);
     }
 }

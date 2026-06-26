@@ -22,9 +22,7 @@ use GlobusStudio\ReadSight\Text\TextStatistics;
 
 final class Engine
 {
-    private static ?string $defaultPatternsDir = null;
-    private static ?string $defaultLanguagesDir = null;
-    private static ?string $defaultCacheDir = null;
+    private static ?Config $defaultConfig = null;
 
     private readonly Language $language;
     private readonly Hyphenator $hyphenator;
@@ -38,41 +36,59 @@ final class Engine
         ?string $languagesDir = null,
         ?string $cacheDir = null,
     ) {
-        $languagesDir ??= self::$defaultLanguagesDir ?? __DIR__ . '/../data/languages';
-        $patternsDir ??= self::$defaultPatternsDir ?? __DIR__ . '/../data/patterns';
-        $cacheDir ??= self::$defaultCacheDir ?? __DIR__ . '/../cache';
+        $config = self::resolveConfig($patternsDir, $languagesDir, $cacheDir);
 
-        $this->languageRepository = new JsonLanguageRepository($languagesDir);
+        $this->languageRepository = new JsonLanguageRepository($config->languagesDir);
         $this->language = $this->languageRepository->find($language);
 
-        $this->hyphenator = $this->loadHyphenator($this->language, $patternsDir, $cacheDir);
+        $this->hyphenator = $this->loadHyphenator($this->language, $config->patternsDir, $config->cacheDir);
         $textSplitter = new TextSplitter($this->language);
 
         $this->text = new TextAnalyzer($this->hyphenator, $textSplitter, $this->language);
         $this->formulaRegistry = FormulaRegistryFactory::create();
     }
 
-    // --- Static defaults ---
+    public static function withConfig(string $language, Config $config): self
+    {
+        return new self($language, $config->patternsDir, $config->languagesDir, $config->cacheDir);
+    }
 
+    // --- Static configuration ---
+
+    /**
+     * Set a global default configuration for all Engine instances.
+     * Call once at application bootstrap before creating any Engine.
+     */
+    public static function setDefaultConfig(Config $config): void
+    {
+        self::$defaultConfig = $config;
+    }
+
+    /** @deprecated Use setDefaultConfig(Config) instead */
     public static function setDefaultCacheDir(string $dir): void
     {
-        self::$defaultCacheDir = $dir;
+        $prev = self::$defaultConfig ?? Config::default();
+        self::$defaultConfig = new Config($prev->patternsDir, $prev->languagesDir, $dir);
     }
 
+    /** @deprecated Use setDefaultConfig(Config) instead */
     public static function setDefaultPatternsDir(string $dir): void
     {
-        self::$defaultPatternsDir = $dir;
+        $prev = self::$defaultConfig ?? Config::default();
+        self::$defaultConfig = new Config($dir, $prev->languagesDir, $prev->cacheDir);
     }
 
+    /** @deprecated Use setDefaultConfig(Config) instead */
     public static function setDefaultLanguagesDir(string $dir): void
     {
-        self::$defaultLanguagesDir = $dir;
+        $prev = self::$defaultConfig ?? Config::default();
+        self::$defaultConfig = new Config($prev->patternsDir, $dir, $prev->cacheDir);
     }
 
     /** @return list<string> */
-    public static function getSupportedLanguages(): array
+    public static function getSupportedLanguages(?Config $config = null): array
     {
-        $languagesDir = self::$defaultLanguagesDir ?? __DIR__ . '/../data/languages';
+        $languagesDir = ($config ?? self::$defaultConfig ?? Config::default())->languagesDir;
 
         return (new JsonLanguageRepository($languagesDir))->listCodes();
     }
@@ -288,6 +304,17 @@ final class Engine
     }
 
     // --- Private helpers ---
+
+    private static function resolveConfig(?string $patternsDir, ?string $languagesDir, ?string $cacheDir): Config
+    {
+        $default = self::$defaultConfig ?? Config::default();
+
+        return new Config(
+            patternsDir: $patternsDir ?? $default->patternsDir,
+            languagesDir: $languagesDir ?? $default->languagesDir,
+            cacheDir: $cacheDir ?? $default->cacheDir,
+        );
+    }
 
     private function loadHyphenator(Language $language, string $patternsDir, string $cacheDir): Hyphenator
     {
