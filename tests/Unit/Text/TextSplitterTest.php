@@ -150,7 +150,7 @@ final class TextSplitterTest extends TestCase
     public function test_no_sentence_boundary_returns_one_sentence(): void
     {
         $splitter = new TextSplitter($this->createTestLanguage());
-        $this->assertSame(0, $splitter->countSentences('Hello world without punctuation'));
+        $this->assertSame(1, $splitter->countSentences('Hello world without punctuation'));
     }
 
     public function test_only_punctuation_returns_zero_words(): void

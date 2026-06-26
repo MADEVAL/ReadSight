@@ -18,9 +18,6 @@ final class PatternsCollection
 
     private int $maxPatternLength = 0;
 
-    /** @var array<string, list<string>> index by first character for fast lookup */
-    private array $index = [];
-
     public function add(Pattern $pattern): void
     {
         $key = \implode('', $pattern->chars);
@@ -30,12 +27,6 @@ final class PatternsCollection
         if ($pattern->length > $this->maxPatternLength) {
             $this->maxPatternLength = $pattern->length;
         }
-
-        $firstChar = $pattern->chars[0];
-        if (!isset($this->index[$firstChar])) {
-            $this->index[$firstChar] = [];
-        }
-        $this->index[$firstChar][] = $key;
     }
 
     /** @return array<string, string> */
@@ -48,12 +39,6 @@ final class PatternsCollection
     public function getWeights(string $subword): ?string
     {
         return $this->patterns[$subword] ?? null;
-    }
-
-    /** @return list<string> pattern keys starting with the given character */
-    public function getByFirstChar(string $char): array
-    {
-        return $this->index[$char] ?? [];
     }
 
     public function count(): int

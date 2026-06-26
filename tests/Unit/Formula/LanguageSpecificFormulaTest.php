@@ -313,30 +313,28 @@ final class LanguageSpecificFormulaTest extends TestCase
         $lang = $this->makeLanguage('en-us');
 
         $testCases = [
-            [10, 1.5, '1st Grade', '<= 2.0'],
-            [15, 2.2, '2nd Grade', '2.0-2.5'],
-            [20, 2.8, '3rd Grade', '2.5-3.0'],
-            [25, 3.3, '4th Grade', '3.0-3.5'],
-            [30, 4.0, 'Above 4th Grade', '> 3.5'],
+            [5,  '1st Grade',        [1 => 5]],
+            [15, '2nd Grade',        [1 => 15]],
+            [18, '3rd Grade',        [1 => 18]],
+            [23, '4th Grade',        [1 => 23]],
+            [30, 'Above 4th Grade',  [1 => 30]],
         ];
 
-        foreach ($testCases as [$wordCount, $difficultPct, $expectedLabel, $label]) {
-            $asw = $difficultPct / 100.0 + 1.0;
-            $score = 0.121 * (float) $wordCount + 0.082 * $difficultPct + 0.659;
+        foreach ($testCases as [$wordCount, $expectedLabel, $histogram]) {
+            $asw = 1.0;
             $stats = new TextStatistics(
                 letterCount: $wordCount * 5,
                 wordCount: $wordCount,
                 sentenceCount: 1,
-                syllableCount: (int) ($wordCount * $asw),
-                polysyllableCount: (int) ($difficultPct / 100.0 * $wordCount),
+                syllableCount: $wordCount,
+                polysyllableCount: $wordCount - ($histogram[1] ?? 0),
                 averageSyllablesPerWord: $asw,
                 averageWordsPerSentence: (float) $wordCount,
                 longWordCount: 0,
-                syllableHistogram: [1 => (int) ($wordCount * (1 - $difficultPct / 100.0))],
+                syllableHistogram: $histogram,
             );
             $result = $formula->calculate($stats, $lang);
-            // The interpretation depends on actual score, just verify we get a non-empty interpretation
-            $this->assertNotEmpty($result->interpretation, $label);
+            $this->assertSame($expectedLabel, $result->interpretation, "wordCount={$wordCount}");
         }
     }
 

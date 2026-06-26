@@ -60,12 +60,12 @@ final class HeuristicSyllableCounterTest extends TestCase
         $this->assertTrue($counter->hasRules());
     }
 
-    public function test_has_rules_returns_false_when_only_patterns_exist(): void
+    public function test_has_rules_returns_true_when_only_patterns_exist(): void
     {
         $counter = $this->makeCounter($this->makeConfig([
             'problemWords' => [],
         ]));
-        $this->assertFalse($counter->hasRules());
+        $this->assertTrue($counter->hasRules());
     }
 
     public function test_has_rules_returns_false_when_config_is_null(): void

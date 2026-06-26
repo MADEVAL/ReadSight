@@ -28,7 +28,7 @@ final readonly class DaleChall implements Formula
     {
         $difficultPct = $this->estimateDifficultPercentage($stats);
         $rawScore = 0.1579 * $difficultPct + 0.0496 * $stats->averageWordsPerSentence;
-        $adjusted = $rawScore > 0.05 ? $rawScore + 3.6365 : $rawScore;
+        $adjusted = $difficultPct > 5.0 ? $rawScore + 3.6365 : $rawScore;
 
         return new FormulaResult(
             formulaName: $this->name(),

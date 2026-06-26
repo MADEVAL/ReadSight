@@ -121,7 +121,12 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
 
     public function hasRules(): bool
     {
-        return $this->config !== null && $this->problemWords !== [];
+        return $this->config !== null
+            && ($this->problemWords !== []
+                || $this->subtractPatterns !== []
+                || $this->addPatterns !== []
+                || $this->prefixes !== []
+                || $this->suffixes !== []);
     }
 
     public function hasWord(string $word): bool

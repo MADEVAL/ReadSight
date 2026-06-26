@@ -64,35 +64,4 @@ final class PatternsCollectionTest extends TestCase
         $collection = new PatternsCollection();
         $this->assertSame(0, $collection->count());
     }
-
-    public function test_get_by_first_char_returns_matching_patterns(): void
-    {
-        $collection = new PatternsCollection();
-        $collection->add(new Pattern(['a', 'c', 'h'], [0, 0, 0, 4]));
-        $collection->add(new Pattern(['a', 'b'], [0, 5, 0]));
-        $collection->add(new Pattern(['c', 'd'], [0, 3, 0]));
-
-        $aKeys = $collection->getByFirstChar('a');
-        $this->assertCount(2, $aKeys);
-        $this->assertContains('ach', $aKeys);
-        $this->assertContains('ab', $aKeys);
-
-        $cKeys = $collection->getByFirstChar('c');
-        $this->assertCount(1, $cKeys);
-        $this->assertContains('cd', $cKeys);
-    }
-
-    public function test_get_by_first_char_empty_for_missing_char(): void
-    {
-        $collection = new PatternsCollection();
-        $collection->add(new Pattern(['a', 'b'], [0, 5, 0]));
-
-        $this->assertEmpty($collection->getByFirstChar('z'));
-    }
-
-    public function test_get_by_first_char_empty_for_empty_collection(): void
-    {
-        $collection = new PatternsCollection();
-        $this->assertEmpty($collection->getByFirstChar('a'));
-    }
 }

@@ -2,31 +2,15 @@
 
 All notable changes to ReadSight will be documented in this file.
 
-## [1.0.5] - 2026-06-26
-
-### Added
-- `Language::syllableMode` - per-language syllable counting strategy (`tex`|`heuristic`|`composite`), default `tex`
-- `HeuristicSyllableCounter::hasWord()` - per-word lookup in problemWords
-- 39 new tests: `HeuristicSyllableCounterTest` (25), `CompositeSyllableCounterTest` (9), `LanguageTest` (+5)
-
-### Changed
-- **Heuristic now complements TeX, not replaces it**: `composite` mode uses heuristic only for explicit problemWords, falling through to TeX for everything else
-- `hasRules()` now checks only `problemWords` (not subtract/addPatterns) - allows TeX fallthrough for non-problem words
-- `CompositeSyllableCounter` fallback: `return 1` → delegates to last counter in chain
+## [1.0.6] - 2026-06-26
 
 ### Fixed
-- **Non-ASCII support**: `[^a-z]` → `[^\p{L}]/u`, all `preg_*` calls now use `/u` flag - Cyrillic, German umlauts, accented characters correctly preserved
-- `WienerSachtextformel`: invalid variant numbers (0, 5+) now throw `\InvalidArgumentException` instead of silently computing variant 4
-- `SzigrisztPazos`: redundant `*100/100` eliminated, display value preserved in inputs
+- Fix minor bugs
 
-### Removed
-- `FormulaResult::gradeLabel` - dead field, always `null` across 16 of 17 formulas (Lix duplicated `interpretation`)
-- `Engine::$languageRepository` - unused property (kept as local variable in constructor)
-- `Pattern::toString()` - dead production code
-- `wordsWithNSyllables()` → renamed to `wordsWithMoreThanNSyllables()` (name now matches behaviour: `> N`)
+## [1.0.5] - 2026-06-26
 
-### Data
-- `en-us.json`, `en-gb.json` - added `"syllableMode": "composite"`
+### Fixed
+- Fix minor bugs
 
 ## [1.0.4] - 2026-06-26
 

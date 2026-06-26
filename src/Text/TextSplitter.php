@@ -84,7 +84,7 @@ final readonly class TextSplitter
             return 0;
         }
 
-        return $count;
+        return $count === 0 ? 1 : $count;
     }
 
     public function countLongWords(string $text, int $threshold): int

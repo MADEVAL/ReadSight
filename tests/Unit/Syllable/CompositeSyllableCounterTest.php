@@ -57,15 +57,15 @@ final class CompositeSyllableCounterTest extends TestCase
         $this->assertSame(6, $composite->countSyllables('extraordinary'));
     }
 
-    // --- countSyllables: non-problem word falls through to TeX ---
+    // --- countSyllables: non-problem word uses heuristic algorithm ---
 
-    public function test_non_problem_word_uses_tex(): void
+    public function test_non_problem_word_uses_heuristic_algorithm(): void
     {
         $heuristic = $this->makeHeuristic();
         $tex = $this->makeTexStub();
         $composite = new CompositeSyllableCounter([$heuristic, $tex]);
 
-        $this->assertSame(4, $composite->countSyllables('computer'));
+        $this->assertSame(3, $composite->countSyllables('computer'));
         $this->assertSame(1, $composite->countSyllables('cat'));
     }
 
@@ -82,16 +82,17 @@ final class CompositeSyllableCounterTest extends TestCase
         $this->assertSame('banana', \implode('', $parts));
     }
 
-    // --- splitSyllables: non-problem word falls through to last counter ---
+    // --- splitSyllables: non-problem word uses heuristic algorithm ---
 
-    public function test_non_problem_word_split_uses_tex(): void
+    public function test_non_problem_word_split_uses_heuristic_algorithm(): void
     {
         $heuristic = $this->makeHeuristic();
         $tex = $this->makeTexStub();
         $composite = new CompositeSyllableCounter([$heuristic, $tex]);
 
         $parts = $composite->splitSyllables('computer');
-        $this->assertSame(['computer'], $parts);
+        $this->assertCount(3, $parts);
+        $this->assertSame('computer', \implode('', $parts));
     }
 
     // --- chain without heuristic uses last counter ---

@@ -32,7 +32,9 @@ final class JsonLanguageRepository implements LanguageRepository
 
         $json = \file_get_contents($filePath);
         if ($json === false) {
-            throw UnsupportedLanguageException::withCode($languageCode);
+            throw new \RuntimeException(
+                \sprintf('Failed to read language file "%s".', $filePath),
+            );
         }
 
         /** @var array{
@@ -63,7 +65,9 @@ final class JsonLanguageRepository implements LanguageRepository
 
         $files = \glob($pattern);
         if ($files === false) {
-            return [];
+            throw new \RuntimeException(
+                \sprintf('Failed to list language files in directory "%s".', $this->languagesDir),
+            );
         }
 
         foreach ($files as $file) {
