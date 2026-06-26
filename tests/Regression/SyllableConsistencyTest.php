@@ -142,4 +142,114 @@ final class SyllableConsistencyTest extends TestCase
         $this->assertGreaterThan(0, $stats->letterCount);
         $this->assertGreaterThan(0, $stats->sentenceCount);
     }
+
+    // --- Property-based tests (invariant checks across many inputs) ---
+
+    public function test_fuzz_syllable_count_in_bounds(): void
+    {
+        $engine = new Engine('en-us', self::DATA_DIR . '/patterns', self::DATA_DIR . '/languages');
+
+        $words = [
+            '', 'a', 'i', 'the', 'cat', 'dog', 'run', 'go', 'be', 'no',
+            'table', 'apple', 'house', 'water', 'light', 'world', 'phone',
+            'banana', 'computer', 'elephant', 'umbrella', 'beautiful', 'tomorrow',
+            'information', 'university', 'extraordinary', 'communicate', 'relationship',
+            'revolutionary', 'internationalization', 'uncharacteristically',
+            'antidisestablishmentarianism', 'pneumonoultramicroscopicsilicovolcanoconiosis',
+        ];
+
+        foreach ($words as $word) {
+            $wordLength = \mb_strlen($word);
+            $count = $engine->syllableCount($word);
+
+            if ($wordLength === 0) {
+                $this->assertSame(0, $count, "Empty word must have 0 syllables");
+            } else {
+                $this->assertGreaterThanOrEqual(1, $count, "Word '{$word}' has {$count} syllables (expected >=1)");
+                $this->assertLessThanOrEqual($wordLength, $count, "Word '{$word}' has {$count} syllables (expected <= {$wordLength})");
+            }
+        }
+    }
+
+    public function test_fuzz_split_word_reconstructs_original(): void
+    {
+        $engine = new Engine('en-us', self::DATA_DIR . '/patterns', self::DATA_DIR . '/languages');
+
+        $words = [
+            'a', 'the', 'cat', 'dog', 'table', 'apple', 'house', 'water', 'light',
+            'banana', 'computer', 'elephant', 'umbrella', 'beautiful', 'tomorrow',
+            'information', 'university', 'extraordinary', 'communicate',
+            'revolutionary', 'international', 'circumstance', 'accommodation',
+        ];
+
+        foreach ($words as $word) {
+            $parts = $engine->splitWord($word);
+            $reconstructed = \implode('', $parts);
+            $this->assertSame($word, $reconstructed, "Word '{$word}' not reconstructed from parts: " . \implode('-', $parts));
+            $this->assertCount($engine->syllableCount($word), $parts, "Word '{$word}' syllable count mismatch");
+        }
+    }
+
+    public function test_fuzz_consistent_across_repeated_calls(): void
+    {
+        $engine = new Engine('en-us', self::DATA_DIR . '/patterns', self::DATA_DIR . '/languages');
+
+        $words = [
+            'the', 'cat', 'table', 'banana', 'computer', 'elephant', 'beautiful',
+            'university', 'extraordinary', 'communication',
+        ];
+
+        for ($i = 0; $i < 5; $i++) {
+            foreach ($words as $word) {
+                $parts1 = $engine->splitWord($word);
+                $parts2 = $engine->splitWord($word);
+                $this->assertSame($parts1, $parts2, "Word '{$word}' split inconsistently on iteration {$i}");
+                $this->assertSame($engine->syllableCount($word), \count($parts1), "Word '{$word}' count mismatch on iteration {$i}");
+            }
+        }
+    }
+
+    public function test_fuzz_empty_and_edge_cases(): void
+    {
+        $engine = new Engine('en-us', self::DATA_DIR . '/patterns', self::DATA_DIR . '/languages');
+
+        $this->assertSame(0, $engine->syllableCount(''));
+        $this->assertSame([], $engine->splitWord(''));
+
+        $singleChars = ['a', 'b', 'c', 'z', 'A', 'Z'];
+        foreach ($singleChars as $char) {
+            $this->assertSame(1, $engine->syllableCount($char), "Char '{$char}'");
+            $this->assertSame([$char], $engine->splitWord($char), "Char '{$char}' split");
+        }
+    }
+
+    public function test_fuzz_multilingual_invariants(): void
+    {
+        $langWords = [
+            'en-us' => ['the', 'table', 'banana', 'computer', 'university'],
+            'ru' => ['а', 'мы', 'слово', 'молоко', 'красивый'],
+            'de-1996' => ['in', 'und', 'Schreiben', 'Verständlichkeit'],
+            'fr' => ['le', 'bonjour', 'ordinateur'],
+            'es' => ['y', 'hola', 'hermosa', 'computadora'],
+            'it' => ['e', 'ciao', 'bellissimo', 'università'],
+            'nl' => ['de', 'goed', 'morgen'],
+            'pt' => ['de', 'obrigado', 'computador'],
+            'tr' => ['ve', 'merhaba', 'güzel'],
+            'pl' => ['i', 'dzień', 'piękny'],
+        ];
+
+        foreach ($langWords as $lang => $words) {
+            $engine = new Engine($lang, self::DATA_DIR . '/patterns', self::DATA_DIR . '/languages');
+            foreach ($words as $word) {
+                $parts = $engine->splitWord($word);
+                $reconstructed = \implode('', $parts);
+                $this->assertSame($word, $reconstructed, "Lang {$lang}: '{$word}' not reconstructed");
+
+                $count = $engine->syllableCount($word);
+                $this->assertGreaterThanOrEqual(1, $count, "Lang {$lang}: '{$word}' has 0 syllables");
+                $this->assertLessThanOrEqual(\mb_strlen($word), $count, "Lang {$lang}: '{$word}' has too many syllables");
+                $this->assertCount($count, $parts, "Lang {$lang}: '{$word}' count != parts");
+            }
+        }
+    }
 }

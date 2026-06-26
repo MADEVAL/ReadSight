@@ -3,7 +3,7 @@
 [![CI](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml/badge.svg)](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml)
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.2-777bb3?logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-184%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
+[![Tests](https://img.shields.io/badge/tests-189%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
 [![Languages](https://img.shields.io/badge/languages-79-9cf)](https://github.com/MADEVAL/ReadSight)
 [![Formulas](https://img.shields.io/badge/formulas-17-orange)](https://github.com/MADEVAL/ReadSight)
@@ -265,7 +265,7 @@ Engine (facade)
 ```bash
 composer install          # Install dependencies
 
-composer test             # Run PHPUnit (167 tests)
+composer test             # Run PHPUnit (189 tests)
 composer test:coverage    # With HTML coverage report
 composer analyse          # PHPStan level max
 composer cs:check         # PHP CS Fixer (dry-run)
@@ -277,8 +277,8 @@ composer check            # All checks: CS + PHPStan + Tests
 
 | Metric | Value |
 |---|---|
-| Tests | **183** |
-| Assertions | **451** |
+| Tests | **189** |
+| Assertions | **982** |
 | PHPStan | **Level max, 0 errors** |
 | PHP | 8.5.4 |
 | Source classes | 40 |

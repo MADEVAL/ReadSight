@@ -25,13 +25,23 @@ final class JsonPatternCacheTest extends TestCase
 
     protected function tearDown(): void
     {
-        $files = \glob($this->cacheDir . '/*.json') ?: [];
-        foreach ($files as $file) {
-            \unlink($file);
-        }
         if (\is_dir($this->cacheDir)) {
-            \rmdir($this->cacheDir);
+            $this->deleteDir($this->cacheDir);
         }
+    }
+
+    private function deleteDir(string $dir): void
+    {
+        $items = \array_diff((array) \scandir($dir), ['.', '..']);
+        foreach ($items as $item) {
+            $path = $dir . \DIRECTORY_SEPARATOR . $item;
+            if (\is_dir($path)) {
+                $this->deleteDir($path);
+            } else {
+                \unlink($path);
+            }
+        }
+        \rmdir($dir);
     }
 
     public function test_has_returns_false_initially(): void
