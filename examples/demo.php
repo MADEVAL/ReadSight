@@ -85,7 +85,7 @@ function analyzeSingle(Engine $engine, string $text): void
 {
     // Syllable breakdown
     section('Syllable Analysis');
-    $words = ['character', 'communication', 'incredible', 'information', 'automatic'];
+    $words = ['banana', 'character', 'communication', 'incredible', 'information', 'automatic', 'extraordinary', 'university', 'readability'];
     echo "  Word            Syllables  Hyphenation\n";
     echo "  ────            ─────────  ───────────\n";
     foreach ($words as $word) {

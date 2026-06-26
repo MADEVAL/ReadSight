@@ -49,7 +49,7 @@ final class EngineIntegrationTest extends TestCase
             'the' => 1,
             'cat' => 1,
             'table' => 2,
-            'banana' => 2,
+            'banana' => 3,
         ];
 
         foreach ($testWords as $word => $expected) {

@@ -18,7 +18,7 @@ final class MultilingualIntegrationTest extends TestCase
     public static function syllableLanguagesProvider(): array
     {
         return [
-            ['en-us', 'banana', 2],
+            ['en-us', 'banana', 3],
             ['ru', 'молоко', 3],
             ['de-1996', 'Verständlichkeit', null],
             ['fr', 'bonjour', null],

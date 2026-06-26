@@ -16,6 +16,10 @@ use GlobusStudio\ReadSight\Hyphenation\Source\TexSource;
 use GlobusStudio\ReadSight\Language\JsonLanguageRepository;
 use GlobusStudio\ReadSight\Language\Language;
 use GlobusStudio\ReadSight\Language\LanguageRepository;
+use GlobusStudio\ReadSight\Syllable\CompositeSyllableCounter;
+use GlobusStudio\ReadSight\Syllable\HeuristicSyllableCounter;
+use GlobusStudio\ReadSight\Syllable\SyllableCounter;
+use GlobusStudio\ReadSight\Syllable\TexSyllableCounter;
 use GlobusStudio\ReadSight\Text\TextAnalyzer;
 use GlobusStudio\ReadSight\Text\TextSplitter;
 use GlobusStudio\ReadSight\Text\TextStatistics;
@@ -26,6 +30,7 @@ final class Engine
 
     private readonly Language $language;
     private readonly Hyphenator $hyphenator;
+    private readonly SyllableCounter $syllableCounter;
     private readonly TextAnalyzer $text;
     private readonly LanguageRepository $languageRepository;
     private readonly FormulaRegistry $formulaRegistry;
@@ -42,9 +47,10 @@ final class Engine
         $this->language = $this->languageRepository->find($language);
 
         $this->hyphenator = $this->loadHyphenator($this->language, $config->patternsDir, $config->cacheDir);
+        $this->syllableCounter = $this->loadSyllableCounter();
         $textSplitter = new TextSplitter($this->language);
 
-        $this->text = new TextAnalyzer($this->hyphenator, $textSplitter, $this->language);
+        $this->text = new TextAnalyzer($this->hyphenator, $this->syllableCounter, $textSplitter, $this->language);
         $this->formulaRegistry = FormulaRegistryFactory::create();
     }
 
@@ -314,6 +320,20 @@ final class Engine
             languagesDir: $languagesDir ?? $default->languagesDir,
             cacheDir: $cacheDir ?? $default->cacheDir,
         );
+    }
+
+    private function loadSyllableCounter(): SyllableCounter
+    {
+        $tex = new TexSyllableCounter($this->hyphenator);
+
+        if ($this->language->syllableHeuristics !== null) {
+            $heuristic = new HeuristicSyllableCounter($this->language->syllableHeuristics);
+            if ($heuristic->hasRules()) {
+                return new CompositeSyllableCounter([$heuristic, $tex]);
+            }
+        }
+
+        return $tex;
     }
 
     private function loadHyphenator(Language $language, string $patternsDir, string $cacheDir): Hyphenator

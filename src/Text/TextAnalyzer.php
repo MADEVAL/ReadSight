@@ -8,11 +8,13 @@ use GlobusStudio\ReadSight\Exception\EmptyTextException;
 use GlobusStudio\ReadSight\Hyphenation\Hyphenator;
 use GlobusStudio\ReadSight\Hyphenation\LiangHyphenator;
 use GlobusStudio\ReadSight\Language\Language;
+use GlobusStudio\ReadSight\Syllable\SyllableCounter;
 
 final readonly class TextAnalyzer
 {
     public function __construct(
         private Hyphenator $hyphenator,
+        private SyllableCounter $syllableCounter,
         private TextSplitter $textSplitter,
         private Language $language,
     ) {
@@ -26,7 +28,7 @@ final readonly class TextAnalyzer
 
     public function syllableCount(string $word): int
     {
-        return $this->hyphenator->countSyllables($word);
+        return $this->syllableCounter->countSyllables($word);
     }
 
     public function wordCount(string $text): int
@@ -50,7 +52,7 @@ final readonly class TextAnalyzer
         $total = 0;
 
         foreach ($words as $word) {
-            $total += $this->hyphenator->countSyllables($word);
+            $total += $this->syllableCounter->countSyllables($word);
         }
 
         return $total;
@@ -67,7 +69,7 @@ final readonly class TextAnalyzer
 
         $total = 0;
         foreach ($words as $word) {
-            $total += $this->hyphenator->countSyllables($word);
+            $total += $this->syllableCounter->countSyllables($word);
         }
 
         return $total / $wordCount;
@@ -91,7 +93,7 @@ final readonly class TextAnalyzer
         $count = 0;
 
         foreach ($words as $word) {
-            if ($this->hyphenator->countSyllables($word) > $n) {
+            if ($this->syllableCounter->countSyllables($word) > $n) {
                 if ($countProperNouns) {
                     $count++;
                 } else {
@@ -118,7 +120,7 @@ final readonly class TextAnalyzer
         $histogram = [];
 
         foreach ($words as $word) {
-            $syllables = $this->hyphenator->countSyllables($word);
+            $syllables = $this->syllableCounter->countSyllables($word);
             if ($syllables === 0) {
                 continue;
             }
@@ -149,7 +151,7 @@ final readonly class TextAnalyzer
         $histogram = [];
 
         foreach ($words as $word) {
-            $syllables = $this->hyphenator->countSyllables($word);
+            $syllables = $this->syllableCounter->countSyllables($word);
             $totalSyllables += $syllables;
 
             if ($syllables > 2) {

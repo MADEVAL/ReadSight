@@ -42,5 +42,51 @@
         "spache": {
             "enabled": true
         }
+    },
+    "syllableHeuristics": {
+        "vowelPattern": "[aeiouy]",
+        "problemWords": {
+            "abalone": 4, "abare": 3, "aborigine": 5, "adobe": 3, "anemone": 4,
+            "apostrophe": 4, "cafe": 2, "catastrophe": 4, "chile": 2, "coyote": 3,
+            "epitome": 4, "forever": 3, "guacamole": 4, "hyperbole": 4, "karate": 3,
+            "machete": 3, "maybe": 2, "people": 2, "recipe": 3, "sesame": 3,
+            "simile": 3, "tamale": 3, "yosemite": 4, "euterpe": 3, "zoe": 2,
+            "associate": 4, "banana": 3, "beautiful": 3, "elephant": 3,
+            "extraordinary": 6, "hyphenation": 4, "imagination": 5,
+            "pneumonia": 4, "revolutionary": 6, "university": 5,
+            "vocabulary": 5, "very": 2, "packed": 1
+        },
+        "subtractPatterns": [
+            "cial", "tia", "cius", "cious", "[^aeiou]giu",
+            "[aeiouy][^aeiouy]ion", "iou", "sia$", "eous$",
+            "[oa]gue$", "[^aeiuoycgltdb]{2,}ed$", ".ely$",
+            "^jua", "uai", "eau",
+            "[aeiouy](b|c|ch|d|dg|f|g|gh|gn|k|l|ll|lv|m|mm|n|nc|ng|nn|p|r|rc|rn|rs|rv|s|sc|sk|sl|squ|ss|st|t|th|v|y|z)e$",
+            "[aeiouy](b|c|ch|dg|f|g|gh|gn|k|l|lch|ll|lv|m|mm|n|nc|ng|nch|nn|p|r|rc|rn|rs|rv|s|sc|sk|sl|squ|ss|th|v|y|z)ed$",
+            "[aeiouy](b|ch|d|f|gh|gn|k|l|lch|ll|lv|m|mm|n|nch|nn|p|r|rn|rs|rv|s|sc|sk|sl|squ|ss|st|t|th|v|y)es$",
+            "^busi$"
+        ],
+        "addPatterns": [
+            "([^s]|^)ia", "riet", "dien", "iu", "io",
+            "eo($|[b-df-hj-np-tv-z])", "ii", "[ou]a$",
+            "[aeiouym]bl$", "[aeiou]{3}", "[aeiou]y[aeiou]",
+            "^mc", "ism$", "asm$", "thm$", "([^aeiouy])\\1l$",
+            "[^l]lien", "^coa[dglx].", "[^gq]ua[^auieo]", "dnt$",
+            "uity$", "[^aeiouy]ie(r|st|t)$", "eings?$",
+            "[aeiouy]sh?e[rsd]$", "iell", "dea$", "real",
+            "[^aeiou]y[ae]", "gean$", "uen"
+        ],
+        "prefixes": {
+            "un": 1, "fore": 1, "ware": 1, "none": 1, "out": 1,
+            "post": 1, "sub": 1, "pre": 1, "pro": 1, "dis": 1, "side": 1
+        },
+        "suffixes": {
+            "ly": 1, "less": 1, "some": 1, "ful": 1,
+            "ers": 1, "er": 1, "ness": 1, "cians": 1, "cian": 1,
+            "ments": 1, "ment": 1, "ettes": 1, "ette": 1,
+            "villes": 1, "ville": 1, "ships": 1, "ship": 1,
+            "sides": 1, "side": 1, "ports": 1, "port": 1,
+            "shires": 1, "shire": 1, "tion": 1, "tioned": 1, "tions": 1
+        }
     }
 }
