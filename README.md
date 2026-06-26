@@ -3,13 +3,12 @@
 [![CI](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml/badge.svg)](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml)
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.2-777bb3?logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-232%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
+[![Tests](https://img.shields.io/badge/tests-257%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
 [![Languages](https://img.shields.io/badge/languages-86-9cf)](https://github.com/MADEVAL/ReadSight)
 [![Formulas](https://img.shields.io/badge/formulas-17-orange)](https://github.com/MADEVAL/ReadSight)
 
-PHP library for measuring text readability across **86 languages** using the Frank M. Liang (TeX) hyphenation algorithm
-and **17 readability formulas** with language-specific coefficients.
+ReadSight is a PHP library for measuring text readability across **86 languages**. It implements **17 readability formulas** with language-specific coefficients and uses the Frank M. Liang (TeX) hyphenation algorithm for accurate syllable counting — all with **zero runtime dependencies**.
 
 ## Table of Contents
 

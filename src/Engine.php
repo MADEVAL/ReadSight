@@ -15,7 +15,6 @@ use GlobusStudio\ReadSight\Hyphenation\LiangHyphenator;
 use GlobusStudio\ReadSight\Hyphenation\Source\TexSource;
 use GlobusStudio\ReadSight\Language\JsonLanguageRepository;
 use GlobusStudio\ReadSight\Language\Language;
-
 use GlobusStudio\ReadSight\Syllable\CompositeSyllableCounter;
 use GlobusStudio\ReadSight\Syllable\HeuristicSyllableCounter;
 use GlobusStudio\ReadSight\Syllable\SyllableCounter;
