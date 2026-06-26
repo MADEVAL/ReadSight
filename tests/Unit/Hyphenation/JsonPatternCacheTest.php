@@ -32,7 +32,11 @@ final class JsonPatternCacheTest extends TestCase
 
     private function deleteDir(string $dir): void
     {
-        $items = \array_diff((array) \scandir($dir), ['.', '..']);
+        $entries = \scandir($dir);
+        if ($entries === false) {
+            return;
+        }
+        $items = \array_diff($entries, ['.', '..']);
         foreach ($items as $item) {
             $path = $dir . \DIRECTORY_SEPARATOR . $item;
             if (\is_dir($path)) {
