@@ -23,3 +23,6 @@ Thumbs.db
 .phpunit.result.cache
 .php-cs-fixer.cache
 .phpunit.cache
+
+# PHP test environment
+/php-env/

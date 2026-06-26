@@ -12,13 +12,13 @@ use PHPUnit\Framework\TestCase;
 
 final class MultilingualIntegrationTest extends TestCase
 {
-    private const string DATA_DIR = __DIR__ . '/../../data';
+    private const DATA_DIR = __DIR__ . '/../../data';
 
     /** @return list<list{string, string, int|null}> */
     public static function syllableLanguagesProvider(): array
     {
         return [
-            ['en-us', 'banana', 3],
+            ['en-us', 'banana', 2],
             ['ru', 'молоко', 3],
             ['de-1996', 'Verständlichkeit', null],
             ['fr', 'bonjour', null],

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class SyllableConsistencyTest extends TestCase
 {
-    private const string DATA_DIR = __DIR__ . '/../../data';
+    private const DATA_DIR = __DIR__ . '/../../data';
 
     public function test_syllable_count_never_negative(): void
     {

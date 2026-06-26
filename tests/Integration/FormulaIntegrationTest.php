@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FormulaIntegrationTest extends TestCase
 {
-    private const string DATA_DIR = __DIR__ . '/../../data';
+    private const DATA_DIR = __DIR__ . '/../../data';
 
     public function test_english_flesch_reading_ease(): void
     {

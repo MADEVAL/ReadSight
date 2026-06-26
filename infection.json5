@@ -11,7 +11,7 @@
         "text": "build/infection.log",
         "summary": "build/infection-summary.log"
     },
-    "minMsi": 45,
-    "minCoveredMsi": 50,
+    "minMsi": 70,
+    "minCoveredMsi": 75,
     "timeout": 900
 }

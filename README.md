@@ -1,9 +1,9 @@
 # ReadSight - Multilingual Readability Engine
 
 [![CI](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml/badge.svg)](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml)
-[![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.5-777bb3?logo=php)](https://www.php.net/)
+[![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.2-777bb3?logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-183%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
+[![Tests](https://img.shields.io/badge/tests-184%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
 [![Languages](https://img.shields.io/badge/languages-79-9cf)](https://github.com/MADEVAL/ReadSight)
 [![Formulas](https://img.shields.io/badge/formulas-17-orange)](https://github.com/MADEVAL/ReadSight)
@@ -33,7 +33,7 @@ composer require globus-studio/readsight
 ```
 
 **Requirements:**
-- PHP >= 8.5.0
+- PHP >= 8.2
 - `ext-mbstring`
 - `ext-json`
 

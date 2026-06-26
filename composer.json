@@ -31,7 +31,7 @@
         "source": "https://github.com/MADEVAL/ReadSight"
     },
     "require": {
-        "php": ">=8.5.0",
+        "php": ">=8.2",
         "ext-json": "*",
         "ext-mbstring": "*"
     },
@@ -61,7 +61,7 @@
     "scripts": {
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-html=build/coverage",
-        "analyse": "php -d memory_limit=512M vendor/bin/phpstan analyse",
+        "analyse": "php -d memory_limit=512M vendor/bin/phpstan analyse --memory-limit=256M",
         "cs:check": "php-cs-fixer check",
         "cs:fix": "php-cs-fixer fix",
         "check": [

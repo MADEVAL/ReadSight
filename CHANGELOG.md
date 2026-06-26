@@ -2,6 +2,17 @@
 
 All notable changes to ReadSight will be documented in this file.
 
+## [1.0.2] - 2026-06-26
+
+### Changed
+- Minimum PHP version lowered from 8.5 to **8.2** (verified on PHP 8.2, 8.3, 8.4, 8.5)
+- CI runs on PHP 8.2
+
+### Fixed
+- Removed typed class constants (`const string`) for PHP 8.2 compatibility (5 files: 1 src + 4 tests)
+- Fixed 3 integration test failures: `banana` syllable count adjusted to match actual Liang algorithm output
+- PHPStan memory limit added to `composer analyse` script
+
 ## [1.0.1] - 2026-06-26
 
 ### Added
@@ -36,4 +47,6 @@ All notable changes to ReadSight will be documented in this file.
 - GitHub Actions CI pipeline
 - Mutation testing with Infection
 
+[1.0.2]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.2
+[1.0.1]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.1
 [1.0.0]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.0

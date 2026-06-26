@@ -11,7 +11,7 @@ use GlobusStudio\ReadSight\Hyphenation\PatternsCollection;
 
 final readonly class JsonPatternCache implements PatternCache
 {
-    private const string CACHE_VERSION = '1.0';
+    private const CACHE_VERSION = '1.0';
 
     public function __construct(
         private string $cacheDir,
