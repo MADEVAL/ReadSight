@@ -1,6 +1,6 @@
 {
     "name": "globus-studio/readsight",
-    "description": "Multilingual readability scoring engine with TeX-based syllable counting for 83+ languages.",
+    "description": "Multilingual readability scoring engine with TeX-based syllable counting for 79 languages.",
     "type": "library",
     "keywords": [
         "readability",
