@@ -17,4 +17,10 @@ final readonly class TexSyllableCounter implements SyllableCounter
     {
         return $this->hyphenator->countSyllables($word);
     }
+
+    /** @return list<string> */
+    public function splitSyllables(string $word): array
+    {
+        return $this->hyphenator->hyphenate($word);
+    }
 }

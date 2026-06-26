@@ -24,4 +24,19 @@ final readonly class CompositeSyllableCounter implements SyllableCounter
 
         return 1;
     }
+
+    /** @return list<string> */
+    public function splitSyllables(string $word): array
+    {
+        foreach ($this->chain as $counter) {
+            if ($counter instanceof HeuristicSyllableCounter && $counter->hasRules()) {
+                return $counter->splitSyllables($word);
+            }
+        }
+
+        $chain = $this->chain;
+        $last = \end($chain);
+
+        return $last instanceof SyllableCounter ? $last->splitSyllables($word) : [$word];
+    }
 }

@@ -124,4 +124,40 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
         return $this->config !== null
             && ($this->problemWords !== [] || $this->subtractPatterns !== [] || $this->addPatterns !== []);
     }
+
+    /** @return list<string> */
+    public function splitSyllables(string $word): array
+    {
+        $count = $this->countSyllables($word);
+
+        if ($count <= 1) {
+            return $word === '' ? [] : [$word];
+        }
+
+        $length = \mb_strlen($word);
+        if ($count >= $length) {
+            $parts = [];
+            for ($i = 0; $i < $length; $i++) {
+                $parts[] = \mb_substr($word, $i, 1);
+            }
+
+            return $parts;
+        }
+
+        $partLen = (int) \floor($length / $count);
+        $extra = $length % $count;
+        $parts = [];
+        $pos = 0;
+
+        for ($i = 0; $i < $count; $i++) {
+            $curLen = $partLen + ($i < $extra ? 1 : 0);
+            if ($pos + $curLen > $length) {
+                $curLen = $length - $pos;
+            }
+            $parts[] = \mb_substr($word, $pos, $curLen);
+            $pos += $curLen;
+        }
+
+        return $parts;
+    }
 }

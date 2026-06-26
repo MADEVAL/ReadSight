@@ -130,6 +130,12 @@ final class Engine
         return $this->text->splitWord($word);
     }
 
+    /** @return list<string> */
+    public function splitSyllables(string $word): array
+    {
+        return $this->text->splitSyllables($word);
+    }
+
     public function syllableCount(string $word): int
     {
         return $this->text->syllableCount($word);

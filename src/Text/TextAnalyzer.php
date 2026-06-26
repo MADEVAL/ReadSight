@@ -26,6 +26,12 @@ final readonly class TextAnalyzer
         return $this->hyphenator->hyphenate($word);
     }
 
+    /** @return list<string> */
+    public function splitSyllables(string $word): array
+    {
+        return $this->syllableCounter->splitSyllables($word);
+    }
+
     public function syllableCount(string $word): int
     {
         return $this->syllableCounter->countSyllables($word);

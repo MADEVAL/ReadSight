@@ -86,11 +86,11 @@ function analyzeSingle(Engine $engine, string $text): void
     // Syllable breakdown
     section('Syllable Analysis');
     $words = ['banana', 'character', 'communication', 'incredible', 'information', 'automatic', 'extraordinary', 'university', 'readability'];
-    echo "  Word            Syllables  Hyphenation\n";
+    echo "  Word            Syllables  Split\n";
     echo "  ────            ─────────  ───────────\n";
     foreach ($words as $word) {
         $count = $engine->syllableCount($word);
-        $parts = $engine->splitWord($word);
+        $parts = $engine->splitSyllables($word);
         printf("  %-16s  %-9d  %s\n", $word, $count, implode(' · ', $parts));
     }
 
