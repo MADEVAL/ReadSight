@@ -2,6 +2,22 @@
 
 All notable changes to ReadSight will be documented in this file.
 
+## [1.0.4] - 2026-06-26
+
+### Added
+- **7 new languages**: Arabic (ar), Bengali (bn), Farsi (fa), Hebrew (he), Hindi (hi), Mongolian LMC (mn-cyrl-x-lmc), Vietnamese (vi) — 79 → **86 languages**
+- **2 new writing systems**: Arabic, Hebrew — 16 → **19**
+- `Script` enum: added `Hebrew` case
+
+### Fixed
+- `generate-languages.php`: added missing Arabic/Hebrew/Vietnamese script maps, letter patterns, language names, and min-hyphen values
+- 4 formula edge-case tests replaced meaningless `addToAssertionCount(1)` with real score assertions
+- `README.md`: fixed architecture diagram, stale file/class counts, writing system count
+- Test: `HyphenationOverrideTest::test_creates_exception()` → `test_creates_override()`
+- Duplicate `@return` docblocks removed from formula test data providers
+- 8 unreachable `.tex` files cleaned up (now properly matched by generated `.json` configs)
+- `composer.json` description updated to 86 languages
+
 ## [1.0.3] - 2026-06-26
 
 ### Added
@@ -72,6 +88,7 @@ All notable changes to ReadSight will be documented in this file.
 - GitHub Actions CI pipeline
 - Mutation testing with Infection
 
+[1.0.4]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.4
 [1.0.3]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.3
 [1.0.2]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.2
 [1.0.1]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.1
