@@ -58,6 +58,8 @@ php examples/dashboard.php
 php examples/dashboard.php --lang=de-1996 --file=essay.txt
 ```
 
+**17 formulas, 86 languages, one consistent API.** Five of the formulas are truly universal — **Gunning Fog, SMOG, Coleman-Liau, ARI and LIX** score text in *every* one of the 86 languages. The remaining **12 are language-aware**, each carrying its own published coefficients: Flesch Reading Ease and Flesch-Kincaid span 12 languages, the Wiener Sachtextformel speaks German, Gulpease speaks Italian, OSMAN speaks Arabic, and the Fernández-Huerta · Szigriszt-Pazos · Gutiérrez-Polini · Crawford family handles Spanish. `getSupportedFormulas()` then hands each language exactly the slice that fits it — **9** formulas for `en-us`, **11** for `es`, **8** for `de-1996` — so an English-only metric never lands on a Thai sentence by mistake.
+
 ## Table of Contents
 
 - [Installation](#installation)
