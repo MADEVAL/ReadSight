@@ -28,7 +28,7 @@ final class CompositeSyllableCounterTest extends TestCase
 
     private function makeTexStub(): SyllableCounter
     {
-        return new readonly class implements SyllableCounter {
+        return new class implements SyllableCounter {
             public function countSyllables(string $word): int
             {
                 if ($word === '') {

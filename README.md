@@ -55,7 +55,7 @@ echo "Words: {$stats->wordCount}, Syllables: {$stats->syllableCount}\n";
 
 // Readability formulas
 $fre = $engine->fleschReadingEase($text);
-echo "Flesch Reading Ease: {$fre->score} - {$fre->gradeLabel}\n";
+echo "Flesch Reading Ease: {$fre->score} - {$fre->interpretation}\n";
 
 $fog = $engine->gunningFog($text);
 echo "Gunning Fog: {$fog->score} (grade {$fog->gradeLevel})\n";
@@ -147,11 +147,10 @@ $result = $engine->score('wiener_sachtextformel', $text);
 ```php
 $result->score;           // float - raw formula score
 $result->gradeLevel;      // ?float - normalized grade level (FKGL, GF, SMOG, CL, ARI)
-$result->gradeLabel;      // ?string - human-readable label ("6th Grade")
 $result->interpretation;  // string - qualitative interpretation ("Easy", "Hard")
 $result->formulaName;     // string - formula key
 $result->languageCode;    // string - language code used
-$result->inputs;          // array - intermediate values for debugging
+$result->inputs;          // array<string, float|int> - intermediate values for debugging
 ```
 
 ### API Reference
@@ -168,7 +167,7 @@ $engine->totalSyllables(string $text): int
 $engine->averageSyllablesPerWord(string $text): float
 $engine->averageWordsPerSentence(string $text): float
 $engine->polysyllableCount(string $text, bool $countProperNouns = true): int
-$engine->wordsWithNSyllables(string $text, int $n, bool $countProperNouns = true): int
+$engine->wordsWithMoreThanNSyllables(string $text, int $n, bool $countProperNouns = true): int
 $engine->histogramSyllables(string $text): array<int, int>
 $engine->analyze(string $text): TextStatistics
 ```
@@ -269,7 +268,7 @@ Engine (facade)
 ```bash
 composer install          # Install dependencies
 
-composer test             # Run PHPUnit (259 tests)
+composer test             # Run PHPUnit (257 tests)
 composer test:coverage    # With HTML coverage report
 composer analyse          # PHPStan level max
 composer cs:check         # PHP CS Fixer (dry-run)
@@ -280,13 +279,12 @@ composer check            # All checks: CS + PHPStan + Tests
 ### Quality Metrics
 
 | Metric | Value |
-|---|---|
-| Tests | **259** |
-| Assertions | **1 031** |
+|---|---|---|
+| Tests | **257** |
+| Assertions | **1 047** |
 | PHPStan | **Level max, 0 errors** |
-| PHP | 8.5.4 |
-| Source classes | 48 |
-| Test classes | 20 |
+| Source classes | 53 |
+| Test classes | 21 |
 | Supported languages | 86 |
 | Writing systems | 19 |
 | Readability formulas | 17 |
