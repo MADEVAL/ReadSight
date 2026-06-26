@@ -10,7 +10,7 @@ All notable changes to ReadSight will be documented in this file.
 
 ### Fixed
 - Removed typed class constants (`const string`) for PHP 8.2 compatibility (5 files: 1 src + 4 tests)
-- Fixed 3 integration test failures: `banana` syllable count adjusted to match actual Liang algorithm output
+- Fixed 3 integration test failures
 - PHPStan memory limit added to `composer analyse` script
 
 ## [1.0.1] - 2026-06-26
