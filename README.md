@@ -237,13 +237,17 @@ $engine->addHyphenations([
 ```
 Engine (facade)
   ├── TextAnalyzer (syllable counting, text metrics)
-  │   ├── LiangHyphenator (TeX hyphenation algorithm)
+  │   ├── SyllableCounter (strategy: tex | heuristic | composite)
+  │   │   ├── CompositeSyllableCounter (problemWords → heuristic, rest → TeX)
+  │   │   ├── HeuristicSyllableCounter (vowel patterns + word list)
+  │   │   └── TexSyllableCounter → LiangHyphenator (TeX hyphenation)
+  │   ├── LiangHyphenator
   │   │   ├── TexSource (parses .tex from hyph-utf8)
   │   │   ├── PatternsCollection (pattern data)
   │   │   ├── HyphenationExceptionsCollection (word overrides)
   │   │   └── JsonPatternCache (compiled patterns)
   │   └── TextSplitter (word/sentence/letter counting)
-  ├── Language (JSON config per language)
+  ├── Language (JSON config per language, syllableMode + formulaConfigs)
   └── FormulaRegistry (17 formulas)
       ├── FleschReadingEase (with lang-specific coefficients)
       ├── GunningFog, SMOG, ColemanLiau, ARI, LIX (universal)
@@ -266,7 +270,7 @@ Engine (facade)
 ```bash
 composer install          # Install dependencies
 
-composer test             # Run PHPUnit (232 tests)
+composer test             # Run PHPUnit (259 tests)
 composer test:coverage    # With HTML coverage report
 composer analyse          # PHPStan level max
 composer cs:check         # PHP CS Fixer (dry-run)
@@ -278,12 +282,12 @@ composer check            # All checks: CS + PHPStan + Tests
 
 | Metric | Value |
 |---|---|
-| Tests | **232** |
-| Assertions | **1 071** |
+| Tests | **259** |
+| Assertions | **1 031** |
 | PHPStan | **Level max, 0 errors** |
 | PHP | 8.5.4 |
 | Source classes | 48 |
-| Test classes | 18 |
+| Test classes | 20 |
 | Supported languages | 86 |
 | Writing systems | 19 |
 | Readability formulas | 17 |

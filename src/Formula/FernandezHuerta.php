@@ -35,7 +35,6 @@ final readonly class FernandezHuerta implements Formula
             score: \round($score, 1),
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'asl' => $stats->averageWordsPerSentence,
                 'asw' => $stats->averageSyllablesPerWord,

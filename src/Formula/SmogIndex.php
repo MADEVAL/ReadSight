@@ -37,7 +37,6 @@ final readonly class SmogIndex implements Formula
             score: \round($score, 1),
             gradeLevel: \min(\max(\round($score, 1), 0.0), 18.0),
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'polysyllableCount' => $stats->polysyllableCount,
                 'sentenceCount' => $stats->sentenceCount,

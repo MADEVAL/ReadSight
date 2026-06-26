@@ -19,23 +19,4 @@ final class Pattern
         $this->length = \count($chars);
     }
 
-    public function toString(): string
-    {
-        $result = '';
-
-        foreach ($this->chars as $i => $char) {
-            $weight = $this->weights[$i];
-            if ($weight !== 0) {
-                $result .= (string) $weight;
-            }
-            $result .= $char;
-        }
-
-        $lastWeight = $this->weights[\count($this->chars)];
-        if ($lastWeight !== 0) {
-            $result .= (string) $lastWeight;
-        }
-
-        return $result;
-    }
 }

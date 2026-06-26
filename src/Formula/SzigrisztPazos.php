@@ -28,20 +28,20 @@ final readonly class SzigrisztPazos implements Formula
     public function calculate(TextStatistics $stats, Language $language): FormulaResult
     {
         $wordCount = $stats->wordCount > 0 ? $stats->wordCount : 1;
-        $S = ($stats->syllableCount / $wordCount) * 100.0;
         $P = $stats->averageWordsPerSentence;
 
-        $score = 206.835 - 62.3 * $S / 100.0 - $P;
+        $syllablesPerWord = $stats->syllableCount / $wordCount;
+        $syllablesPer100 = \round($syllablesPerWord * 100.0, 1);
+        $score = \round(206.835 - 62.3 * $syllablesPerWord - $P, 1);
 
         return new FormulaResult(
             formulaName: $this->name(),
             languageCode: $language->code,
-            score: \round($score, 1),
+            score: $score,
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
-                'syllablesPer100' => \round($S, 1),
+                'syllablesPer100' => $syllablesPer100,
                 'wordsPerSentence' => \round($P, 1),
             ],
         );

@@ -93,7 +93,7 @@ final readonly class TextAnalyzer
         return $wordCount / $sentenceCount;
     }
 
-    public function wordsWithNSyllables(string $text, int $n, bool $countProperNouns = true): int
+    public function wordsWithMoreThanNSyllables(string $text, int $n, bool $countProperNouns = true): int
     {
         $words = $this->textSplitter->splitWords($text);
         $count = 0;
@@ -116,7 +116,7 @@ final readonly class TextAnalyzer
 
     public function polysyllableCount(string $text, bool $countProperNouns = true): int
     {
-        return $this->wordsWithNSyllables($text, 2, $countProperNouns);
+        return $this->wordsWithMoreThanNSyllables($text, 2, $countProperNouns);
     }
 
     /** @return array<int, int> */

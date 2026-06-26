@@ -15,7 +15,7 @@ use GlobusStudio\ReadSight\Hyphenation\LiangHyphenator;
 use GlobusStudio\ReadSight\Hyphenation\Source\TexSource;
 use GlobusStudio\ReadSight\Language\JsonLanguageRepository;
 use GlobusStudio\ReadSight\Language\Language;
-use GlobusStudio\ReadSight\Language\LanguageRepository;
+
 use GlobusStudio\ReadSight\Syllable\CompositeSyllableCounter;
 use GlobusStudio\ReadSight\Syllable\HeuristicSyllableCounter;
 use GlobusStudio\ReadSight\Syllable\SyllableCounter;
@@ -32,7 +32,6 @@ final class Engine
     private readonly Hyphenator $hyphenator;
     private readonly SyllableCounter $syllableCounter;
     private readonly TextAnalyzer $text;
-    private readonly LanguageRepository $languageRepository;
     private readonly FormulaRegistry $formulaRegistry;
 
     public function __construct(
@@ -43,8 +42,8 @@ final class Engine
     ) {
         $config = self::resolveConfig($patternsDir, $languagesDir, $cacheDir);
 
-        $this->languageRepository = new JsonLanguageRepository($config->languagesDir);
-        $this->language = $this->languageRepository->find($language);
+        $languageRepository = new JsonLanguageRepository($config->languagesDir);
+        $this->language = $languageRepository->find($language);
 
         $this->hyphenator = $this->loadHyphenator($this->language, $config->patternsDir, $config->cacheDir);
         $this->syllableCounter = $this->loadSyllableCounter();
@@ -176,9 +175,9 @@ final class Engine
         return $this->text->polysyllableCount($text, $countProperNouns);
     }
 
-    public function wordsWithNSyllables(string $text, int $n, bool $countProperNouns = true): int
+    public function wordsWithMoreThanNSyllables(string $text, int $n, bool $countProperNouns = true): int
     {
-        return $this->text->wordsWithNSyllables($text, $n, $countProperNouns);
+        return $this->text->wordsWithMoreThanNSyllables($text, $n, $countProperNouns);
     }
 
     /** @return array<int, int> */
@@ -331,15 +330,19 @@ final class Engine
     private function loadSyllableCounter(): SyllableCounter
     {
         $tex = new TexSyllableCounter($this->hyphenator);
+        $mode = $this->language->syllableMode;
 
-        if ($this->language->syllableHeuristics !== null) {
-            $heuristic = new HeuristicSyllableCounter($this->language->syllableHeuristics);
-            if ($heuristic->hasRules()) {
-                return new CompositeSyllableCounter([$heuristic, $tex]);
-            }
+        if ($mode === 'tex' || $this->language->syllableHeuristics === null) {
+            return $tex;
         }
 
-        return $tex;
+        $heuristic = new HeuristicSyllableCounter($this->language->syllableHeuristics);
+
+        if ($mode === 'heuristic') {
+            return $heuristic;
+        }
+
+        return new CompositeSyllableCounter([$heuristic, $tex]);
     }
 
     private function loadHyphenator(Language $language, string $patternsDir, string $cacheDir): Hyphenator

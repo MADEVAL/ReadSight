@@ -38,7 +38,6 @@ final readonly class AutomatedReadabilityIndex implements Formula
             score: \round($score, 1),
             gradeLevel: \min(\max(\round($score, 1), 0.0), 18.0),
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'charsPerWord' => \round($stats->letterCount / $wordCount, 2),
                 'wordsPerSentence' => \round($wordCount / $sentenceCount, 2),

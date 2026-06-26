@@ -39,7 +39,6 @@ final readonly class GunningFog implements Formula
             score: \round($score, 1),
             gradeLevel: \min(\max(\round($score, 1), 0.0), 19.0),
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'asl' => $stats->averageWordsPerSentence,
                 'polysyllablePct' => $polysyllablePct,

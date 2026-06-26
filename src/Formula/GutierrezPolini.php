@@ -37,7 +37,6 @@ final readonly class GutierrezPolini implements Formula
             score: \round($score, 1),
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'lettersPerWord' => \round($stats->letterCount / $wordCount, 2),
                 'wordsPerSentence' => \round($stats->averageWordsPerSentence, 2),

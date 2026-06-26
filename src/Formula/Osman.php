@@ -42,7 +42,6 @@ final readonly class Osman implements Formula
             score: \round($score, 1),
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'asl' => \round($asl, 2),
                 'avgLetters' => \round($avgLetters, 2),

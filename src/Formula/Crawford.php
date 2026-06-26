@@ -41,7 +41,6 @@ final readonly class Crawford implements Formula
             score: \round($score, 1),
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'avgLettersPerWord' => \round($averageLetters, 2),
                 'sentencesPer100Words' => \round($sentencesPer100, 2),

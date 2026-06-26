@@ -68,7 +68,7 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
             return $this->problemWords[$lower];
         }
 
-        $cleanRaw = \preg_replace('/[^a-z]/', '', $lower);
+        $cleanRaw = \preg_replace('/[^\p{L}]/u', '', $lower);
         if (!\is_string($cleanRaw) || $cleanRaw === '') {
             return 1;
         }
@@ -90,7 +90,7 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
             }
         }
 
-        $vowelParts = \preg_split('/[^' . $this->vowelChars . ']+/', $clean);
+        $vowelParts = \preg_split('/[^' . $this->vowelChars . ']+/u', $clean);
         $vowelRunCount = 0;
         if (\is_array($vowelParts)) {
             foreach ($vowelParts as $part) {
@@ -103,14 +103,14 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
         $count = $vowelRunCount + $affixSyllables;
 
         foreach ($this->subtractPatterns as $pattern) {
-            $matchCount = \preg_match('/' . $pattern . '/', $clean);
+            $matchCount = \preg_match('/' . $pattern . '/u', $clean);
             if ($matchCount !== false) {
                 $count -= $matchCount;
             }
         }
 
         foreach ($this->addPatterns as $pattern) {
-            $matchCount = \preg_match('/' . $pattern . '/', $clean);
+            $matchCount = \preg_match('/' . $pattern . '/u', $clean);
             if ($matchCount !== false) {
                 $count += $matchCount;
             }
@@ -121,11 +121,28 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
 
     public function hasRules(): bool
     {
-        return $this->config !== null
-            && ($this->problemWords !== [] || $this->subtractPatterns !== [] || $this->addPatterns !== []);
+        return $this->config !== null && $this->problemWords !== [];
     }
 
-    /** @return list<string> */
+    public function hasWord(string $word): bool
+    {
+        $word = \trim($word);
+        if ($word === '') {
+            return false;
+        }
+
+        return isset($this->problemWords[\mb_strtolower($word)]);
+    }
+
+    /**
+     * Split a word into syllable parts by arithmetic division.
+     *
+     * Divides the string into {@see countSyllables} roughly equal
+     * character-length chunks. This is a linguistic approximation;
+     * for accurate syllable boundaries use a TeX-based counter.
+     *
+     * @return list<string>
+     */
     public function splitSyllables(string $word): array
     {
         $count = $this->countSyllables($word);

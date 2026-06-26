@@ -13,7 +13,6 @@ final readonly class FormulaResult
         public float $score,
         public ?float $gradeLevel,
         public string $interpretation,
-        public ?string $gradeLabel,
         public array $inputs,
     ) {
     }

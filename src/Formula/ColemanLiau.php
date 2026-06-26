@@ -41,7 +41,6 @@ final readonly class ColemanLiau implements Formula
             score: \round($score, 1),
             gradeLevel: \min(\max(\round($score, 1), 0.0), 18.0),
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'L' => \round($L, 2),
                 'S' => \round($S, 2),

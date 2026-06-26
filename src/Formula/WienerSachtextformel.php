@@ -47,8 +47,13 @@ final readonly class WienerSachtextformel implements Formula
             $score = 0.2007 * $ms + 0.1682 * $sl + 0.1373 * $iw - 2.779;
         } elseif ($variant === 3) {
             $score = 0.2963 * $ms + 0.1905 * $sl - 1.1144;
-        } else {
+        } elseif ($variant === 4) {
             $score = 0.2744 * $ms + 0.2656 * $sl - 1.693;
+        } else {
+            throw new \InvalidArgumentException(\sprintf(
+                'Wiener Sachtextformel variant must be 1-4, got %d.',
+                $variant,
+            ));
         }
 
         $gradeLevel = \min(\max($score, 4.0), 15.0);
@@ -70,7 +75,6 @@ final readonly class WienerSachtextformel implements Formula
             score: $data['score'],
             gradeLevel: $data['gradeLevel'],
             interpretation: $this->interpret($data['score']),
-            gradeLabel: null,
             /** @var array<string, float|int> $data['inputs'] */
             inputs: $data['inputs'],
         );

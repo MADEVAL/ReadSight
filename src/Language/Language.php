@@ -22,6 +22,8 @@ final class Language
     /** @var array<string, mixed>|null */
     public readonly ?array $syllableHeuristics;
 
+    public readonly string $syllableMode;
+
     /**
      * @param array{
      *     code: string,
@@ -33,7 +35,8 @@ final class Language
      *     wordSplitPattern: string,
      *     sentenceBoundaryPattern: string,
      *     formulas?: array<string, array<string, mixed>>,
-     *     syllableHeuristics?: array<string, mixed>
+     *     syllableHeuristics?: array<string, mixed>,
+     *     syllableMode?: string
      * } $data
      */
     public function __construct(array $data)
@@ -49,6 +52,7 @@ final class Language
         $this->sentenceBoundaryPattern = $data['sentenceBoundaryPattern'];
         $this->formulaConfigs = $data['formulas'] ?? [];
         $this->syllableHeuristics = $data['syllableHeuristics'] ?? null;
+        $this->syllableMode = $data['syllableMode'] ?? 'tex';
     }
 
     public function supportsFormula(string $formulaName): bool

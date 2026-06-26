@@ -15,21 +15,22 @@ final readonly class CompositeSyllableCounter implements SyllableCounter
     public function countSyllables(string $word): int
     {
         foreach ($this->chain as $counter) {
-            $result = $counter->countSyllables($word);
-
-            if ($counter instanceof HeuristicSyllableCounter && $counter->hasRules()) {
-                return $result;
+            if ($counter instanceof HeuristicSyllableCounter && $counter->hasWord($word)) {
+                return $counter->countSyllables($word);
             }
         }
 
-        return 1;
+        $chain = $this->chain;
+        $last = \end($chain);
+
+        return $last instanceof SyllableCounter ? $last->countSyllables($word) : 1;
     }
 
     /** @return list<string> */
     public function splitSyllables(string $word): array
     {
         foreach ($this->chain as $counter) {
-            if ($counter instanceof HeuristicSyllableCounter && $counter->hasRules()) {
+            if ($counter instanceof HeuristicSyllableCounter && $counter->hasWord($word)) {
                 return $counter->splitSyllables($word);
             }
         }

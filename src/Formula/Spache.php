@@ -35,7 +35,6 @@ final readonly class Spache implements Formula
             score: \round($score, 1),
             gradeLevel: \min(\max(\round($score, 1), 0.0), 5.0),
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'averageWordsPerSentence' => $stats->averageWordsPerSentence,
                 'difficultWordPct' => \round($difficultPct, 2),

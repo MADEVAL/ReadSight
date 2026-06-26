@@ -108,4 +108,41 @@ final class LanguageTest extends TestCase
         $language = new Language($this->getValidData());
         $this->assertSame(Script::Latin, $language->script);
     }
+
+    public function test_syllable_mode_defaults_to_tex(): void
+    {
+        $language = new Language($this->getValidData());
+        $this->assertSame('tex', $language->syllableMode);
+    }
+
+    public function test_syllable_mode_explicit_composite(): void
+    {
+        $data = $this->getValidData();
+        $data['syllableMode'] = 'composite';
+        $language = new Language($data);
+        $this->assertSame('composite', $language->syllableMode);
+    }
+
+    public function test_syllable_mode_explicit_heuristic(): void
+    {
+        $data = $this->getValidData();
+        $data['syllableMode'] = 'heuristic';
+        $language = new Language($data);
+        $this->assertSame('heuristic', $language->syllableMode);
+    }
+
+    public function test_syllable_heuristics_defaults_to_null(): void
+    {
+        $language = new Language($this->getValidData());
+        $this->assertNull($language->syllableHeuristics);
+    }
+
+    public function test_syllable_heuristics_stores_config(): void
+    {
+        $data = $this->getValidData();
+        $data['syllableHeuristics'] = ['vowelPattern' => '[aeiouy]', 'problemWords' => ['test' => 1]];
+        $language = new Language($data);
+        $this->assertNotNull($language->syllableHeuristics);
+        $this->assertSame('[aeiouy]', $language->syllableHeuristics['vowelPattern']);
+    }
 }

@@ -37,7 +37,6 @@ final readonly class Gulpease implements Formula
             score: \round($score, 1),
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'letterCount' => $stats->letterCount,
                 'wordCount' => $stats->wordCount,

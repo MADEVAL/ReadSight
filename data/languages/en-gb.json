@@ -43,6 +43,7 @@
             "enabled": true
         }
     },
+    "syllableMode": "composite",
     "syllableHeuristics": {
         "vowelPattern": "[aeiouy]",
         "problemWords": {

@@ -41,7 +41,6 @@ final readonly class FogPL implements Formula
             score: \round($score, 1),
             gradeLevel: \min(\max(\round($score, 1), 0.0), 19.0),
             interpretation: $this->interpret($score),
-            gradeLabel: null,
             inputs: [
                 'asl' => \round($asl, 2),
                 'hardWordsPct' => \round($hardWordsPct, 2),

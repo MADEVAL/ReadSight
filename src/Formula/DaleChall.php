@@ -36,7 +36,6 @@ final readonly class DaleChall implements Formula
             score: \round($adjusted, 1),
             gradeLevel: null,
             interpretation: $this->interpret($adjusted),
-            gradeLabel: null,
             inputs: [
                 'difficultWordPct' => \round($difficultPct, 1),
                 'rawScore' => \round($rawScore, 4),

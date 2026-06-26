@@ -194,7 +194,6 @@ final class UniversalFormulaTest extends TestCase
             score: 82.5,
             gradeLevel: 6.0,
             interpretation: 'Easy',
-            gradeLabel: '6th Grade',
             inputs: ['asl' => 5.0, 'asw' => 1.5],
         );
 

@@ -44,7 +44,6 @@ final readonly class Lix implements Formula
             score: \round($score, 2),
             gradeLevel: null,
             interpretation: $this->interpret($score),
-            gradeLabel: $this->interpret($score),
             inputs: [
                 'asl' => $stats->averageWordsPerSentence,
                 'longWordPct' => \round($longWordPct, 2),
