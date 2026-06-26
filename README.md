@@ -10,9 +10,58 @@
 
 ReadSight is a PHP library for measuring text readability across **86 languages**. It implements **17 readability formulas** with language-specific coefficients and uses the Frank M. Liang (TeX) hyphenation algorithm for accurate syllable counting — all with **zero runtime dependencies**.
 
+## See It in Action
+
+Two texts of almost equal length — a plain sentence and a chunk of legal boilerplate:
+
+```php
+$plain = 'We made an app that reads your text. It tells you how easy it is to read. You get a score in one second.';
+$legal = 'The parties acknowledge that any unauthorized disclosure of confidential information may cause irreparable harm. In such an event, the affected party shall be entitled to seek injunctive relief.';
+```
+
+There is no "score everything" call — you loop over the formulas the language supports and call `score()` for each:
+
+```php
+use GlobusStudio\ReadSight\Engine;
+
+$rs = new Engine('en-us');
+
+foreach ($rs->getSupportedFormulas() as $formula) {
+    $result = $rs->score($formula, $legal);
+    // $result->score, $result->gradeLevel, $result->interpretation
+    // ...
+}
+```
+
+For both texts that produces:
+
+```text
++-----------------------+-------------------------+----------------------------+
+| READABILITY FORMULA   | Plain text              | Legalese                   |
++-----------------------+-------------------------+----------------------------+
+| Flesch Reading Ease   | 107.1  Very Easy        | 23.4  Very Hard            |
+| Flesch-Kincaid Grade  | 0.3  g0.3 1st Grade     | 13.5  g13.5 College        |
+| Gunning Fog           | 3.2  g3.2 Very Easy     | 18.5  g18.5 Extremely Hard |
+| SMOG Index            | 3.1  g3.1 3rd Grade     | 15.2  g15.2 College        |
+| Coleman-Liau          | -0.4  g0.0 Kindergarten | 16.5  g16.5 Graduate       |
+| Automated Readability | -2.1  g0.0 Kindergarten | 13.2  g13.2 College        |
+| LIX                   | 8.0  Children's Books   | 49.7  Factual Information  |
+| Dale-Chall            | 5.3  5th-6th grade      | 12.2  Graduate             |
+| Spache                | 2.3  g2.3 2nd Grade     | 6.5  g5.0 Above 4th Grade  |
++-----------------------+-------------------------+----------------------------+
+```
+
+All 9 formulas for `en-us` agree the second text is far harder. The bundled example prints this grid plus text metrics and a syllable histogram, for any text and language:
+
+```bash
+php examples/dashboard.php
+php examples/dashboard.php --lang=de-1996 --file=essay.txt
+```
+
 ## Table of Contents
 
 - [Installation](#installation)
+- [See It in Action](#see-it-in-action)
 - [Quick Start](#quick-start)
 - [Syllable Counting Modes](#syllable-counting-modes)
 - [Demo](#demo)
