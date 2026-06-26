@@ -14,6 +14,7 @@ ReadSight is a PHP library for measuring text readability across **86 languages*
 
 - [Installation](#installation)
 - [Quick Start](#quick-start)
+- [Syllable Counting Modes](#syllable-counting-modes)
 - [Demo](#demo)
 - [Supported Languages](#supported-languages)
 - [Readability Formulas](#readability-formulas)
@@ -47,7 +48,8 @@ $engine = new Engine('en-us');
 
 // Syllable counting
 $engine->syllableCount('banana');        // 3
-$engine->splitWord('hyphenation');       // ['hy', 'phen', 'ation']
+$engine->splitSyllables('hyphenation');  // ['hyp', 'hen', 'ati', 'on']  (4 syllables, heuristic split)
+$engine->splitWord('hyphenation');       // ['hy', 'phen', 'ation']      (TeX hyphenation points)
 
 // Text analysis
 $stats = $engine->analyze('The quick brown fox jumps over the lazy dog.');
@@ -63,6 +65,36 @@ echo "Gunning Fog: {$fog->score} (grade {$fog->gradeLevel})\n";
 $lix = $engine->lix($text);
 echo "LIX: {$lix->score} - {$lix->interpretation}\n";
 ```
+
+## Syllable Counting Modes
+
+ReadSight has three syllable counting modes, configured per language via `syllableMode` in `data/languages/*.json`:
+
+| Mode | How it works | `count` accuracy | `split` accuracy |
+|---|---|---|---|
+| **`heuristic`** | Vowel patterns + word list + prefix/suffix rules | ✓ | ≈ approximate |
+| **`tex`** | Frank M. Liang hyphenation algorithm (TeX `.tex` patterns) | ✓ | ✓ exact |
+| **`composite`** | Heuristic first, TeX as fallback | ✓ | ≈ approximate (uses heuristic split) |
+
+The default mode is **`tex`**. **84 languages use `tex`**; **2 use `composite`** (`en-us`, `en-gb`).
+
+### Example: "hyphenation" in each mode
+
+```php
+$engine = new Engine('en-us');     // composite mode - heuristic wins
+$engine->syllableCount('hyphenation');    // 4 ✓ (in problemWords list)
+$engine->splitSyllables('hyphenation');   // ['hyp', 'hen', 'ati', 'on']  - heuristic: equal-width split, ≈ approximate
+$engine->splitWord('hyphenation');        // ['hy', 'phen', 'ation']      - TeX hyphenator: exact points
+
+$engine = new Engine('de-1996');   // tex mode
+$engine->syllableCount('hyphenation');    // 4 ✓ (TeX patterns)
+$engine->splitSyllables('hyphenation');   // ['hy', 'phena', 'ti', 'on']  - TeX: exact
+$engine->splitWord('hyphenation');        // ['hy', 'phena', 'ti', 'on']  - same, both use TeX
+```
+
+> **Tip:** `splitWord()` always uses the TeX hyphenator (exact). `splitSyllables()` may use the heuristic split (approximate) in `composite`/`heuristic` modes. For syllable *counts* both are correct.
+
+> **Note:** `addHyphenations()` adds overrides to the TeX hyphenator. These affect `splitWord()` but NOT `splitSyllables()` in `composite`/`heuristic` modes (the heuristic counter doesn't see them).
 
 ## Demo
 
@@ -168,6 +200,7 @@ $result->inputs;          // array<string, float|int> - intermediate values for 
 ```php
 $engine->syllableCount(string $word): int
 $engine->splitWord(string $word): list<string>
+$engine->splitSyllables(string $word): list<string>
 $engine->wordCount(string $text): int
 $engine->sentenceCount(string $text): int
 $engine->letterCount(string $text): int
@@ -179,6 +212,8 @@ $engine->wordsWithMoreThanNSyllables(string $text, int $n, bool $countProperNoun
 $engine->histogramSyllables(string $text): array<int, int>
 $engine->analyze(string $text): TextStatistics
 ```
+
+> **`splitSyllables` vs `splitWord`:** `splitSyllables` may use the heuristic ≈approximate split (depends on the language's `syllableMode`). `splitWord` always uses the TeX hyphenator for exact hyphenation points. Syllable *counts* are accurate in all modes. See [Syllable Counting Modes](#syllable-counting-modes).
 
 #### Formula Methods
 
@@ -232,10 +267,11 @@ $engine = new Engine(
     cacheDir: '/custom/cache',
 );
 
-// Add custom hyphenation rules
+// Add custom hyphenation rules (affects splitWord, not splitSyllables in composite/heuristic modes)
 $engine->addHyphenations([
     'customword' => 'cus-tom-word',
 ]);
+$engine->splitWord('customword');  // ['cus', 'tom', 'word']
 ```
 
 ## Architecture
