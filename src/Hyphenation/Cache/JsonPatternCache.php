@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace GlobusStudio\ReadSight\Hyphenation\Cache;
 
-use GlobusStudio\ReadSight\Hyphenation\HyphenationException;
+use GlobusStudio\ReadSight\Hyphenation\HyphenationOverride;
 use GlobusStudio\ReadSight\Hyphenation\HyphenationExceptionsCollection;
 use GlobusStudio\ReadSight\Hyphenation\Pattern;
 use GlobusStudio\ReadSight\Hyphenation\PatternsCollection;
 
 final readonly class JsonPatternCache implements PatternCache
 {
-    private const CACHE_VERSION = '1.0';
+    private const CACHE_VERSION = '2.0';
 
     public function __construct(
         private string $cacheDir,
@@ -51,7 +51,7 @@ final readonly class JsonPatternCache implements PatternCache
 
         $exceptions = new HyphenationExceptionsCollection();
         foreach ($data['exceptions'] as $word => $hyphenated) {
-            $exceptions->add(new HyphenationException($word, $hyphenated));
+            $exceptions->add(new HyphenationOverride($word, $hyphenated));
         }
 
         return [

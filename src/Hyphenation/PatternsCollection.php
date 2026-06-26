@@ -50,6 +50,12 @@ final class PatternsCollection
         return $this->patterns[$subword] ?? null;
     }
 
+    /** @return list<string> pattern keys starting with the given character */
+    public function getByFirstChar(string $char): array
+    {
+        return $this->index[$char] ?? [];
+    }
+
     public function count(): int
     {
         return \count($this->patterns);

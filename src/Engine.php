@@ -12,7 +12,7 @@ use GlobusStudio\ReadSight\Formula\WienerSachtextformel;
 use GlobusStudio\ReadSight\Hyphenation\Cache\JsonPatternCache;
 use GlobusStudio\ReadSight\Hyphenation\Hyphenator;
 use GlobusStudio\ReadSight\Hyphenation\LiangHyphenator;
-use GlobusStudio\ReadSight\Hyphenation\Source\PatTxtSource;
+use GlobusStudio\ReadSight\Hyphenation\Source\TexSource;
 use GlobusStudio\ReadSight\Language\JsonLanguageRepository;
 use GlobusStudio\ReadSight\Language\Language;
 use GlobusStudio\ReadSight\Language\LanguageRepository;
@@ -333,14 +333,8 @@ final class Engine
             }
         }
 
-        $patFile = $patternsDir . '/hyph-' . $languageCode . '.pat.txt';
-        $hypFile = $patternsDir . '/hyph-' . $languageCode . '.hyp.txt';
-
-        if (!\file_exists($hypFile)) {
-            $hypFile = null;
-        }
-
-        $source = new PatTxtSource($patFile, $hypFile);
+        $texFile = $patternsDir . '/hyph-' . $languageCode . '.tex';
+        $source = new TexSource($texFile);
         $loaded = $source->load();
 
         $cache->set($languageCode, $loaded);

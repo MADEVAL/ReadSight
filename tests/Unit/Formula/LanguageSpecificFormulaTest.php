@@ -8,6 +8,7 @@ use GlobusStudio\ReadSight\Formula\Crawford;
 use GlobusStudio\ReadSight\Formula\DaleChall;
 use GlobusStudio\ReadSight\Formula\FernandezHuerta;
 use GlobusStudio\ReadSight\Formula\FogPL;
+use GlobusStudio\ReadSight\Formula\Formula;
 use GlobusStudio\ReadSight\Formula\Gulpease;
 use GlobusStudio\ReadSight\Formula\GutierrezPolini;
 use GlobusStudio\ReadSight\Formula\Osman;
@@ -16,6 +17,7 @@ use GlobusStudio\ReadSight\Formula\SzigrisztPazos;
 use GlobusStudio\ReadSight\Formula\WienerSachtextformel;
 use GlobusStudio\ReadSight\Language\Language;
 use GlobusStudio\ReadSight\Text\TextStatistics;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class LanguageSpecificFormulaTest extends TestCase
@@ -344,5 +346,31 @@ final class LanguageSpecificFormulaTest extends TestCase
         $langs = $formula->supportedLanguages();
         $this->assertContains('en-us', $langs);
         $this->assertContains('en-gb', $langs);
+    }
+
+    /** @return array<string, array{0: object}> */
+    /** @return array<string, array{0: Formula}> */
+    public static function formulaMetadataProvider(): array
+    {
+        return [
+            'wiener_sachtextformel' => [new WienerSachtextformel()],
+            'gulpease' => [new Gulpease()],
+            'fernandez_huerta' => [new FernandezHuerta()],
+            'szigriszt_pazos' => [new SzigrisztPazos()],
+            'gutierrez_polini' => [new GutierrezPolini()],
+            'crawford' => [new Crawford()],
+            'fog_pl' => [new FogPL()],
+            'osman' => [new Osman()],
+            'dale_chall' => [new DaleChall()],
+            'spache' => [new Spache()],
+        ];
+    }
+
+    #[DataProvider('formulaMetadataProvider')]
+    public function test_formula_metadata_is_non_empty(Formula $formula): void
+    {
+        $this->assertNotEmpty($formula->name());
+        $this->assertNotEmpty($formula->description());
+        $this->assertNotEmpty($formula->supportedLanguages());
     }
 }

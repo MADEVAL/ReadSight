@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GlobusStudio\ReadSight\Tests\Unit\Hyphenation;
 
-use GlobusStudio\ReadSight\Hyphenation\HyphenationException;
+use GlobusStudio\ReadSight\Hyphenation\HyphenationOverride;
 use GlobusStudio\ReadSight\Hyphenation\HyphenationExceptionsCollection;
 use GlobusStudio\ReadSight\Hyphenation\LiangHyphenator;
 use GlobusStudio\ReadSight\Hyphenation\Pattern;
@@ -41,7 +41,7 @@ final class LiangHyphenatorTest extends TestCase
 
     public function test_exception_word_is_respected(): void
     {
-        $this->exceptions->add(new HyphenationException('associate', 'as-so-ci-ate'));
+        $this->exceptions->add(new HyphenationOverride('associate', 'as-so-ci-ate'));
         $hyphenator = $this->createHyphenator();
 
         $result = $hyphenator->hyphenate('associate');
@@ -50,7 +50,7 @@ final class LiangHyphenatorTest extends TestCase
 
     public function test_exception_case_insensitive(): void
     {
-        $this->exceptions->add(new HyphenationException('table', 'ta-ble'));
+        $this->exceptions->add(new HyphenationOverride('table', 'ta-ble'));
         $hyphenator = $this->createHyphenator();
 
         $result = $hyphenator->hyphenate('TABLE');
@@ -68,7 +68,7 @@ final class LiangHyphenatorTest extends TestCase
 
     public function test_count_syllables(): void
     {
-        $this->exceptions->add(new HyphenationException('associate', 'as-so-ci-ate'));
+        $this->exceptions->add(new HyphenationOverride('associate', 'as-so-ci-ate'));
         $hyphenator = $this->createHyphenator();
 
         $this->assertSame(4, $hyphenator->countSyllables('associate'));

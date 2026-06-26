@@ -9,7 +9,7 @@ final class HyphenationExceptionsCollection
     /** @var array<string, string> Word (lowercased, no hyphens) => hyphenated form (with hyphens) */
     private array $exceptions = [];
 
-    public function add(HyphenationException $exception): void
+    public function add(HyphenationOverride $exception): void
     {
         $this->exceptions[$exception->word] = $exception->hyphenated;
     }

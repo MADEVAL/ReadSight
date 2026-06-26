@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Language config generator for ReadSight.
- * Generates JSON configs for all languages with .pat.txt files.
+ * Generates JSON configs for all languages with .tex files.
  *
  * Usage: php tools/generate-languages.php
  */
@@ -270,14 +270,10 @@ $freCoefficients = [
 
 $generated = 0;
 
-$patFiles = glob($patternsDir . '/hyph-*.pat.txt');
-if ($patFiles === false) {
-    echo "No pattern files found.\n";
-    exit(1);
-}
+$patFiles = glob($patternsDir . '/hyph-*.tex');
 
 foreach ($patFiles as $patFile) {
-    $filename = basename($patFile, '.pat.txt');
+    $filename = basename($patFile, '.tex');
     $code = substr($filename, 5);
 
     $name = $languageNames[$code][0] ?? $code;

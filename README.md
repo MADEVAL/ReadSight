@@ -3,7 +3,7 @@
 [![CI](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml/badge.svg)](https://github.com/MADEVAL/ReadSight/actions/workflows/ci.yml)
 [![PHP](https://img.shields.io/badge/PHP-%3E%3D%208.2-777bb3?logo=php)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-189%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
+[![Tests](https://img.shields.io/badge/tests-232%20passed-brightgreen)](https://github.com/MADEVAL/ReadSight)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%20max-brightgreen)](https://phpstan.org/)
 [![Languages](https://img.shields.io/badge/languages-79-9cf)](https://github.com/MADEVAL/ReadSight)
 [![Formulas](https://img.shields.io/badge/formulas-17-orange)](https://github.com/MADEVAL/ReadSight)
@@ -207,7 +207,7 @@ $engine->osman(string $text): FormulaResult
 | Engine init (de-1996, first load) | ~380 ms |
 
 Caching: compiled patterns are stored as JSON in the `cache/` directory.
-First load parses `.pat.txt` files; subsequent loads use the pre-compiled cache.
+First load parses `.tex` files (native hyph-utf8 format); subsequent loads use the pre-compiled cache.
 
 ## Custom Configuration
 
@@ -238,7 +238,8 @@ $engine->addHyphenations([
 Engine (facade)
   ├── TextAnalyzer (syllable counting, text metrics)
   │   ├── LiangHyphenator (TeX hyphenation algorithm)
-  │   │   ├── PatternsCollection (from .pat.txt)
+  ┃   │   ├── TexSource (parses .tex) / PatTxtSource (legacy .pat.txt)
+  ┃   │   ├── PatternsCollection (pattern data)
   │   │   ├── ExceptionsCollection (from .hyp.txt)
   │   │   └── JsonPatternCache (compiled patterns)
   │   └── TextSplitter (word/sentence/letter counting)
@@ -253,7 +254,7 @@ Engine (facade)
 
 - **TeX hyphenation patterns**: [hyph-utf8](https://ctan.org/pkg/hyph-utf8) version 2026-02-21 -
   the canonical TeX hyphenation repository maintained by the TeX Users Group (TUG).
-  99 files: 79 `.pat.txt` + 20 `.hyp.txt` covering 79 languages.
+   87 files: 79 `.tex` + fallback `.pat.txt` / `.hyp.txt` covering 79 languages.
   Packaged under each pattern file's original license.
 - **FRE coefficients**: Amstad (DE), Oborneva (RU), Fernandez-Huerta (ES),
   Vacca-Franchina (IT), Kandel-Moles (FR), Douma (NL), Martins (PT), Ateşman (TR)
@@ -265,7 +266,7 @@ Engine (facade)
 ```bash
 composer install          # Install dependencies
 
-composer test             # Run PHPUnit (189 tests)
+composer test             # Run PHPUnit (232 tests)
 composer test:coverage    # With HTML coverage report
 composer analyse          # PHPStan level max
 composer cs:check         # PHP CS Fixer (dry-run)
@@ -277,12 +278,12 @@ composer check            # All checks: CS + PHPStan + Tests
 
 | Metric | Value |
 |---|---|
-| Tests | **189** |
-| Assertions | **982** |
+| Tests | **232** |
+| Assertions | **1 071** |
 | PHPStan | **Level max, 0 errors** |
 | PHP | 8.5.4 |
 | Source classes | 40 |
-| Test classes | 16 |
+| Test classes | 19 |
 | Supported languages | 79 |
 | Writing systems | 16 |
 | Readability formulas | 17 |

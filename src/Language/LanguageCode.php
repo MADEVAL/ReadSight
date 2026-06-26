@@ -10,7 +10,12 @@ final class LanguageCode
 
     public function __construct(string $value)
     {
-        $this->value = \mb_strtolower(\trim($value));
+        $this->value = self::normalize($value);
+    }
+
+    public static function normalize(string $code): string
+    {
+        return \mb_strtolower(\trim($code));
     }
 
     public function equals(self $other): bool

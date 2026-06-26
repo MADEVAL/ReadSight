@@ -18,7 +18,7 @@ final class JsonLanguageRepository implements LanguageRepository
 
     public function find(string $languageCode): Language
     {
-        $normalized = \mb_strtolower(\trim($languageCode));
+        $normalized = LanguageCode::normalize($languageCode);
 
         if (isset($this->cache[$normalized])) {
             return $this->cache[$normalized];
@@ -77,7 +77,7 @@ final class JsonLanguageRepository implements LanguageRepository
 
     public function exists(string $languageCode): bool
     {
-        $normalized = \mb_strtolower(\trim($languageCode));
+        $normalized = LanguageCode::normalize($languageCode);
 
         if (isset($this->cache[$normalized])) {
             return true;

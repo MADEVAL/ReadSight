@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GlobusStudio\ReadSight\Tests\Unit\Hyphenation;
 
 use GlobusStudio\ReadSight\Hyphenation\Cache\JsonPatternCache;
-use GlobusStudio\ReadSight\Hyphenation\HyphenationException;
+use GlobusStudio\ReadSight\Hyphenation\HyphenationOverride;
 use GlobusStudio\ReadSight\Hyphenation\HyphenationExceptionsCollection;
 use GlobusStudio\ReadSight\Hyphenation\Pattern;
 use GlobusStudio\ReadSight\Hyphenation\PatternsCollection;
@@ -61,7 +61,7 @@ final class JsonPatternCacheTest extends TestCase
         $patterns->add(new Pattern(['a', 'b', 'a', 'n'], [0, 5, 0, 0, 0]));
 
         $exceptions = new HyphenationExceptionsCollection();
-        $exceptions->add(new HyphenationException('table', 'ta-ble'));
+        $exceptions->add(new HyphenationOverride('table', 'ta-ble'));
 
         $data = [
             'patterns' => $patterns,

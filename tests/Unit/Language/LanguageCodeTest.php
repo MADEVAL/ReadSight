@@ -46,4 +46,11 @@ final class LanguageCodeTest extends TestCase
         $code = new LanguageCode('DE-1996');
         $this->assertSame('de-1996', $code->value);
     }
+
+    public function test_normalize_static_factory(): void
+    {
+        $this->assertSame('en-us', LanguageCode::normalize('EN-US'));
+        $this->assertSame('ru', LanguageCode::normalize('  ru  '));
+        $this->assertSame('de-1996', LanguageCode::normalize('DE-1996'));
+    }
 }

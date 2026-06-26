@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace GlobusStudio\ReadSight\Tests\Integration;
 
 use GlobusStudio\ReadSight\Engine;
+use GlobusStudio\ReadSight\Config;
 use GlobusStudio\ReadSight\Exception\EmptyTextException;
 use GlobusStudio\ReadSight\Exception\UnsupportedLanguageException;
 use PHPUnit\Framework\TestCase;
@@ -31,6 +32,7 @@ final class EngineTest extends TestCase
 
     protected function tearDown(): void
     {
+        Engine::setDefaultConfig(Config::default());
         $this->rmDir($this->patternsDir);
         $this->rmDir($this->languagesDir);
         $this->rmDir($this->cacheDir);
@@ -67,8 +69,8 @@ final class EngineTest extends TestCase
 
     private function createTestPatterns(): void
     {
-        \file_put_contents($this->patternsDir . '/hyph-en-us.pat.txt', ".ach4\n.ad4der\n.af1t\n.al3t\n.am5at\n.an5c\n.ang4\n.ani5m\n.ant4\n.an3te\n");
-        \file_put_contents($this->patternsDir . '/hyph-en-us.hyp.txt', "as-so-ci-ate\nta-ble\n");
+        $tex = "\\patterns{\n.ach4\n.ad4der\n.af1t\n.al3t\n.am5at\n.an5c\n.ang4\n.ani5m\n.ant4\n.an3te\n}\n\\hyphenation{\nas-so-ci-ate\nta-ble\n}\n";
+        \file_put_contents($this->patternsDir . '/hyph-en-us.tex', $tex);
     }
 
     public function test_creates_engine_for_supported_language(): void
@@ -203,5 +205,50 @@ final class EngineTest extends TestCase
         $engine = new Engine('en-us', $this->patternsDir, $this->languagesDir, $this->cacheDir);
         $hyphenator = $engine->getHyphenator();
         $this->assertSame(4, $hyphenator->countSyllables('associate'));
+    }
+
+    public function test_cache_hit_avoids_reloading(): void
+    {
+        $engine1 = new Engine('en-us', $this->patternsDir, $this->languagesDir, $this->cacheDir);
+        $this->assertSame(4, $engine1->syllableCount('associate'));
+
+        $engine2 = new Engine('en-us', $this->patternsDir, $this->languagesDir, $this->cacheDir);
+        $this->assertSame(4, $engine2->syllableCount('associate'));
+    }
+
+    public function test_static_default_config(): void
+    {
+        $config = new Config($this->patternsDir, $this->languagesDir, $this->cacheDir);
+        Engine::setDefaultConfig($config);
+
+        $engine = Engine::withConfig('en-us', $config);
+        $this->assertSame('en-us', $engine->getLanguage()->code);
+    }
+
+    public function test_get_supported_languages(): void
+    {
+        $languages = Engine::getSupportedLanguages();
+        $this->assertContains('en-us', $languages);
+    }
+
+    public function test_get_supported_languages_with_custom_config(): void
+    {
+        $config = new Config($this->patternsDir, $this->languagesDir, $this->cacheDir);
+        $languages = Engine::getSupportedLanguages($config);
+        $this->assertContains('en-us', $languages);
+    }
+
+    public function test_polysyllable_count_without_proper_nouns(): void
+    {
+        $engine = new Engine('en-us', $this->patternsDir, $this->languagesDir, $this->cacheDir);
+        $count = $engine->polysyllableCount('the cat associate', false);
+        $this->assertSame(1, $count);
+    }
+
+    public function test_flesch_reading_ease_with_zero_words_uses_fallback(): void
+    {
+        $engine = new Engine('en-us', $this->patternsDir, $this->languagesDir, $this->cacheDir);
+        $result = $engine->fleschReadingEase('word');
+        $this->assertGreaterThan(0.0, $result->score);
     }
 }

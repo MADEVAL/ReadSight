@@ -8,6 +8,7 @@ use GlobusStudio\ReadSight\Formula\AutomatedReadabilityIndex;
 use GlobusStudio\ReadSight\Formula\ColemanLiau;
 use GlobusStudio\ReadSight\Formula\FleschKincaidGradeLevel;
 use GlobusStudio\ReadSight\Formula\FleschReadingEase;
+use GlobusStudio\ReadSight\Formula\Formula;
 use GlobusStudio\ReadSight\Formula\FormulaRegistry;
 use GlobusStudio\ReadSight\Formula\FormulaResult;
 use GlobusStudio\ReadSight\Formula\GunningFog;
@@ -15,6 +16,7 @@ use GlobusStudio\ReadSight\Formula\Lix;
 use GlobusStudio\ReadSight\Formula\SmogIndex;
 use GlobusStudio\ReadSight\Language\Language;
 use GlobusStudio\ReadSight\Text\TextStatistics;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class UniversalFormulaTest extends TestCase
@@ -200,5 +202,64 @@ final class UniversalFormulaTest extends TestCase
         $this->assertSame(82.5, $result->score);
         $this->assertSame(6.0, $result->gradeLevel);
         $this->assertSame('Easy', $result->interpretation);
+    }
+
+    public function test_ari_with_zero_words_falls_back_to_one(): void
+    {
+        $formula = new AutomatedReadabilityIndex();
+        $zeroStats = new TextStatistics(0, 0, 1, 0, 0, 0.0, 0.0, 0, []);
+
+        $result = $formula->calculate($zeroStats, $this->language);
+        $this->addToAssertionCount(1);
+    }
+
+    public function test_ari_with_zero_sentences_falls_back_to_one(): void
+    {
+        $formula = new AutomatedReadabilityIndex();
+        $zeroSentenceStats = new TextStatistics(10, 5, 0, 10, 1, 2.0, 0.0, 0, [1 => 1, 2 => 2, 3 => 2]);
+
+        $result = $formula->calculate($zeroSentenceStats, $this->language);
+        $this->addToAssertionCount(1);
+    }
+
+    public function test_coleman_liau_with_zero_words(): void
+    {
+        $formula = new ColemanLiau();
+        $zeroStats = new TextStatistics(0, 0, 0, 0, 0, 0.0, 0.0, 0, []);
+
+        $result = $formula->calculate($zeroStats, $this->language);
+        $this->addToAssertionCount(1);
+    }
+
+    public function test_smog_with_zero_sentences(): void
+    {
+        $formula = new SmogIndex();
+        $zeroStats = new TextStatistics(10, 5, 0, 10, 1, 2.0, 0.0, 0, [1 => 3, 2 => 2]);
+
+        $result = $formula->calculate($zeroStats, $this->language);
+        $this->addToAssertionCount(1);
+    }
+
+    /** @return array<string, array{0: object}> */
+    /** @return array<string, array{0: Formula}> */
+    public static function universalFormulaMetadataProvider(): array
+    {
+        return [
+            'flesch_reading_ease' => [new FleschReadingEase()],
+            'flesch_kincaid' => [new FleschKincaidGradeLevel()],
+            'gunning_fog' => [new GunningFog()],
+            'smog' => [new SmogIndex()],
+            'coleman_liau' => [new ColemanLiau()],
+            'ari' => [new AutomatedReadabilityIndex()],
+            'lix' => [new Lix()],
+        ];
+    }
+
+    #[DataProvider('universalFormulaMetadataProvider')]
+    public function test_formula_metadata_is_non_empty(Formula $formula): void
+    {
+        $this->assertNotEmpty($formula->name());
+        $this->assertNotEmpty($formula->description());
+        $this->assertNotEmpty($formula->supportedLanguages());
     }
 }
