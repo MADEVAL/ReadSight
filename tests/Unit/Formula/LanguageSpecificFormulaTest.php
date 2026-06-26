@@ -348,7 +348,6 @@ final class LanguageSpecificFormulaTest extends TestCase
         $this->assertContains('en-gb', $langs);
     }
 
-    /** @return array<string, array{0: object}> */
     /** @return array<string, array{0: Formula}> */
     public static function formulaMetadataProvider(): array
     {

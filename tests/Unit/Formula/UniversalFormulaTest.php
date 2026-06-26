@@ -210,7 +210,7 @@ final class UniversalFormulaTest extends TestCase
         $zeroStats = new TextStatistics(0, 0, 1, 0, 0, 0.0, 0.0, 0, []);
 
         $result = $formula->calculate($zeroStats, $this->language);
-        $this->addToAssertionCount(1);
+        $this->assertSame(-20.9, $result->score);
     }
 
     public function test_ari_with_zero_sentences_falls_back_to_one(): void
@@ -219,7 +219,7 @@ final class UniversalFormulaTest extends TestCase
         $zeroSentenceStats = new TextStatistics(10, 5, 0, 10, 1, 2.0, 0.0, 0, [1 => 1, 2 => 2, 3 => 2]);
 
         $result = $formula->calculate($zeroSentenceStats, $this->language);
-        $this->addToAssertionCount(1);
+        $this->assertSame(-9.5, $result->score);
     }
 
     public function test_coleman_liau_with_zero_words(): void
@@ -228,7 +228,7 @@ final class UniversalFormulaTest extends TestCase
         $zeroStats = new TextStatistics(0, 0, 0, 0, 0, 0.0, 0.0, 0, []);
 
         $result = $formula->calculate($zeroStats, $this->language);
-        $this->addToAssertionCount(1);
+        $this->assertEqualsWithDelta(-45.4, $result->score, 0.1);
     }
 
     public function test_smog_with_zero_sentences(): void
@@ -237,10 +237,9 @@ final class UniversalFormulaTest extends TestCase
         $zeroStats = new TextStatistics(10, 5, 0, 10, 1, 2.0, 0.0, 0, [1 => 3, 2 => 2]);
 
         $result = $formula->calculate($zeroStats, $this->language);
-        $this->addToAssertionCount(1);
+        $this->assertEqualsWithDelta(8.8, $result->score, 0.1);
     }
 
-    /** @return array<string, array{0: object}> */
     /** @return array<string, array{0: Formula}> */
     public static function universalFormulaMetadataProvider(): array
     {

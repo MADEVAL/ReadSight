@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class HyphenationOverrideTest extends TestCase
 {
-    public function test_creates_exception(): void
+    public function test_creates_override(): void
     {
         $e = new HyphenationOverride('associate', 'as-so-ci-ate');
         $this->assertSame('associate', $e->word);

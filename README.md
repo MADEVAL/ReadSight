@@ -238,9 +238,9 @@ $engine->addHyphenations([
 Engine (facade)
   ├── TextAnalyzer (syllable counting, text metrics)
   │   ├── LiangHyphenator (TeX hyphenation algorithm)
-  ┃   │   ├── TexSource (parses .tex) / PatTxtSource (legacy .pat.txt)
-  ┃   │   ├── PatternsCollection (pattern data)
-  │   │   ├── ExceptionsCollection (from .hyp.txt)
+  │   │   ├── TexSource (parses .tex from hyph-utf8)
+  │   │   ├── PatternsCollection (pattern data)
+  │   │   ├── HyphenationExceptionsCollection (word overrides)
   │   │   └── JsonPatternCache (compiled patterns)
   │   └── TextSplitter (word/sentence/letter counting)
   ├── Language (JSON config per language)
@@ -254,7 +254,7 @@ Engine (facade)
 
 - **TeX hyphenation patterns**: [hyph-utf8](https://ctan.org/pkg/hyph-utf8) version 2026-02-21 -
   the canonical TeX hyphenation repository maintained by the TeX Users Group (TUG).
-   87 files: 79 `.tex` + fallback `.pat.txt` / `.hyp.txt` covering 79 languages.
+   87 `.tex` pattern files from hyph-utf8 covering 87 language variants.
   Packaged under each pattern file's original license.
 - **FRE coefficients**: Amstad (DE), Oborneva (RU), Fernandez-Huerta (ES),
   Vacca-Franchina (IT), Kandel-Moles (FR), Douma (NL), Martins (PT), Ateşman (TR)
@@ -282,8 +282,8 @@ composer check            # All checks: CS + PHPStan + Tests
 | Assertions | **1 071** |
 | PHPStan | **Level max, 0 errors** |
 | PHP | 8.5.4 |
-| Source classes | 40 |
-| Test classes | 19 |
+| Source classes | 48 |
+| Test classes | 18 |
 | Supported languages | 79 |
 | Writing systems | 16 |
 | Readability formulas | 17 |
