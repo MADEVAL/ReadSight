@@ -285,6 +285,17 @@ $freCoefficients = [
     'tr' => ['base' => 198.825, 'aslMult' => 40.175, 'aswMult' => 2.61],
 ];
 
+// Cyrillic Slavic languages where one vowel letter equals one syllable.
+// TeX hyphenation patterns are optimised for line-breaking, not phonetic
+// syllabification, and under-/over-count syllables for these scripts, so
+// they use vowel-based heuristic counting instead.
+$vowelHeuristics = [
+    'ru' => '[аеёиоуыэюя]',
+    'uk' => '[аеиоуюяєії]',
+    'be' => '[аеёіоуыэюя]',
+    'bg' => '[аеиоуъюя]',
+];
+
 $generated = 0;
 
 $patFiles = glob($patternsDir . '/hyph-*.tex');
@@ -367,8 +378,17 @@ foreach ($patFiles as $patFile) {
         'letterPattern' => $patterns['letterPattern'],
         'wordSplitPattern' => $patterns['wordSplitPattern'],
         'sentenceBoundaryPattern' => $patterns['sentenceBoundaryPattern'],
-        'formulas' => (object) $formulas,
     ];
+
+    if (isset($vowelHeuristics[$code])) {
+        $config['syllableMode'] = 'heuristic';
+        $config['syllableHeuristics'] = [
+            'vowelPattern' => $vowelHeuristics[$code],
+            'vowelMode' => 'individual',
+        ];
+    }
+
+    $config['formulas'] = (object) $formulas;
 
     $json = json_encode($config, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 

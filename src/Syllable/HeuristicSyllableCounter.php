@@ -23,6 +23,8 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
 
     private string $vowelChars;
 
+    private string $vowelMode;
+
     /**
      * @param array<string, mixed>|null $config
      */
@@ -52,6 +54,9 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
         $vowelRaw = $config['vowelPattern'] ?? null;
         $vowelPattern = \is_string($vowelRaw) ? $vowelRaw : '[aeiouy]';
         $this->vowelChars = \trim($vowelPattern, '[]');
+
+        $vowelModeRaw = $config['vowelMode'] ?? null;
+        $this->vowelMode = $vowelModeRaw === 'individual' ? 'individual' : 'cluster';
     }
 
     public function countSyllables(string $word): int
@@ -90,15 +95,7 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
             }
         }
 
-        $vowelParts = \preg_split('/[^' . $this->vowelChars . ']+/u', $clean);
-        $vowelRunCount = 0;
-        if (\is_array($vowelParts)) {
-            foreach ($vowelParts as $part) {
-                if ($part !== '') {
-                    $vowelRunCount++;
-                }
-            }
-        }
+        $vowelRunCount = $this->countVowelGroups($clean);
 
         $count = $vowelRunCount + $affixSyllables;
 
@@ -117,6 +114,35 @@ final readonly class HeuristicSyllableCounter implements SyllableCounter
         }
 
         return \max((int) $count, 1);
+    }
+
+    /**
+     * Count syllable-bearing vowel units in a cleaned word.
+     *
+     * In "cluster" mode each run of consecutive vowels counts as one
+     * syllable (English-style diphthongs). In "individual" mode each vowel
+     * letter counts as its own syllable (Slavic Cyrillic languages, where
+     * one vowel = one syllable).
+     */
+    private function countVowelGroups(string $clean): int
+    {
+        if ($this->vowelMode === 'individual') {
+            $matches = \preg_match_all('/[' . $this->vowelChars . ']/u', $clean);
+
+            return $matches === false ? 0 : $matches;
+        }
+
+        $vowelParts = \preg_split('/[^' . $this->vowelChars . ']+/u', $clean);
+        $vowelRunCount = 0;
+        if (\is_array($vowelParts)) {
+            foreach ($vowelParts as $part) {
+                if ($part !== '') {
+                    $vowelRunCount++;
+                }
+            }
+        }
+
+        return $vowelRunCount;
     }
 
     public function hasRules(): bool

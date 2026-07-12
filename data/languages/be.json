@@ -10,6 +10,11 @@
     "letterPattern": "[А-Яа-яЁёҐ-ӿЀ-ӿ]",
     "wordSplitPattern": "[^\\p{L}'’-]+",
     "sentenceBoundaryPattern": "[.!?…]+",
+    "syllableMode": "heuristic",
+    "syllableHeuristics": {
+        "vowelPattern": "[аеёіоуыэюя]",
+        "vowelMode": "individual"
+    },
     "formulas": {
         "gunning_fog": {
             "enabled": true

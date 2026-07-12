@@ -327,7 +327,7 @@ final class LanguageSpecificFormulaTest extends TestCase
                 wordCount: $wordCount,
                 sentenceCount: 1,
                 syllableCount: $wordCount,
-                polysyllableCount: $wordCount - ($histogram[1] ?? 0),
+                polysyllableCount: $wordCount - $histogram[1],
                 averageSyllablesPerWord: $asw,
                 averageWordsPerSentence: (float) $wordCount,
                 longWordCount: 0,

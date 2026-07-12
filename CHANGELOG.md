@@ -2,6 +2,24 @@
 
 All notable changes to ReadSight will be documented in this file.
 
+## [1.0.7] - 2026-07-12
+
+### Fixed
+- Syllable counting for Cyrillic Slavic languages no longer relies on TeX
+  hyphenation, which under-/over-counted syllables (e.g. Russian `дыхание`
+  returned 3 instead of 4). These languages now use vowel-based counting where
+  one vowel letter equals one syllable.
+
+### Added
+- `vowelMode` option for `syllableHeuristics` (`"cluster"` default — each run of
+  consecutive vowels counts as one syllable; `"individual"` — each vowel letter
+  counts as one syllable).
+- Vowel-based heuristic syllable counting enabled for Russian (`ru`), Ukrainian
+  (`uk`), Belarusian (`be`) and Bulgarian (`bg`) via `syllableMode: "heuristic"`.
+- `generate-languages.php` emits `syllableMode`/`syllableHeuristics` for the
+  Cyrillic Slavic languages so regeneration preserves vowel-based counting.
+- Regression/unit tests covering Cyrillic syllable counts and `vowelMode`.
+
 ## [1.0.6] - 2026-06-26
 
 ### Fixed
@@ -98,6 +116,9 @@ All notable changes to ReadSight will be documented in this file.
 - GitHub Actions CI pipeline
 - Mutation testing with Infection
 
+[1.0.7]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.7
+[1.0.6]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.6
+[1.0.5]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.5
 [1.0.4]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.4
 [1.0.3]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.3
 [1.0.2]: https://github.com/MADEVAL/ReadSight/releases/tag/v1.0.2
