@@ -221,6 +221,53 @@ final class HeuristicSyllableCounterTest extends TestCase
         $this->assertSame(3, $counter->countSyllables('молоко'));
     }
 
+    // --- countSyllables: vowelMode ---
+
+    public function test_count_syllables_cluster_mode_merges_adjacent_vowels(): void
+    {
+        $counter = $this->makeCounter([
+            'problemWords' => [],
+            'subtractPatterns' => [],
+            'addPatterns' => [],
+            'prefixes' => [],
+            'suffixes' => [],
+            'vowelPattern' => '[аеёиоуыэюя]',
+            'vowelMode' => 'cluster',
+        ]);
+        // дыхание: adjacent "ие" counts as one cluster → 3
+        $this->assertSame(3, $counter->countSyllables('дыхание'));
+    }
+
+    public function test_count_syllables_individual_mode_counts_each_vowel(): void
+    {
+        $counter = $this->makeCounter([
+            'problemWords' => [],
+            'subtractPatterns' => [],
+            'addPatterns' => [],
+            'prefixes' => [],
+            'suffixes' => [],
+            'vowelPattern' => '[аеёиоуыэюя]',
+            'vowelMode' => 'individual',
+        ]);
+        // дыхание: ы, а, и, е each count as a syllable → 4
+        $this->assertSame(4, $counter->countSyllables('дыхание'));
+        $this->assertSame(4, $counter->countSyllables('беззвучная'));
+        $this->assertSame(3, $counter->countSyllables('молоко'));
+    }
+
+    public function test_count_syllables_defaults_to_cluster_mode(): void
+    {
+        $counter = $this->makeCounter([
+            'problemWords' => [],
+            'subtractPatterns' => [],
+            'addPatterns' => [],
+            'prefixes' => [],
+            'suffixes' => [],
+            'vowelPattern' => '[аеёиоуыэюя]',
+        ]);
+        $this->assertSame(3, $counter->countSyllables('дыхание'));
+    }
+
     // --- countSyllables: affix handling ---
 
     public function test_count_syllables_prefix_adds_syllable(): void

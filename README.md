@@ -124,10 +124,21 @@ ReadSight has three syllable counting modes, configured per language via `syllab
 | Mode | How it works | `count` accuracy | `split` accuracy |
 |---|---|---|---|
 | **`heuristic`** | Vowel patterns + word list + prefix/suffix rules | ✓ | ≈ approximate |
-| **`tex`** | Frank M. Liang hyphenation algorithm (TeX `.tex` patterns) | ✓ | ✓ exact |
+| **`tex`** | Frank M. Liang hyphenation algorithm (TeX `.tex` patterns) | ≈ approximate | ✓ exact |
 | **`composite`** | Heuristic first, TeX as fallback | ✓ | ≈ approximate (uses heuristic split) |
 
-The default mode is **`tex`**. **84 languages use `tex`**; **2 use `composite`** (`en-us`, `en-gb`).
+**80 languages use `tex`**, **2 use `composite`** (`en-us`, `en-gb`), **4 use `heuristic`** (`ru`, `uk`, `be`, `bg`). The default mode is **`tex`**.
+
+> **Why `tex` count is approximate:** TeX hyphenation patterns are optimised for *line-breaking*, not phonetic syllabification. They respect `hyphenMins` and avoid awkward break points, so the number of pieces can differ from the true syllable count. For scripts where **one syllable = one vowel** (e.g. Cyrillic Slavic languages), TeX under- or over-counts. Those languages use `heuristic` mode with a per-language `vowelPattern` and `"vowelMode": "individual"` so each vowel is counted as a syllable. `splitWord()` keeps using the exact TeX hyphenator regardless of mode.
+
+### Vowel counting: `vowelMode`
+
+`syllableHeuristics` accepts a `vowelMode` field:
+
+| `vowelMode` | Behaviour | Example |
+|---|---|---|
+| `"cluster"` *(default)* | Each run of consecutive vowels = 1 syllable (English diphthongs) | `beau` → 1 |
+| `"individual"` | Each vowel letter = 1 syllable (Slavic Cyrillic) | `дыхание` → 4 |
 
 ### Example: "hyphenation" in each mode
 
@@ -143,7 +154,7 @@ $engine->splitSyllables('hyphenation');   // ['hy', 'phena', 'ti', 'on']  - TeX:
 $engine->splitWord('hyphenation');        // ['hy', 'phena', 'ti', 'on']  - same, both use TeX
 ```
 
-> **Tip:** `splitWord()` always uses the TeX hyphenator (exact). `splitSyllables()` may use the heuristic split (approximate) in `composite`/`heuristic` modes. For syllable *counts* both are correct.
+> **Tip:** `splitWord()` always uses the TeX hyphenator (exact). `splitSyllables()` may use the heuristic split (approximate) in `composite`/`heuristic` modes. Syllable *counts* are exact in `heuristic`/`composite` mode; in `tex` mode they follow TeX break points and are approximate (see note above).
 
 > **Note:** `addHyphenations()` adds overrides to the TeX hyphenator. These affect `splitWord()` but NOT `splitSyllables()` in `composite`/`heuristic` modes (the heuristic counter doesn't see them).
 
@@ -264,7 +275,7 @@ $engine->histogramSyllables(string $text): array<int, int>
 $engine->analyze(string $text): TextStatistics
 ```
 
-> **`splitSyllables` vs `splitWord`:** `splitSyllables` may use the heuristic ≈approximate split (depends on the language's `syllableMode`). `splitWord` always uses the TeX hyphenator for exact hyphenation points. Syllable *counts* are accurate in all modes. See [Syllable Counting Modes](#syllable-counting-modes).
+> **`splitSyllables` vs `splitWord`:** `splitSyllables` may use the heuristic ≈approximate split (depends on the language's `syllableMode`). `splitWord` always uses the TeX hyphenator for exact hyphenation points. Syllable *counts* are exact in `heuristic`/`composite` mode and approximate in `tex` mode. See [Syllable Counting Modes](#syllable-counting-modes).
 
 #### Formula Methods
 
